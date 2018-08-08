@@ -1,40 +1,80 @@
 namespace MGNZ.Squidex.CLI
 {
+  using System;
   using System.Threading.Tasks;
 
   using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
-  using Microsoft.Extensions.Hosting;
-  using Microsoft.Extensions.Logging;
+
+  using Serilog;
 
   public class Program
   {
-    public static async Task Main(string[] args)
+    public static async Task<int> Main(string[ ] args)
     {
-      var builder = new HostBuilder()
-        .ConfigureAppConfiguration((hostingContext, config) =>
-        {
-          config.AddJsonFile("appsettings.json", optional: true);
-          config.AddEnvironmentVariables();
+      try
+      {
+        var builder = new ConfigurationBuilder();
 
-          if (args != null)
-          {
-            config.AddCommandLine(args);
-          }
-        })
-        .ConfigureServices((hostContext, services) =>
-        {
-          services.AddOptions();
-          //services.Configure<AppConfig>(hostContext.Configuration.GetSection("AppConfig"));
+        builder.AddEnvironmentVariables();
+        builder.AddJsonFile("appsettings.json");
+        builder.AddJsonFile("appsettings.aut.json");
 
-          //services.AddSingleton<IHostedService, PrintTextToConsoleService>();
-        })
-        .ConfigureLogging((hostingContext, logging) => {
-          logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-          logging.AddConsole();
-        });
+        var configurationRoot = builder.Build();
 
-      await builder.RunConsoleAsync();
+        Log.Logger = new LoggerConfiguration()
+          .ReadFrom.Configuration(configurationRoot)
+          .CreateLogger();
+
+        Log.Information("Starting");
+
+        //var host = CreateHostBuilder(args)
+        //  .Build();
+
+        //await host.RunAsync();
+
+        return 0;
+      }
+      catch (Exception ex)
+      {
+        Log.Fatal(ex, "Terminated unexpectedly");
+        return 1;
+      }
+      finally
+      {
+        Log.CloseAndFlush();
+      }
     }
+
+    //public static IHostBuilder CreateHostBuilder(string[ ] args)
+    //{
+    //  return new HostBuilder()
+    //    .ConfigureHostConfiguration(config =>
+    //    {
+    //      /* Host configuration */
+    //    })
+    //    .ConfigureAppConfiguration((hostingContext, config) =>
+    //    {
+    //      config.AddJsonFile("appsettings.json", true);
+    //      config.AddJsonFile("appsettings.aut.json", true);
+    //      config.AddEnvironmentVariables();
+
+    //      if (args != null) config.AddCommandLine(args);
+    //    })
+    //    .ConfigureServices((hostContext, services) =>
+    //    {
+    //      services.AddOptions();
+    //      //services.Configure<AppConfig>(hostContext.Configuration.GetSection("AppConfig"));
+
+    //      //services.AddSingleton<IHostedService, PrintTextToConsoleService>();
+    //    })
+    //    .ConfigureLogging((hostingContext, logging) =>
+    //    {
+    //      //logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+    //      //logging.AddConsole();
+    //      logging.AddSerilog();
+    //    })
+    //    .UseSerilog(); // <- Add this line
+    //}
   }
 }
