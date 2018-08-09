@@ -8,6 +8,7 @@ namespace MGNZ.Squidex.CLI
   using Autofac.Extensions.DependencyInjection;
 
   using MGNZ.Squidex.CLI.Common.Configuration;
+  using MGNZ.Squidex.CLI.Platform;
 
   using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +29,7 @@ namespace MGNZ.Squidex.CLI
       configurationBuilder.AddJsonFile("appsettings.aut.json", optional: true);
       var configurationRoot = configurationBuilder.Build();
 
-      var configurationSettings = new SquidexCLI();
+      var configurationSettings = new ApplicationConfiguration();
       configurationRoot.Bind("squidex-cli", configurationSettings);
 
       Log.Logger = new LoggerConfiguration()
@@ -45,11 +46,8 @@ namespace MGNZ.Squidex.CLI
       containerBuilder.Populate(serviceCollection);
 
       containerBuilder.RegisterLogger(logger: Log.Logger, autowireProperties: true);
-      containerBuilder.Register(c => configurationSettings).As<SquidexCLI>().SingleInstance();
-      containerBuilder.RegisterType<AcceptsLogViaCtor>().As<IExample>();
-      containerBuilder.RegisterType<AcceptsLogViaProperty>().As<IExample>();
-      containerBuilder.RegisterType<AcceptsLogViaCtorITypeSafeOldLogger>().As<IExample>();
-      // other registrations
+      containerBuilder.Register(c => configurationSettings).As<ApplicationConfiguration>().SingleInstance();
+      containerBuilder.RegisterModule<ApplicationModule>();
 
       try
       {
@@ -87,9 +85,9 @@ namespace MGNZ.Squidex.CLI
   class AcceptsLogViaCtor : IExample
   {
     readonly ILogger _log;
-    private readonly SquidexCLI _options;
+    private readonly ApplicationConfiguration _options;
 
-    public AcceptsLogViaCtor(ILogger log, SquidexCLI options)
+    public AcceptsLogViaCtor(ILogger log, ApplicationConfiguration options)
     {
       if (log == null) throw new ArgumentNullException("log");
       _log = log;
@@ -105,9 +103,9 @@ namespace MGNZ.Squidex.CLI
   class AcceptsLogViaCtorITypeSafeOldLogger : IExample
   {
     readonly Microsoft.Extensions.Logging.ILogger<AcceptsLogViaCtorITypeSafeOldLogger> _log;
-    private readonly SquidexCLI _options;
+    private readonly ApplicationConfiguration _options;
 
-    public AcceptsLogViaCtorITypeSafeOldLogger(Microsoft.Extensions.Logging.ILogger<AcceptsLogViaCtorITypeSafeOldLogger> log, SquidexCLI options)
+    public AcceptsLogViaCtorITypeSafeOldLogger(Microsoft.Extensions.Logging.ILogger<AcceptsLogViaCtorITypeSafeOldLogger> log, ApplicationConfiguration options)
     {
       if (log == null) throw new ArgumentNullException("log");
       _log = log;
@@ -122,7 +120,7 @@ namespace MGNZ.Squidex.CLI
 
   class AcceptsLogViaProperty : IExample
   {
-    public SquidexCLI Options { get; set; }
+    public ApplicationConfiguration Options { get; set; }
     public ILogger Log { get; set; }
 
     public void Show()
