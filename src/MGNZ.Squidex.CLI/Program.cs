@@ -1,12 +1,20 @@
 namespace MGNZ.Squidex.CLI
 {
   using System;
+  using System.Collections.Generic;
   using System.Threading.Tasks;
+
+  using Autofac;
+  using Autofac.Extensions.DependencyInjection;
 
   using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
 
+  using MGNZ.Squidex.CLI.Platform.Logging;
+
   using Serilog;
+
+  using LoggerExtensions = Microsoft.Extensions.Logging.LoggerExtensions;
 
   public class Program
   {
@@ -14,24 +22,44 @@ namespace MGNZ.Squidex.CLI
     {
       try
       {
-        var builder = new ConfigurationBuilder();
-
-        builder.AddEnvironmentVariables();
-        builder.AddJsonFile("appsettings.json");
-        builder.AddJsonFile("appsettings.aut.json");
-
-        var configurationRoot = builder.Build();
+        var configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.AddEnvironmentVariables();
+        configurationBuilder.AddJsonFile("appsettings.json");
+        configurationBuilder.AddJsonFile("appsettings.aut.json", optional: true);
+        var configurationRoot = configurationBuilder.Build();
 
         Log.Logger = new LoggerConfiguration()
           .ReadFrom.Configuration(configurationRoot)
           .CreateLogger();
 
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.AddLogging(loggingBuilder =>
+        {
+          loggingBuilder.AddSerilog(dispose: true);
+        });
+
+        var containerBuilder = new ContainerBuilder();
+        containerBuilder.Populate(serviceCollection);
+
+        containerBuilder.RegisterLogger(logger: Log.Logger, autowireProperties: true);
+        containerBuilder.RegisterType<AcceptsLogViaCtor>().As<IExample>();
+        containerBuilder.RegisterType<AcceptsLogViaProperty>().As<IExample>();
+        containerBuilder.RegisterType<AcceptsLogViaCtorITypeSafeOldLogger>().As<IExample>();
+        // other registrations
+
+
+        using (var container = containerBuilder.Build())
+        {
+          var examples = container.Resolve<IEnumerable<IExample>>();
+          foreach (var example in examples)
+          {
+            example.Show();
+          }
+        }
+
+
         Log.Information("Starting");
-
-        //var host = CreateHostBuilder(args)
-        //  .Build();
-
-        //await host.RunAsync();
+        Log.Error("woooot");
 
         return 0;
       }
@@ -45,36 +73,52 @@ namespace MGNZ.Squidex.CLI
         Log.CloseAndFlush();
       }
     }
+  }
 
-    //public static IHostBuilder CreateHostBuilder(string[ ] args)
-    //{
-    //  return new HostBuilder()
-    //    .ConfigureHostConfiguration(config =>
-    //    {
-    //      /* Host configuration */
-    //    })
-    //    .ConfigureAppConfiguration((hostingContext, config) =>
-    //    {
-    //      config.AddJsonFile("appsettings.json", true);
-    //      config.AddJsonFile("appsettings.aut.json", true);
-    //      config.AddEnvironmentVariables();
+  interface IExample
+  {
+    void Show();
+  }
 
-    //      if (args != null) config.AddCommandLine(args);
-    //    })
-    //    .ConfigureServices((hostContext, services) =>
-    //    {
-    //      services.AddOptions();
-    //      //services.Configure<AppConfig>(hostContext.Configuration.GetSection("AppConfig"));
+  class AcceptsLogViaCtor : IExample
+  {
+    readonly ILogger _log;
 
-    //      //services.AddSingleton<IHostedService, PrintTextToConsoleService>();
-    //    })
-    //    .ConfigureLogging((hostingContext, logging) =>
-    //    {
-    //      //logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-    //      //logging.AddConsole();
-    //      logging.AddSerilog();
-    //    })
-    //    .UseSerilog(); // <- Add this line
-    //}
+    public AcceptsLogViaCtor(ILogger log)
+    {
+      if (log == null) throw new ArgumentNullException("log");
+      _log = log;
+    }
+
+    public void Show()
+    {
+      _log.Information("Hello!");
+    }
+  }
+
+  class AcceptsLogViaCtorITypeSafeOldLogger : IExample
+  {
+    readonly Microsoft.Extensions.Logging.ILogger<AcceptsLogViaCtorITypeSafeOldLogger> _log;
+
+    public AcceptsLogViaCtorITypeSafeOldLogger(Microsoft.Extensions.Logging.ILogger<AcceptsLogViaCtorITypeSafeOldLogger> log)
+    {
+      if (log == null) throw new ArgumentNullException("log");
+      _log = log;
+    }
+
+    public void Show()
+    {
+      LoggerExtensions.LogInformation(this._log, "and again from AcceptsLogViaCtorTypeSafeOldLogger");
+    }
+  }
+
+  class AcceptsLogViaProperty : IExample
+  {
+    public ILogger Log { get; set; }
+
+    public void Show()
+    {
+      Log.Information("Hello, also!");
+    }
   }
 }
