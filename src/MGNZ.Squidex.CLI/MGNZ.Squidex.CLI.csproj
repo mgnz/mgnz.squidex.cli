@@ -42,4 +42,8 @@
     <PackageReference Include="Serilog.Sinks.File" Version="4.0.1-dev-00796" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MGNZ.Squidex.CLI.Common\MGNZ.Squidex.CLI.Common.csproj" />
+  </ItemGroup>
+
 </Project>
