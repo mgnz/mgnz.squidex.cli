@@ -1,257 +1,281 @@
 namespace MGNZ.Squidex.CLI.Common.Commands
 {
   using System;
+  using System.Threading;
   using System.Threading.Tasks;
 
   using Autofac;
+
+  using MediatR;
 
   using MGNZ.Squidex.CLI.Common.CLI;
 
   using Serilog.Core;
 
-  public interface ICommand
+  public class BaseHandler<TRequest> : IRequestHandler<TRequest>
+    where TRequest : IRequest<Unit>
   {
-    Task Execute();
-  }
-
-  public class BaseCommand<TArguments> : ICommand
-    where TArguments : BaseArguments
-  {
-    public BaseCommand(Logger logger, IContainer container, TArguments arguments)
+    public BaseHandler(Logger logger, IContainer container)
     {
-      this.Logger = logger;
-      this.Container = container;
-      this.Arguments = arguments;
+      Logger = logger;
+      Container = container;
     }
 
     protected Logger Logger { get; }
     protected IContainer Container { get; }
-    protected TArguments Arguments { get; }
 
-    public virtual async Task Execute()
+    /// <inheritdoc />
+    public virtual Task<Unit> Handle(TRequest request, CancellationToken cancellationToken)
     {
       throw new NotImplementedException();
     }
   }
 
-  public class DeleteAppCommand : BaseCommand<DeleteAppArguments>
+  public class DeleteAppHandler : BaseHandler<DeleteAppRequest>
   {
-    public DeleteAppCommand(Logger logger, IContainer container, DeleteAppArguments arguments) : base(logger, container,
-      arguments)
+    public DeleteAppHandler(Logger logger, IContainer container, DeleteAppRequest request)
+      : base(logger, container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(DeleteAppRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class DeleteAssetCommand : BaseCommand<DeleteAssetArguments>
+  public class DeleteAssetHandler : BaseHandler<DeleteAssetRequest>
   {
-    public DeleteAssetCommand(Logger logger, IContainer container, DeleteAssetArguments arguments) : base(logger,
-      container, arguments)
+    public DeleteAssetHandler(Logger logger, IContainer container, DeleteAssetRequest request)
+      : base(logger,
+      container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(DeleteAssetRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class DeleteContentCommand : BaseCommand<DeleteContentArguments>
+  public class DeleteContentHandler : BaseHandler<DeleteContentRequest>
   {
-    public DeleteContentCommand(Logger logger, IContainer container, DeleteContentArguments arguments) : base(logger,
-      container, arguments)
+    public DeleteContentHandler(Logger logger, IContainer container, DeleteContentRequest request)
+      : base(logger,
+      container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(DeleteContentRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class DeleteSchemaCommand : BaseCommand<DeleteSchemaArguments>
+  public class DeleteSchemaHandler : BaseHandler<DeleteSchemaRequest>
   {
-    public DeleteSchemaCommand(Logger logger, IContainer container, DeleteSchemaArguments arguments) : base(logger,
-      container, arguments)
+    public DeleteSchemaHandler(Logger logger, IContainer container, DeleteSchemaRequest request)
+      : base(logger,
+      container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(DeleteSchemaRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class ListAppCommand : BaseCommand<ListAppArguments>
+  public class ListAppHandler : BaseHandler<ListAppRequest>
   {
-    public ListAppCommand(Logger logger, IContainer container, ListAppArguments arguments) : base(logger, container,
-      arguments)
+    public ListAppHandler(Logger logger, IContainer container, ListAppRequest request)
+      : base(logger, container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(ListAppRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class ListAssetCommand : BaseCommand<ListAssetArguments>
+  public class ListAssetHandler : BaseHandler<ListAssetRequest>
   {
-    public ListAssetCommand(Logger logger, IContainer container, ListAssetArguments arguments) : base(logger, container,
-      arguments)
+    public ListAssetHandler(Logger logger, IContainer container, ListAssetRequest request)
+      : base(logger, container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(ListAssetRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class ListSchemaCommand : BaseCommand<ListSchemaArguments>
+  public class ListSchemaHandler : BaseHandler<ListSchemaRequest>
   {
-    public ListSchemaCommand(Logger logger, IContainer container, ListSchemaArguments arguments) : base(logger,
-      container, arguments)
+    public ListSchemaHandler(Logger logger, IContainer container, ListSchemaRequest request)
+      : base(logger,
+      container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(ListSchemaRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class LoginAppCommand : BaseCommand<LoginAppArguments>
+  public class LoginAppHandler : BaseHandler<LoginAppRequest>
   {
-    public LoginAppCommand(Logger logger, IContainer container, LoginAppArguments arguments) : base(logger, container,
-      arguments)
+    public LoginAppHandler(Logger logger, IContainer container, LoginAppRequest request)
+      : base(logger, container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(LoginAppRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class LogoutAppCommand : BaseCommand<LogoutAppArguments>
+  public class LogoutAppHandler : BaseHandler<LogoutAppRequest>
   {
-    public LogoutAppCommand(Logger logger, IContainer container, LogoutAppArguments arguments) : base(logger, container,
-      arguments)
+    public LogoutAppHandler(Logger logger, IContainer container, LogoutAppRequest request)
+      : base(logger, container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(LogoutAppRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class NewAppCommand : BaseCommand<NewAppArguments>
+  public class NewAppHandler : BaseHandler<NewAppRequest>
   {
-    public NewAppCommand(Logger logger, IContainer container, NewAppArguments arguments) : base(logger, container,
-      arguments)
+    public NewAppHandler(Logger logger, IContainer container, NewAppRequest request)
+      : base(logger, container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(NewAppRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class ImportAssetCommand : BaseCommand<ImportAssetArguments>
+  public class ImportAssetHandler : BaseHandler<ImportAssetRequest>
   {
-    public ImportAssetCommand(Logger logger, IContainer container, ImportAssetArguments arguments) : base(logger,
-      container, arguments)
+    public ImportAssetHandler(Logger logger, IContainer container, ImportAssetRequest request)
+      : base(logger,
+      container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(ImportAssetRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class ImportContentCommand : BaseCommand<ImportContentArguments>
+  public class ImportContentHandler : BaseHandler<ImportContentRequest>
   {
-    public ImportContentCommand(Logger logger, IContainer container, ImportContentArguments arguments) : base(logger,
-      container, arguments)
+    public ImportContentHandler(Logger logger, IContainer container, ImportContentRequest request)
+      : base(logger,
+      container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(ImportContentRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class ImportSchemaCommand : BaseCommand<ImportSchemaArguments>
+  public class ImportSchemaHandler : BaseHandler<ImportSchemaRequest>
   {
-    public ImportSchemaCommand(Logger logger, IContainer container, ImportSchemaArguments arguments) : base(logger,
-      container, arguments)
+    public ImportSchemaHandler(Logger logger, IContainer container, ImportSchemaRequest request)
+      : base(logger,
+      container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(ImportSchemaRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class ExportAssetCommand : BaseCommand<ExportAssetArguments>
+  public class ExportAssetHandler : BaseHandler<ExportAssetRequest>
   {
-    public ExportAssetCommand(Logger logger, IContainer container, ExportAssetArguments arguments) : base(logger,
-      container, arguments)
+    public ExportAssetHandler(Logger logger, IContainer container, ExportAssetRequest request)
+      : base(logger,
+      container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(ExportAssetRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class ExportContentCommand : BaseCommand<ExportContentArguments>
+  public class ExportContentHandler : BaseHandler<ExportContentRequest>
   {
-    public ExportContentCommand(Logger logger, IContainer container, ExportContentArguments arguments) : base(logger,
-      container, arguments)
+    public ExportContentHandler(Logger logger, IContainer container, ExportContentRequest request)
+      : base(logger,
+      container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(ExportContentRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class ExportSchemaCommand : BaseCommand<ExportSchemaArguments>
+  public class ExportSchemaHandler : BaseHandler<ExportSchemaRequest>
   {
-    public ExportSchemaCommand(Logger logger, IContainer container, ExportSchemaArguments arguments) : base(logger,
-      container, arguments)
+    public ExportSchemaHandler(Logger logger, IContainer container, ExportSchemaRequest request)
+      : base(logger,
+      container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(ExportSchemaRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 
-  public class TagAssetCommand : BaseCommand<TagAssetArguments>
+  public class TagAssetHandler : BaseHandler<TagAssetRequest>
   {
-    public TagAssetCommand(Logger logger, IContainer container, TagAssetArguments arguments) : base(logger, container,
-      arguments)
+    public TagAssetHandler(Logger logger, IContainer container, TagAssetRequest request)
+      : base(logger, container)
     {
     }
 
-    public async Task Execute()
+    /// <inheritdoc />
+    public override async Task<Unit> Handle(TagAssetRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return await base.Handle(request, cancellationToken);
     }
   }
 }

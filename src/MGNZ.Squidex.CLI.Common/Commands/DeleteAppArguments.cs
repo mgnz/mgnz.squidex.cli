@@ -1,72 +1,74 @@
 namespace MGNZ.Squidex.CLI.Common.Commands
 {
+  using MediatR;
+
   using MGNZ.Squidex.CLI.Common.CLI;
 
-  public class DeleteAppArguments : BaseArguments
+  public class DeleteAppRequest : IRequest<Unit>
   {
   }
 
-  public class DeleteAssetArguments : BaseArguments
+  public class DeleteAssetRequest : IRequest<Unit>
   {
   }
 
-  public class DeleteContentArguments : BaseArguments
+  public class DeleteContentRequest : IRequest<Unit>
   {
   }
 
-  public class DeleteSchemaArguments : BaseArguments
+  public class DeleteSchemaRequest : IRequest<Unit>
   {
   }
 
-  public class ListAppArguments : BaseArguments
+  public class ListAppRequest : IRequest<Unit>
   {
   }
 
-  public class ListAssetArguments : BaseArguments
+  public class ListAssetRequest : IRequest<Unit>
   {
   }
 
-  public class ListSchemaArguments : BaseArguments
+  public class ListSchemaRequest : IRequest<Unit>
   {
   }
 
-  public class LoginAppArguments : BaseArguments
+  public class LoginAppRequest : IRequest<Unit>
   {
   }
 
-  public class LogoutAppArguments : BaseArguments
+  public class LogoutAppRequest : IRequest<Unit>
   {
   }
 
-  public class NewAppArguments : BaseArguments
+  public class NewAppRequest : IRequest<Unit>
   {
   }
 
-  public class ImportAssetArguments : BaseArguments
+  public class ImportAssetRequest : IRequest<Unit>
   {
   }
 
-  public class ImportContentArguments : BaseArguments
+  public class ImportContentRequest : IRequest<Unit>
   {
   }
 
-  public class ImportSchemaArguments : BaseArguments
+  public class ImportSchemaRequest : IRequest<Unit>
   {
   }
 
-  public class ExportAssetArguments : BaseArguments
+  public class ExportAssetRequest : IRequest<Unit>
   {
   }
 
-  public class ExportContentArguments : BaseArguments
+  public class ExportContentRequest : IRequest<Unit>
   {
   }
 
-  public class ExportSchemaArguments : BaseArguments
+  public class ExportSchemaRequest : IRequest<Unit>
   {
   }
 
-  public class TagAssetArguments : BaseArguments
+  public class TagAssetRequest : IRequest<Unit>
   {
   }
 }
