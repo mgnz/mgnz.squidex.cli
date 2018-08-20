@@ -23,7 +23,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             new Verb
             {
               Names = new[ ] {"delete"},
-              Operation = new Operation() { Arguments = new DeleteAppArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "n", LongName = "name", Required = true, Ordinal = true },
@@ -36,7 +35,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "list-app", new Verb
             {
               Names = new[ ] {"list"},
-              Operation = new Operation() { Arguments = new ListAppArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "t", LongName = "token", Required = true, Ordinal = true },
@@ -47,7 +45,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "login-app", new Verb
             {
               Names = new[ ] {"login"},
-              Operation = new Operation() { Arguments = new LoginAppArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "n", LongName = "name", Required = true, Ordinal = true },
@@ -63,7 +60,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "logout-app", new Verb
             {
               Names = new[ ] {"logout"},
-              Operation = new Operation() { Arguments = new LogoutAppArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "n", LongName = "name", Required = true, Ordinal = true },
@@ -75,7 +71,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "new-app", new Verb
             {
               Names = new[ ] {"new"},
-              Operation = new Operation() { Arguments = new NewAppArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "n", LongName = "name", Required = true, Ordinal = true },
@@ -94,7 +89,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "delete-asset", new Verb
             {
               Names = new[ ] {"delete"},
-              Operation = new Operation() { Arguments = new DeleteAssetArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "n", LongName = "name", Required = true, Ordinal = true },
@@ -106,7 +100,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "list-asset", new Verb
             {
               Names = new[ ] {"list"},
-              Operation = new Operation() { Arguments = new ListAssetArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false },
@@ -117,7 +110,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "import-asset", new Verb
             {
               Names = new[ ] {"import"},
-              Operation = new Operation() { Arguments = new ImportAssetArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "p", LongName = "path", Required = true, Ordinal = true },
@@ -131,7 +123,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "export-asset", new Verb
             {
               Names = new[ ] {"export"},
-              Operation = new Operation() { Arguments = new ExportAssetArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "n", LongName = "name", Required = true, Ordinal = false },
@@ -144,7 +135,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "tag-asset", new Verb
             {
               Names = new[ ] {"tag"},
-              Operation = new Operation() { Arguments = new TagAssetArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "n", LongName = "name", Required = true, Ordinal = true },
@@ -164,7 +154,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "delete-content", new Verb
             {
               Names = new[ ] {"delete"},
-              Operation = new Operation() { Arguments = new DeleteContentArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "x", LongName = "schema", Required = true, Ordinal = true },
@@ -177,7 +166,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "import-content", new Verb
             {
               Names = new[ ] {"import"},
-              Operation = new Operation() { Arguments = new ImportContentArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "x", LongName = "schema", Required = true, Ordinal = true },
@@ -190,7 +178,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "export-content", new Verb
             {
               Names = new[ ] {"export"},
-              Operation = new Operation() { Arguments = new ExportContentArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "x", LongName = "schema", Required = true, Ordinal = true },
@@ -216,7 +203,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "tag-schema", new Verb
             {
               Names = new[ ] {"category", "categorise", "tag"},
-              Operation = new Operation() { Arguments = new ImportSchemaArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "n", LongName = "name", Required = true, Ordinal = true },
@@ -229,7 +215,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "delete-schema", new Verb
             {
               Names = new[ ] {"delete"},
-              Operation = new Operation() { Arguments = new DeleteSchemaArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "n", LongName = "name", Required = true, Ordinal = true },
@@ -241,7 +226,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "export-schema", new Verb
             {
               Names = new[ ] {"export"},
-              Operation = new Operation() { Arguments = new ExportSchemaArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "n", LongName = "name", Required = true, Ordinal = true },
@@ -253,7 +237,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "import-schema", new Verb
             {
               Names = new[ ] {"import"},
-              Operation = new Operation() { Arguments = new ImportSchemaArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "n", LongName = "name", Required = true, Ordinal = true },
@@ -266,7 +249,6 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
             "list-schema", new Verb
             {
               Names = new[ ] {"list"},
-              Operation = new Operation() { Arguments = new ListSchemaArguments() {}},
               Options = new []
               {
                 new Option() { ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false },

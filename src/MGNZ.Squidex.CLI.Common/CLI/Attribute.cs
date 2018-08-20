@@ -19,8 +19,6 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   {
     public string[] Names { get; set; }
     public Option[] Options { get; set; }
-
-    public Operation Operation { get; set; }
   }
   public class Option
   {
@@ -56,26 +54,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public bool Ordinal { get; set; }
   }
 
-  // describes a link to a command (a thing that links an noun => verb [arguments,...] to something that actually executes)
-  public class Operation
-  {
-    public Type TypeReference { get; set; }
-    public BaseArguments Arguments { get; set; }
-  }
 
-  // each command should have its own arguments
-  public class BaseArguments
-  {
-    public virtual bool IsValid { get; }
-
-    // uses reflection to turn Arguments into a object array;
-    // this along with TypeReference is passed into teh DI container
-    // so it can resolve the Command and fill in all of the arguments
-    public virtual object[] GenerateConstructorArguments()
-    {
-      return new object[] { "", 1, "foobar" };
-    }
-  }
 
   public class Enrichment
   {
