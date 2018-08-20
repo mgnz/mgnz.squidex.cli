@@ -1,59 +1,53 @@
 namespace MGNZ.Squidex.CLI.Common.CLI
 {
-  using System;
   using System.Collections.Generic;
 
-  // attribute of a noun
-  public class Attribute
-  {
-
-  }
   // name of a thing
   public class Noun
   {
     public Dictionary<string, Verb> Verbs { get; set; }
-    public string[] Names { get; set; }
+    public string[ ] Names { get; set; }
   }
+
   // name of an action
   public class Verb
   {
-    public string[] Names { get; set; }
-    public Option[] Options { get; set; }
+    public string[ ] Names { get; set; }
+    public Option[ ] Options { get; set; }
   }
+
   public class Option
   {
     /// <summary>
-    /// Gets a short name of this command line option, made of one character.
+    ///   Gets a short name of this command line option, made of one character.
     /// </summary>
     public string ShortName { get; set; }
 
     /// <summary>
-    /// Gets long name of this command line option. This name is usually a single english word.
+    ///   Gets long name of this command line option. This name is usually a single english word.
     /// </summary>
     public string LongName { get; set; }
 
     /// <summary>
-    /// When applying attribute to <see cref="System.Collections.Generic.IEnumerable{T}"/> target properties,
-    /// it allows you to split an argument and consume its content as a sequence.
+    ///   When applying attribute to <see cref="System.Collections.Generic.IEnumerable{T}" /> target properties,
+    ///   it allows you to split an argument and consume its content as a sequence.
     /// </summary>
     public char Separator { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether a command line option is required.
+    ///   Gets or sets a value indicating whether a command line option is required.
     /// </summary>
     public bool Required { get; set; }
 
     /// <summary>
-    /// Gets or sets a short description of this command line option. Usually a sentence summary.
+    ///   Gets or sets a short description of this command line option. Usually a sentence summary.
     /// </summary>
     public string HelpText { get; set; }
 
     /// <summary>
-    /// 
     /// </summary>
     public bool Ordinal { get; set; }
   }
-
 
 
   public class Enrichment
@@ -66,6 +60,5 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
   public class DirectoryNavigation : Enrichment
   {
-
   }
 }
