@@ -1,4 +1,4 @@
-﻿namespace MGNZ.Squidex.CLI.Common.CLI
+namespace MGNZ.Squidex.CLI.Common.CLI
 {
   using System.Collections.Generic;
   using System.Threading.Tasks;
@@ -14,5 +14,6 @@
   public interface ICommandLineDictionaryConverter
   {
     Task<Dictionary<string, string>> Parse(string[ ] args);
+    Task<Dictionary<string, string>> Parse(string args);
   }
 }

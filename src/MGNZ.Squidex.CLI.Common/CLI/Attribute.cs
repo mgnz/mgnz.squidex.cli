@@ -1,12 +1,18 @@
 namespace MGNZ.Squidex.CLI.Common.CLI
 {
   using System.Collections.Generic;
+  using System.Linq;
 
   // name of a thing
   public class Noun
   {
     public Dictionary<string, Verb> Verbs { get; set; }
     public string[ ] Names { get; set; }
+
+    public bool Named(string name)
+    {
+      return Names.Contains(name);
+    }
   }
 
   // name of an action
@@ -14,6 +20,11 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   {
     public string[ ] Names { get; set; }
     public Option[ ] Options { get; set; }
+
+    public bool Named(string name)
+    {
+      return Names.Contains(name);
+    }
   }
 
   public class Option
@@ -23,10 +34,14 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     /// </summary>
     public string ShortName { get; set; }
 
+    public string GetShortNameFormatted => $"-{ShortName}";
+
     /// <summary>
     ///   Gets long name of this command line option. This name is usually a single english word.
     /// </summary>
     public string LongName { get; set; }
+
+    public string GetLongNameFormatted => $"--{LongName}";
 
     /// <summary>
     ///   When applying attribute to <see cref="System.Collections.Generic.IEnumerable{T}" /> target properties,
