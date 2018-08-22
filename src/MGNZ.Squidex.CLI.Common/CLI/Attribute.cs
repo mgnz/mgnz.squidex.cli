@@ -9,6 +9,8 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public Dictionary<string, Verb> Verbs { get; set; }
     public string[ ] Names { get; set; }
 
+    public string DefaultName => Names.Take(1).ToString();
+
     public bool Named(string name)
     {
       return Names.Contains(name);
@@ -21,10 +23,14 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public string[ ] Names { get; set; }
     public Option[ ] Options { get; set; }
 
+    public string DefaultName => Names.Take(1).ToString();
+
     public bool Named(string name)
     {
       return Names.Contains(name);
     }
+
+    public Option OptionNamed(string name) => Options.SingleOrDefault(option => option.Named(name));
   }
 
   public class Option
@@ -43,6 +49,8 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
     public string GetLongNameFormatted => $"--{LongName}";
 
+    public bool Named(string name) => name.Equals(GetShortNameFormatted) || name.Equals(GetLongNameFormatted);
+
     /// <summary>
     ///   When applying attribute to <see cref="System.Collections.Generic.IEnumerable{T}" /> target properties,
     ///   it allows you to split an argument and consume its content as a sequence.
@@ -60,8 +68,11 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public string HelpText { get; set; }
 
     /// <summary>
+    /// Determines Ordanality and the 
     /// </summary>
-    public bool Ordinal { get; set; }
+    public int? OrdanalityOrder { get; set; }
+
+    public string Value { get; set; }
   }
 
 
