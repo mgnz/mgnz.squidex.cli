@@ -23,14 +23,23 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public string[ ] Names { get; set; }
     public Option[ ] Options { get; set; }
 
-    public string DefaultName => Names.Take(1).ToString();
+    public string GetDefaultName => Names.Take(1).ToString();
 
-    public bool Named(string name)
+    public bool IsNamed(string name)
     {
       return Names.Contains(name);
     }
 
-    public Option OptionNamed(string name) => Options.SingleOrDefault(option => option.Named(name));
+    public Option GetOptionNamed(string name) => Options.SingleOrDefault(option => option.IsNamed(name));
+
+    public Option[ ] GetOrdinalOptions => Options
+      .Where(where => where.OrdanalityOrder.HasValue)
+      .OrderBy(order => order.OrdanalityOrder)
+      .ToArray();
+
+    public Option[] GetParametrizedOptions => Options
+      .Where(where => where.OrdanalityOrder.HasValue == false)
+      .ToArray();
   }
 
   public class Option
@@ -49,7 +58,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
     public string GetLongNameFormatted => $"--{LongName}";
 
-    public bool Named(string name) => name.Equals(GetShortNameFormatted) || name.Equals(GetLongNameFormatted);
+    public bool IsNamed(string name) => name.Equals(GetShortNameFormatted) || name.Equals(GetLongNameFormatted);
 
     /// <summary>
     ///   When applying attribute to <see cref="System.Collections.Generic.IEnumerable{T}" /> target properties,
