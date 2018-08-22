@@ -17,9 +17,9 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"delete"},
             Options = new[ ]
             {
-              new Option() {ShortName = "x", LongName = "schema", Required = true, Ordinal = true},
-              new Option() {ShortName = "id", LongName = "id", Required = true, Ordinal = true},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false},
+              new Option() {ShortName = "x", LongName = "schema", Required = true, OrdanalityOrder = 1},
+              new Option() {ShortName = "id", LongName = "id", Required = true, OrdanalityOrder = 2},
+              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
             }
           }
         },
@@ -29,9 +29,9 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"import"},
             Options = new[ ]
             {
-              new Option() {ShortName = "x", LongName = "schema", Required = true, Ordinal = true},
-              new Option() {ShortName = "p", LongName = "path", Required = true, Ordinal = true},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false},
+              new Option() {ShortName = "x", LongName = "schema", Required = true, OrdanalityOrder = 1},
+              new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 2},
+              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
             }
           }
         },
@@ -41,15 +41,15 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"export"},
             Options = new[ ]
             {
-              new Option() {ShortName = "x", LongName = "schema", Required = true, Ordinal = true},
-              new Option() {ShortName = "p", LongName = "path", Required = true, Ordinal = true},
-              new Option() {ShortName = "a", LongName = "all", Required = true, Ordinal = false},
-              new Option() {ShortName = "t", LongName = "top", Required = false, Ordinal = false},
-              new Option() {ShortName = "s", LongName = "skip", Required = false, Ordinal = false},
-              new Option() {ShortName = "o", LongName = "order-by", Required = false, Ordinal = false},
-              new Option() {ShortName = "q", LongName = "query-by", Required = false, Ordinal = false},
-              new Option() {ShortName = "f", LongName = "filter-by", Required = false, Ordinal = false},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false},
+              new Option() {ShortName = "x", LongName = "schema", Required = true, OrdanalityOrder = 1},
+              new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 2},
+              new Option() {ShortName = "a", LongName = "all", Required = true},
+              new Option() {ShortName = "t", LongName = "top", Required = false},
+              new Option() {ShortName = "s", LongName = "skip", Required = false},
+              new Option() {ShortName = "o", LongName = "order-by", Required = false},
+              new Option() {ShortName = "q", LongName = "query-by", Required = false},
+              new Option() {ShortName = "f", LongName = "filter-by", Required = false},
+              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
             }
           }
         }

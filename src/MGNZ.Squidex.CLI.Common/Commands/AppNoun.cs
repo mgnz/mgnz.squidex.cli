@@ -17,8 +17,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"delete"},
             Options = new[ ]
             {
-              new Option {ShortName = "n", LongName = "name", Required = true, Ordinal = true},
-              new Option {ShortName = "t", LongName = "token", Required = true, Ordinal = true}
+              new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
+              new Option {ShortName = "t", LongName = "token", Required = true, OrdanalityOrder = 2}
             }
           }
         },
@@ -29,7 +29,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"list"},
             Options = new[ ]
             {
-              new Option {ShortName = "t", LongName = "token", Required = true, Ordinal = true}
+              new Option {ShortName = "t", LongName = "token", Required = true, OrdanalityOrder = 1}
             }
           }
         },
@@ -39,13 +39,13 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"login"},
             Options = new[ ]
             {
-              new Option {ShortName = "u", LongName = "uri", Required = true, Ordinal = true},
-              new Option {ShortName = "n", LongName = "app-name", Required = true, Ordinal = true},
-              new Option {ShortName = "cid", LongName = "client-id", Required = false, Ordinal = false},
-              new Option {ShortName = "cs", LongName = "client-secret", Required = false, Ordinal = false},
-              new Option {ShortName = "t", LongName = "token", Required = false, Ordinal = false},
-              new Option {ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false},
-              new Option {ShortName = "a", LongName = "alias-credentials-as", Required = false, Ordinal = false}
+              new Option {ShortName = "u", LongName = "uri", Required = true, OrdanalityOrder = 1},
+              new Option {ShortName = "n", LongName = "app-name", Required = true, OrdanalityOrder = 2},
+              new Option {ShortName = "cid", LongName = "client-id", Required = false},
+              new Option {ShortName = "cs", LongName = "client-secret", Required = false},
+              new Option {ShortName = "t", LongName = "token", Required = false},
+              new Option {ShortName = "c", LongName = "alias-credentials", Required = false},
+              new Option {ShortName = "a", LongName = "alias-credentials-as", Required = false}
             }
           }
         },
@@ -55,8 +55,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"logout"},
             Options = new[ ]
             {
-              new Option {ShortName = "n", LongName = "name", Required = true, Ordinal = true},
-              new Option {ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false}
+              new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
+              new Option {ShortName = "c", LongName = "alias-credentials", Required = false}
             }
           }
         },
@@ -66,8 +66,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"new"},
             Options = new[ ]
             {
-              new Option {ShortName = "n", LongName = "name", Required = true, Ordinal = true},
-              new Option {ShortName = "t", LongName = "token", Required = true, Ordinal = true}
+              new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
+              new Option {ShortName = "t", LongName = "token", Required = true, OrdanalityOrder = 2}
             }
           }
         }

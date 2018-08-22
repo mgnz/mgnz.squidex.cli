@@ -17,8 +17,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"delete"},
             Options = new[ ]
             {
-              new Option() {ShortName = "n", LongName = "name", Required = true, Ordinal = true},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false},
+              new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
+              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
             }
           }
         },
@@ -28,7 +28,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"list"},
             Options = new[ ]
             {
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false},
+              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
             }
           }
         },
@@ -38,10 +38,10 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"import"},
             Options = new[ ]
             {
-              new Option() {ShortName = "p", LongName = "path", Required = true, Ordinal = true},
-              new Option() {ShortName = "n", LongName = "name", Required = true, Ordinal = true},
-              new Option() {ShortName = "t", LongName = "tags", Required = true, Ordinal = true},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false},
+              new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 1},
+              new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 2},
+              new Option() {ShortName = "t", LongName = "tags", Required = true, OrdanalityOrder = 3},
+              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
             }
           }
         },
@@ -51,9 +51,9 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"export"},
             Options = new[ ]
             {
-              new Option() {ShortName = "n", LongName = "name", Required = true, Ordinal = false},
-              new Option() {ShortName = "p", LongName = "path", Required = true, Ordinal = true},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false},
+              new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
+              new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 2},
+              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
             }
           }
         },
@@ -63,9 +63,9 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Names = new[ ] {"tag"},
             Options = new[ ]
             {
-              new Option() {ShortName = "n", LongName = "name", Required = true, Ordinal = true},
-              new Option() {ShortName = "t", LongName = "tags", Required = true, Ordinal = true},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false, Ordinal = false},
+              new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
+              new Option() {ShortName = "t", LongName = "tags", Required = true, OrdanalityOrder = 2},
+              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
             }
           }
         }
