@@ -24,16 +24,12 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       return await Parse(args.Split(new[ ] {' '}));
     }
 
-
     public Task<Dictionary<string, string>> Parse(string[ ] args)
     {
       using (LogContext.PushProperty("method", nameof(Parse)))
       using (LogContext.PushProperty("args", args))
       {
         (Noun noun, Verb verb) = RetrieveNounAndVerb(args);
-
-        //var argumentValueDictionary = new Dictionary<string, string>();
-        //PopulateArgumentValuePairs(args, out argumentValueDictionary);
 
         var mappedArguments = new Dictionary<string, Option>();
         PopulateOptionValues(noun, verb, args, out mappedArguments);
@@ -113,29 +109,42 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
         for (var i = 0; i < candidateArguments.Length; i++)
         {
-          var argument = candidateArguments[i];
+          var argument = candidateArguments.ElementAtOrDefault(i);
 
           // check ordinal fields
-          var ordinal = ordinals[i];
+          var ordinal = ordinals.ElementAtOrDefault(i);
           if (ordinal != null)
           {
             ordinal.Value = argument;
             mappedArguments.Add(ordinal.GetLongNameFormatted, ordinal);
 
-            break;
+            // log found
+
+            continue;
           }
 
           // now parametrized
-          var parameterize = parameterized[i];
-          if (parameterize != null)
+          var optionNamed = verb.GetOptionNamed(argument);
+          var optionLikelyValue = candidateArguments.ElementAtOrDefault(i + 1);
+          if (optionNamed != null)
           {
-            parameterize.Value = argument;
-            mappedArguments.Add(parameterize.GetLongNameFormatted, parameterize);
+            if (optionLikelyValue != null)
+            {
+              optionNamed.Value = optionLikelyValue;
+              i ++;
+            }
 
-            break;
+            mappedArguments.Add(optionNamed.GetLongNameFormatted, optionNamed);
+
+            continue;
           }
+          else
+          {
+            var outOfRangeException = new ArgumentOutOfRangeException(argument, optionLikelyValue, $"'{noun.GetDefaultName} {verb.GetDefaultName}' Doesn't understand an argument of '{argument}'");
+            _logger.Error(outOfRangeException, "'{@noun.GetDefaultName} {@verb.GetDefaultName}' Doesn't understand an argument of '{@argument}'", noun.GetDefaultName, verb.GetDefaultName, verb.GetDefaultName, argument);
 
-          // could not identify it wtf throw 
+            throw outOfRangeException;
+          }
         }
 
         _logger.Information("identified {@mappedArguments}", mappedArguments);

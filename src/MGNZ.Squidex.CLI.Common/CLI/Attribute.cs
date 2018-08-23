@@ -9,7 +9,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public Dictionary<string, Verb> Verbs { get; set; }
     public string[ ] Names { get; set; }
 
-    public string DefaultName => Names.Take(1).ToString();
+    public string GetDefaultName => Names.Take(1).ToString();
 
     public bool Named(string name)
     {
