@@ -12,7 +12,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
       Verbs = new Dictionary<string, Verb>
       {
         {
-          "delete", new Verb
+          "delete", new Verb(this)
           {
             Names = new[ ] {"delete"},
             Options = new Dictionary<string, Option>()
@@ -24,7 +24,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           }
         },
         {
-          "import", new Verb
+          "import", new Verb(this)
           {
             Names = new[ ] {"import"},
             Options = new Dictionary<string, Option>()
@@ -36,7 +36,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           }
         },
         {
-          "export", new Verb
+          "export", new Verb(this)
           {
             Names = new[ ] {"export"},
             Options = new Dictionary<string, Option>()

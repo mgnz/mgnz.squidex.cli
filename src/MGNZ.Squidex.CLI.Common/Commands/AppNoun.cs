@@ -12,7 +12,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
       Verbs = new Dictionary<string, Verb>
       {
         {
-          "delete", new Verb
+          "delete", new Verb(this)(this)
           {
             Names = new[ ] {"delete"},
             Options = new Dictionary<string, Option>()
@@ -24,7 +24,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
         },
 
         {
-          "list", new Verb
+          "list", new Verb(this)
           {
             Names = new[ ] {"list"},
             Options = new Dictionary<string, Option>()
@@ -34,7 +34,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           }
         },
         {
-          "login", new Verb
+          "login", new Verb(this)
           {
             Names = new[ ] {"login"},
             Options = new Dictionary<string, Option>()
@@ -50,7 +50,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           }
         },
         {
-          "logout", new Verb
+          "logout", new Verb(this)
           {
             Names = new[ ] {"logout"},
             Options = new Dictionary<string, Option>()
@@ -61,7 +61,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           }
         },
         {
-          "new", new Verb
+          "new", new Verb(this)
           {
             Names = new[ ] {"new"},
             Options = new Dictionary<string, Option>()
