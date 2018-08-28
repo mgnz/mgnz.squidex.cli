@@ -102,4 +102,10 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       }
     }
   }
+
+  public interface ICommandLineParameterMapper
+  {
+    Dictionary<string, Option> MapParameters(Noun noun, Verb verb, string args);
+    Dictionary<string, Option> MapParameters(Noun noun, Verb verb, string[] args);
+  }
 }

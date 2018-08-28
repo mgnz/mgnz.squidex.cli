@@ -1,6 +1,7 @@
 namespace MGNZ.Squidex.CLI.Common.CLI
 {
   using System;
+  using System.Collections.Generic;
   using System.Threading.Tasks;
 
   using Serilog;
@@ -8,18 +9,26 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   public class CommandlineArgumentParser
   {
     private readonly ILogger _logger;
-    private readonly ICommandLineDictionaryConverter _dictionaryConverter;
+    private readonly ICommandLineOperationMapper _operationMapper;
+    private readonly ICommandLineParameterMapper _parameterMapper;
 
-    public CommandlineArgumentParser(ILogger logger, ICommandLineDictionaryConverter dictionaryConverter)
+    public CommandlineArgumentParser(ILogger logger, ICommandLineOperationMapper operationMapper, ICommandLineParameterMapper parameterMapper)
     {
       _logger = logger;
-      _dictionaryConverter = dictionaryConverter;
+      _operationMapper = operationMapper;
+      _parameterMapper = parameterMapper;
     }
 
     public async Task Parse(string args) => await Parse(args.Split(new[] { ' ' }, StringSplitOptions.None)).ConfigureAwait(false);
 
     public async Task Parse(string[ ] args)
     {
+      // pull out operation (verb, noun pair)
+
+      // pull out options
+
+      // validate the operation and options that have been set
+
       throw new NotImplementedException();
     }
   }
