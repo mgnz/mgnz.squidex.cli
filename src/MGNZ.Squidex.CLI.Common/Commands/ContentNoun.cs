@@ -12,44 +12,44 @@ namespace MGNZ.Squidex.CLI.Common.Commands
       Verbs = new Dictionary<string, Verb>
       {
         {
-          "delete-content", new Verb
+          "delete", new Verb
           {
             Names = new[ ] {"delete"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option() {ShortName = "x", LongName = "schema", Required = true, OrdanalityOrder = 1},
-              new Option() {ShortName = "id", LongName = "id", Required = true, OrdanalityOrder = 2},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
+              { "sc", new Option() {ShortName = "sc", LongName = "schema", Required = true, OrdanalityOrder = 1} },
+              { "id", new Option() {ShortName = "id", LongName = "id", Required = true, OrdanalityOrder = 2} },
+              { "alias-credentials", new Option() {ShortName = "c", LongName = "alias-credentials", Required = false} }
             }
           }
         },
         {
-          "import-content", new Verb
+          "import", new Verb
           {
             Names = new[ ] {"import"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option() {ShortName = "x", LongName = "schema", Required = true, OrdanalityOrder = 1},
-              new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 2},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
+              { "sc", new Option() {ShortName = "sc", LongName = "schema", Required = true, OrdanalityOrder = 1} },
+              { "path", new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 2} },
+              { "alias-credentials", new Option() {ShortName = "c", LongName = "alias-credentials", Required = false} }
             }
           }
         },
         {
-          "export-content", new Verb
+          "export", new Verb
           {
             Names = new[ ] {"export"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option() {ShortName = "x", LongName = "schema", Required = true, OrdanalityOrder = 1},
-              new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 2},
-              new Option() {ShortName = "a", LongName = "all", Required = true},
-              new Option() {ShortName = "t", LongName = "top", Required = false},
-              new Option() {ShortName = "s", LongName = "skip", Required = false},
-              new Option() {ShortName = "o", LongName = "order-by", Required = false},
-              new Option() {ShortName = "q", LongName = "query-by", Required = false},
-              new Option() {ShortName = "f", LongName = "filter-by", Required = false},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
+              { "sc", new Option() {ShortName = "sc", LongName = "schema", Required = true, OrdanalityOrder = 1} },
+              { "path", new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 2} },
+              { "all", new Option() {ShortName = "a", LongName = "all", Required = true} },
+              { "token", new Option() {ShortName = "t", LongName = "top", Required = false} },
+              { "skip", new Option() {ShortName = "s", LongName = "skip", Required = false} },
+              { "order-by", new Option() {ShortName = "ob", LongName = "order-by", Required = false} },
+              { "query-by", new Option() {ShortName = "qb", LongName = "query-by", Required = false}  },
+              { "filter-by", new Option() {ShortName = "fb", LongName = "filter-by", Required = false} },
+              { "alias-credentials", new Option() {ShortName = "c", LongName = "alias-credentials", Required = false} }
             }
           }
         }

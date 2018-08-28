@@ -1,9 +1,12 @@
 namespace MGNZ.Squidex.CLI.Common.CLI
 {
+  using System;
   using System.Collections.Generic;
+  using System.Diagnostics;
   using System.Linq;
 
   // name of a thing
+  [DebuggerDisplay("{GetDefaultName}")]
   public class Noun
   {
     public Dictionary<string, Verb> Verbs { get; set; }
@@ -17,31 +20,32 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     }
   }
 
-  // name of an action
+  [DebuggerDisplay("{GetDefaultName}")]
   public class Verb
   {
     public string[ ] Names { get; set; }
-    public Option[ ] Options { get; set; }
+    public Dictionary<string, Option> Options { get; set; }
 
-    public string GetDefaultName => Names.Take(1).ToString();
+    public string GetDefaultName => Names.First();
 
     public bool IsNamed(string name)
     {
       return Names.Contains(name);
     }
 
-    public Option GetOptionNamed(string name) => Options.SingleOrDefault(option => option.IsNamed(name));
+    public Option GetOptionNamed(string name) => Options.SingleOrDefault(option => option.Value.IsNamed(name)).Value;
 
-    public Option[ ] GetOrdinalOptions => Options
+    public Option[ ] GetOrdinalOptions => Options.Values
       .Where(where => where.OrdanalityOrder.HasValue)
       .OrderBy(order => order.OrdanalityOrder)
       .ToArray();
 
-    public Option[] GetParametrizedOptions => Options
+    public Option[] GetParametrizedOptions => Options.Values
       .Where(where => where.OrdanalityOrder.HasValue == false)
       .ToArray();
   }
 
+  [DebuggerDisplay("{GetLongNameFormatted} {Value}")]
   public class Option
   {
     /// <summary>

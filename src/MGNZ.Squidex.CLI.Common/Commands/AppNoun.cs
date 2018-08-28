@@ -12,62 +12,62 @@ namespace MGNZ.Squidex.CLI.Common.Commands
       Verbs = new Dictionary<string, Verb>
       {
         {
-          "delete-app", new Verb
+          "delete", new Verb
           {
             Names = new[ ] {"delete"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
-              new Option {ShortName = "t", LongName = "token", Required = true, OrdanalityOrder = 2}
+              { "name", new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
+              { "token", new Option {ShortName = "t", LongName = "token", Required = true, OrdanalityOrder = 2} }
             }
           }
         },
 
         {
-          "list-app", new Verb
+          "list", new Verb
           {
             Names = new[ ] {"list"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option {ShortName = "t", LongName = "token", Required = true, OrdanalityOrder = 1}
+              { "token", new Option {ShortName = "t", LongName = "token", Required = true, OrdanalityOrder = 1} }
             }
           }
         },
         {
-          "login-app", new Verb
+          "login", new Verb
           {
             Names = new[ ] {"login"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option {ShortName = "u", LongName = "uri", Required = true, OrdanalityOrder = 1},
-              new Option {ShortName = "n", LongName = "app-name", Required = true, OrdanalityOrder = 2},
-              new Option {ShortName = "cid", LongName = "client-id", Required = false},
-              new Option {ShortName = "cs", LongName = "client-secret", Required = false},
-              new Option {ShortName = "t", LongName = "token", Required = false},
-              new Option {ShortName = "c", LongName = "alias-credentials", Required = false},
-              new Option {ShortName = "a", LongName = "alias-credentials-as", Required = false}
+              { "url", new Option {ShortName = "u", LongName = "uri", Required = true, OrdanalityOrder = 1} },
+              { "name", new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 2} },
+              { "client-id", new Option {ShortName = "cid", LongName = "client-id", Required = false} },
+              { "client-secret", new Option {ShortName = "cs", LongName = "client-secret", Required = false} },
+              { "token", new Option {ShortName = "t", LongName = "token", Required = false} },
+              { "alias-credentials", new Option {ShortName = "c", LongName = "alias-credentials", Required = false} },
+              { "alias-credentials-as", new Option {ShortName = "a", LongName = "alias-credentials-as", Required = false} }
             }
           }
         },
         {
-          "logout-app", new Verb
+          "logout", new Verb
           {
             Names = new[ ] {"logout"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
-              new Option {ShortName = "c", LongName = "alias-credentials", Required = false}
+              { "name", new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
+              { "alias-credentials", new Option {ShortName = "c", LongName = "alias-credentials", Required = false} }
             }
           }
         },
         {
-          "new-app", new Verb
+          "new", new Verb
           {
             Names = new[ ] {"new"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
-              new Option {ShortName = "t", LongName = "token", Required = true, OrdanalityOrder = 2}
+              { "name", new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
+              { "token", new Option {ShortName = "t", LongName = "token", Required = true, OrdanalityOrder = 2} }
             }
           }
         }

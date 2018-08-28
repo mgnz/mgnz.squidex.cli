@@ -12,60 +12,60 @@ namespace MGNZ.Squidex.CLI.Common.Commands
       Verbs = new Dictionary<string, Verb>
       {
         {
-          "delete-asset", new Verb
+          "delete", new Verb
           {
             Names = new[ ] {"delete"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
+              { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
+              { "alias-credentials", new Option() {ShortName = "c", LongName = "alias-credentials", Required = false} }
             }
           }
         },
         {
-          "list-asset", new Verb
+          "list", new Verb
           {
             Names = new[ ] {"list"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
+              { "alias-credentials", new Option() {ShortName = "c", LongName = "alias-credentials", Required = false} }
             }
           }
         },
         {
-          "import-asset", new Verb
+          "import", new Verb
           {
             Names = new[ ] {"import"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 1},
-              new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 2},
-              new Option() {ShortName = "t", LongName = "tags", Required = true, OrdanalityOrder = 3},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
+              { "path", new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 1} },
+              { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 2} },
+              { "token", new Option() {ShortName = "t", LongName = "tags", Required = true, OrdanalityOrder = 3} },
+              { "alias-credentials", new Option() {ShortName = "c", LongName = "alias-credentials", Required = false} }
             }
           }
         },
         {
-          "export-asset", new Verb
+          "export", new Verb
           {
             Names = new[ ] {"export"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
-              new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 2},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
+              { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
+              { "path", new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 2} },
+              { "alias-credentials", new Option() {ShortName = "c", LongName = "alias-credentials", Required = false} }
             }
           }
         },
         {
-          "tag-asset", new Verb
+          "tag", new Verb
           {
             Names = new[ ] {"tag"},
-            Options = new[ ]
+            Options = new Dictionary<string, Option>()
             {
-              new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1},
-              new Option() {ShortName = "t", LongName = "tags", Required = true, OrdanalityOrder = 2},
-              new Option() {ShortName = "c", LongName = "alias-credentials", Required = false},
+              { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
+              { "token", new Option() {ShortName = "t", LongName = "tags", Required = true, OrdanalityOrder = 2} },
+              { "alias-credentials", new Option() {ShortName = "c", LongName = "alias-credentials", Required = false} }
             }
           }
         }
