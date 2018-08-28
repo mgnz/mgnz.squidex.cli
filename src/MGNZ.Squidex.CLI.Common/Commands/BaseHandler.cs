@@ -8,18 +8,18 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
-  using Serilog.Core;
+  using Serilog;
 
   public class BaseHandler<TRequest> : IRequestHandler<TRequest>
     where TRequest : IRequest<Unit>
   {
-    public BaseHandler(Logger logger, IContainer container)
+    public BaseHandler(ILogger logger, IContainer container)
     {
       Logger = logger;
       Container = container;
     }
 
-    protected Logger Logger { get; }
+    protected ILogger Logger { get; }
     protected IContainer Container { get; }
 
     /// <inheritdoc />

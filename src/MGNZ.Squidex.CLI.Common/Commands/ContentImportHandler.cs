@@ -7,11 +7,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
-  using Serilog.Core;
+  using Serilog;
 
   public class ContentImportHandler : BaseHandler<ContentImportRequest>
   {
-    public ContentImportHandler(Logger logger, IContainer container) : base(logger, container) { }
+    public ContentImportHandler(ILogger logger, IContainer container) : base(logger, container) { }
     /// <inheritdoc />
     public override async Task<Unit> Handle(ContentImportRequest request, CancellationToken cancellationToken)
     {

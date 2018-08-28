@@ -7,11 +7,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
-  using Serilog.Core;
+  using Serilog;
 
   public class SchemaDeleteHandler : BaseHandler<SchemaDeleteRequest>
   {
-    public SchemaDeleteHandler(Logger logger, IContainer container) : base(logger, container) { }
+    public SchemaDeleteHandler(ILogger logger, IContainer container) : base(logger, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(SchemaDeleteRequest request, CancellationToken cancellationToken)

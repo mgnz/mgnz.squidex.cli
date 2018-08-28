@@ -7,11 +7,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
-  using Serilog.Core;
+  using Serilog;
 
   public class SchemaExportHandler : BaseHandler<SchemaExportRequest>
   {
-    public SchemaExportHandler(Logger logger, IContainer container) : base(logger, container) { }
+    public SchemaExportHandler(ILogger logger, IContainer container) : base(logger, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(SchemaExportRequest request, CancellationToken cancellationToken)

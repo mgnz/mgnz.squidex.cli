@@ -7,11 +7,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
-  using Serilog.Core;
+  using Serilog;
 
   public class AppDeleteHandler : BaseHandler<AppDeleteRequest>
   {
-    public AppDeleteHandler(Logger logger, IContainer container) : base(logger, container) { }
+    public AppDeleteHandler(ILogger logger, IContainer container) : base(logger, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(AppDeleteRequest request, CancellationToken cancellationToken)

@@ -7,11 +7,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
-  using Serilog.Core;
+  using Serilog;
 
   public class AppLogoutHandler : BaseHandler<AppLogoutRequest>
   {
-    public AppLogoutHandler(Logger logger, IContainer container) : base(logger, container) { }
+    public AppLogoutHandler(ILogger logger, IContainer container) : base(logger, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(AppLogoutRequest request, CancellationToken cancellationToken)

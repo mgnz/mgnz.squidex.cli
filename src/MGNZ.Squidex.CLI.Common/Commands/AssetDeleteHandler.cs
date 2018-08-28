@@ -7,11 +7,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
-  using Serilog.Core;
+  using Serilog;
 
   public class AssetDeleteHandler : BaseHandler<AssetDeleteRequest>
   {
-    public AssetDeleteHandler(Logger logger, IContainer container) : base(logger, container) { }
+    public AssetDeleteHandler(ILogger logger, IContainer container) : base(logger, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(AssetDeleteRequest request, CancellationToken cancellationToken)

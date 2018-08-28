@@ -7,11 +7,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
-  using Serilog.Core;
+  using Serilog;
 
   public class AppNewHandler : BaseHandler<AppNewRequest>
   {
-    public AppNewHandler(Logger logger, IContainer container) : base(logger, container) { }
+    public AppNewHandler(ILogger logger, IContainer container) : base(logger, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(AppNewRequest request, CancellationToken cancellationToken)
