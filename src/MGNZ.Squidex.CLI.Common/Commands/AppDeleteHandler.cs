@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.CLI.Common.CLI;
+
   using Serilog;
 
   public class AppDeleteHandler : BaseHandler<AppDeleteRequest>
@@ -20,7 +22,12 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public class AppDeleteRequest : IRequest<Unit>
+  [Noun("app"), Verb("delete")]
+  public class AppDeleteRequest : IRequest
   {
+    [Option("n", "name")]
+    public string Name { get; set; }
+    [Option("t", "token")]
+    public string Token { get; set; }
   }
 }
