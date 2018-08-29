@@ -15,6 +15,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "delete", new Verb(this)
           {
             Names = new[ ] {"delete"},
+            RequestType = typeof(ContentDeleteRequest),
             Options = new Dictionary<string, Option>()
             {
               { "sc", new Option() {ShortName = "sc", LongName = "schema", Required = true, OrdanalityOrder = 1} },
@@ -27,6 +28,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "import", new Verb(this)
           {
             Names = new[ ] {"import"},
+            RequestType = typeof(ContentImportRequest),
             Options = new Dictionary<string, Option>()
             {
               { "sc", new Option() {ShortName = "sc", LongName = "schema", Required = true, OrdanalityOrder = 1} },
@@ -39,6 +41,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "export", new Verb(this)
           {
             Names = new[ ] {"export"},
+            RequestType = typeof(ContentExportRequest),
             Options = new Dictionary<string, Option>()
             {
               { "sc", new Option() {ShortName = "sc", LongName = "schema", Required = true, OrdanalityOrder = 1} },

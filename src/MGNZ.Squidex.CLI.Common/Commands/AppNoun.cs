@@ -12,9 +12,10 @@ namespace MGNZ.Squidex.CLI.Common.Commands
       Verbs = new Dictionary<string, Verb>
       {
         {
-          "delete", new Verb(this)(this)
+          "delete", new Verb(this)
           {
             Names = new[ ] {"delete"},
+            RequestType = typeof(AppDeleteRequest),
             Options = new Dictionary<string, Option>()
             {
               { "name", new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
@@ -27,6 +28,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "list", new Verb(this)
           {
             Names = new[ ] {"list"},
+            RequestType = typeof(AppListRequest),
             Options = new Dictionary<string, Option>()
             {
               { "token", new Option {ShortName = "t", LongName = "token", Required = true, OrdanalityOrder = 1} }
@@ -37,6 +39,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "login", new Verb(this)
           {
             Names = new[ ] {"login"},
+            RequestType = typeof(AppLoginRequest),
             Options = new Dictionary<string, Option>()
             {
               { "url", new Option {ShortName = "u", LongName = "uri", Required = true, OrdanalityOrder = 1} },
@@ -53,6 +56,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "logout", new Verb(this)
           {
             Names = new[ ] {"logout"},
+            RequestType = typeof(AppLogoutRequest),
             Options = new Dictionary<string, Option>()
             {
               { "name", new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
@@ -64,6 +68,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "new", new Verb(this)
           {
             Names = new[ ] {"new"},
+
+            RequestType = typeof(AppNewRequest),
             Options = new Dictionary<string, Option>()
             {
               { "name", new Option {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },

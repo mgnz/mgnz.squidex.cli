@@ -15,6 +15,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "tag", new Verb(this)
           {
             Names = new[ ] {"category", "categorise", "tag"},
+            RequestType = typeof(SchemaTagRequest),
             Options = new Dictionary<string, Option>()
             {
               { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
@@ -27,6 +28,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "delete", new Verb(this)
           {
             Names = new[ ] {"delete"},
+            RequestType = typeof(SchemaDeleteRequest),
             Options = new Dictionary<string, Option>()
             {
               { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 2} },
@@ -38,6 +40,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "export", new Verb(this)
           {
             Names = new[ ] {"export"},
+            RequestType = typeof(SchemaExportRequest),
             Options = new Dictionary<string, Option>()
             {
               { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
@@ -49,6 +52,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "import", new Verb(this)
           {
             Names = new[ ] {"import"},
+            RequestType = typeof(SchemaImportRequest),
             Options = new Dictionary<string, Option>()
             {
               { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
@@ -61,6 +65,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "list", new Verb(this)
           {
             Names = new[ ] {"list"},
+            RequestType = typeof(SchemaListRequest),
             Options = new Dictionary<string, Option>()
             {
               { "alias-credentials", new Option() {ShortName = "c", LongName = "alias-credentials", Required = false} }

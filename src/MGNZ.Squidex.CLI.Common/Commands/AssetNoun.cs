@@ -15,6 +15,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "delete", new Verb(this)
           {
             Names = new[ ] {"delete"},
+            RequestType = typeof(AssetDeleteRequest),
             Options = new Dictionary<string, Option>()
             {
               { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
@@ -26,6 +27,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "list", new Verb(this)
           {
             Names = new[ ] {"list"},
+            RequestType = typeof(AssetListRequest),
             Options = new Dictionary<string, Option>()
             {
               { "alias-credentials", new Option() {ShortName = "c", LongName = "alias-credentials", Required = false} }
@@ -36,6 +38,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "import", new Verb(this)
           {
             Names = new[ ] {"import"},
+            RequestType = typeof(AssetImportRequest),
             Options = new Dictionary<string, Option>()
             {
               { "path", new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 1} },
@@ -49,6 +52,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "export", new Verb(this)
           {
             Names = new[ ] {"export"},
+            RequestType = typeof(AssetExportRequest),
             Options = new Dictionary<string, Option>()
             {
               { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
@@ -61,6 +65,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
           "tag", new Verb(this)
           {
             Names = new[ ] {"tag"},
+            RequestType = typeof(AssetTagRequest),
             Options = new Dictionary<string, Option>()
             {
               { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
