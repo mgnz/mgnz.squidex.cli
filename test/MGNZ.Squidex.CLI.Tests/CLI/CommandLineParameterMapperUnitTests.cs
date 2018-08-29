@@ -1,7 +1,5 @@
 namespace MGNZ.Squidex.CLI.Tests.CLI
 {
-  using System;
-  using System.Collections;
   using System.Collections.Generic;
 
   using FluentAssertions;
@@ -16,8 +14,14 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
   public class CommandLineParameterMapperUnitTests
   {
     private static Option GetOption(string nounKey, string verbKey, string optionKey) => Nouns[nounKey].Verbs[verbKey].Options[optionKey];
-    private static string GetOptionLongNameFormatted(string nounKey, string verbKey, string optionKey) => GetOption(nounKey, verbKey, optionKey).GetLongNameFormatted;
-    private static KeyValuePair<string, Tuple<Option, string>> MapParametersResult(string nounKey, string verbKey, string optionKey, string value) => new KeyValuePair<string, Tuple<Option, string>>(GetOptionLongNameFormatted(nounKey, verbKey, optionKey), new Tuple<Option, string>(GetOption(nounKey, verbKey, optionKey), value));
+
+    private static Option GetOptionWithValue(string nounKey, string verbKey, string optionKey, string @value)
+    {
+      var option = GetOption(nounKey, verbKey, optionKey);
+      option.Value = @value;
+
+      return option;
+    }
 
     private static Dictionary<string, Noun> Nouns =>
       new Dictionary<string, Noun>
@@ -28,30 +32,30 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
         {"schema", new SchemaNoun()}
       };
 
-    public static List<object[ ]> MapOperation_HappyPath_Data => new List<object[ ]>
+    public static List<object[]> MapOperation_HappyPath_Data => new List<object[]>
     {
       // few ways to login
       new object[ ]
       {
-        new Dictionary<string, Tuple<Option, string>>()
+        new Dictionary<string, Option>()
         {
-          {"url", new Tuple<Option, string>(GetOption("app", "login", "url"), "https://some.site/squidex")}, 
-          {"name", new Tuple<Option, string>(GetOption("app", "login", "name"), "app_name")}, 
-          {"token", new Tuple<Option, string>(GetOption("app", "login", "token"), "t_abc123")}, 
-          {"alias-credentials-as", new Tuple<Option, string>(GetOption("app", "login", "alias-credentials-as"), "a_abc123")}, 
+          {"url", GetOptionWithValue("app", "login", "url", "https://some.site/squidex")},
+          {"name", GetOptionWithValue("app", "login", "name", "app_name")},
+          {"token", GetOptionWithValue("app", "login", "token", "t_abc123")},
+          {"alias-credentials-as", GetOptionWithValue("app", "login", "alias-credentials-as", "a_abc123")},
         },
         Nouns["app"], Nouns["app"].Verbs["login"],
         @"app login https://some.site/squidex app_name -t t_abc123 -a a_abc123"
       },
       new object[ ]
       {
-        new Dictionary<string, Tuple<Option, string>>()
+        new Dictionary<string, Option>()
         {
-          {"url", new Tuple<Option, string>(GetOption("app", "login", "url"), "https://some.site/squidex")},
-          {"name", new Tuple<Option, string>(GetOption("app", "login", "name"), "app_name")},
-          {"client-id", new Tuple<Option, string>(GetOption("app", "login", "client-id"), "cid_abc123")},
-          {"client-secret", new Tuple<Option, string>(GetOption("app", "login", "client-secret"), "cs_abc123")},
-          {"alias-credentials-as", new Tuple<Option, string>(GetOption("app", "login", "alias-credentials-as"), "a_abc123")},
+          {"url", GetOptionWithValue("app", "login", "url", "https://some.site/squidex")},
+          {"name", GetOptionWithValue("app", "login", "name", "app_name")},
+          {"client-id", GetOptionWithValue("app", "login", "client-id", "cid_abc123")},
+          {"client-secret", GetOptionWithValue("app", "login", "client-secret", "cs_abc123")},
+          {"alias-credentials-as", GetOptionWithValue("app", "login", "alias-credentials-as", "a_abc123")},
         },
         Nouns["app"], Nouns["app"].Verbs["login"],
         @"login app https://some.site/squidex app_name --client-id cid_abc123 --client-secret cs_abc123 -a a_abc123"
@@ -64,27 +68,27 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
       // try different ways to logout
       new object[ ]
       {
-        new Dictionary<string, Tuple<Option, string>>()
+        new Dictionary<string, Option>()
         {
-          {"name", new Tuple<Option, string>(GetOption("app", "login", "name"), "app_name")},
+          {"name", GetOptionWithValue("app", "login", "name", "app_name")},
         },
         Nouns["app"], Nouns["app"].Verbs["logout"],
         @"app logout --name app_name"
       },
       new object[ ]
       {
-        new Dictionary<string, Tuple<Option, string>>()
+        new Dictionary<string, Option>()
         {
-          {"name", new Tuple<Option, string>(GetOption("app", "login", "name"), "app_name")},
+          {"name", GetOptionWithValue("app", "login", "name", "app_name")},
         },
         Nouns["app"], Nouns["app"].Verbs["logout"],
         @"app logout -n app_name"
       },
       new object[ ]
       {
-        new Dictionary<string, Tuple<Option, string>>()
+        new Dictionary<string, Option>()
         {
-          {"name", new Tuple<Option, string>(GetOption("app", "login", "name"), "app_name")},
+          {"name", GetOptionWithValue("app", "login", "name", "app_name")},
         },
         Nouns["app"], Nouns["app"].Verbs["logout"],
         @"logout app app_name"
@@ -94,7 +98,7 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
 
     [Theory]
     [MemberData(nameof(MapOperation_HappyPath_Data))]
-    public void MapOperation_HappyPath(Dictionary<string, Tuple<Option, string>> expectedOptions, Noun noun, Verb verb, string commandLine)
+    public void MapOperation_HappyPath(Dictionary<string, Option> expectedOptions, Noun noun, Verb verb, string commandLine)
     {
       var sut = new CommandLineParameterMapper(SerilogFixture.UsefullLogger<CommandLineParameterMapper>());
 
@@ -104,8 +108,8 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
 
       foreach (var option in expectedOptions)
       {
-        var expectedOption = option.Value.Item1;
-        var expectedOptionValue = option.Value.Item2;
+        var expectedOption = option.Value;
+        var expectedOptionValue = option.Value.Value;
 
         var actualOption = actual[expectedOption.GetLongNameFormatted];
 
