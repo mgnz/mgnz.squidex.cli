@@ -23,8 +23,16 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   [DebuggerDisplay("{GetDefaultName}")]
   public class Verb
   {
+    private readonly Noun _noun;
+
+    public Verb(Noun noun)
+    {
+      _noun = noun;
+    }
+
     public string[ ] Names { get; set; }
     public Dictionary<string, Option> Options { get; set; }
+    public Type RequestType { get; set; }
 
     public string GetDefaultName => Names.First();
 
@@ -43,6 +51,51 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public Option[] GetParametrizedOptions => Options.Values
       .Where(where => where.OrdanalityOrder.HasValue == false)
       .ToArray();
+  }
+
+  [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+  sealed class NounAttribute : Attribute
+  {
+    public string Name { get; }
+    public string[] Names { get; }
+
+    public NounAttribute(string[] names)
+    {
+      Names = names;
+    }
+
+    public NounAttribute(string name)
+    {
+      Name = name;
+    }
+  }
+
+  [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+  sealed class VerbAttribute : Attribute
+  {
+    public string Name { get; }
+    public string[] Names { get; }
+
+    public VerbAttribute(string[] names)
+    {
+      Names = names;
+    }
+
+    public VerbAttribute(string name)
+    {
+      Name = name;
+    }
+  }
+
+  [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
+  sealed class OptionAttribute : Attribute
+  {
+    public string ShortName { get; }
+
+    public OptionAttribute(string shortName, string longName)
+    {
+      ShortName = shortName;
+    }
   }
 
   [DebuggerDisplay("{GetLongNameFormatted} {Value}")]
