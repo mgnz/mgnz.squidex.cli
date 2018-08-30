@@ -91,10 +91,12 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   sealed class OptionAttribute : Attribute
   {
     public string ShortName { get; }
+    public string LongName { get; }
 
     public OptionAttribute(string shortName, string longName)
     {
       ShortName = shortName;
+      LongName = longName;
     }
   }
 

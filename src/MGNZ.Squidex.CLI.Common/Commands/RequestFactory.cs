@@ -1,6 +1,9 @@
 namespace MGNZ.Squidex.CLI.Common.Commands
 {
   using System;
+  using System.Collections.Generic;
+  using System.Linq;
+  using System.Reflection;
 
   using MediatR;
 
@@ -21,13 +24,42 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     {
       var instance = Activator.CreateInstance(verb.RequestType) as IRequest;
 
-      // https://docs.microsoft.com/en-us/dotnet/standard/attributes/retrieving-information-stored-in-attributes
-      // https://docs.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/accessing-custom-attributes
-      // 
+      var optionValues = verb.Options;
+      var optionProperties = GetOptions(verb.RequestType);
 
+      var updatedOptions = optionValues.Keys.Intersect(optionProperties.Keys);
+      foreach (var updatedOption in updatedOptions)
+      {
+        var optionProperty = optionProperties[updatedOption];
+        var optionValue = optionValues[updatedOption];
+
+        optionProperty.Item2.SetValue(instance, optionValue.Value);
+      }
 
       return instance;
     }
+
+    private Dictionary<string, Tuple<OptionAttribute, PropertyInfo>> GetOptions(Type type)
+    {
+      var results = new Dictionary<string, Tuple<OptionAttribute, PropertyInfo>>();
+
+      var properties = type.GetProperties();
+      foreach (var property in properties)
+      {
+        var optionAttribute = property.GetCustomAttribute<OptionAttribute>();
+        if (optionAttribute != null)
+        {
+          var longName = optionAttribute.LongName;
+          results.Add(longName, new Tuple<OptionAttribute, PropertyInfo>(optionAttribute, property));
+        }
+      }
+
+      return results;
+    }
+
+    private OptionAttribute[] GetOptionAttributes(Type t) => (OptionAttribute[])Attribute.GetCustomAttributes(t, typeof(OptionAttribute));
+    private NounAttribute GetNounAttribute(Type t) => (NounAttribute)Attribute.GetCustomAttribute(t, typeof(NounAttribute));
+    private VerbAttribute GetVerbAttribute(Type t) => (VerbAttribute)Attribute.GetCustomAttribute(t, typeof(VerbAttribute));
   }
 
   public interface IRequestFactory
