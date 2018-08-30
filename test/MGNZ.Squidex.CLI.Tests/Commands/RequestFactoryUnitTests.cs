@@ -5,6 +5,8 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   using FluentAssertions;
 
+  using MediatR;
+
   using MGNZ.Squidex.CLI.Common.CLI;
   using MGNZ.Squidex.CLI.Common.Commands;
   using MGNZ.Squidex.CLI.Tests.Platform;
@@ -38,6 +40,15 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       // few ways to login
       new object[ ]
       {
+        Nouns["app"].Verbs["login"].Options = new Dictionary<string, Option>()
+        {
+          {"url", GetOptionWithValue("app", "login", "url", "https://some.site/squidex")},
+          {"name", GetOptionWithValue("app", "login", "name", "app_name")},
+          {"token", GetOptionWithValue("app", "login", "token", "t_abc123")},
+          {"alias-credentials-as", GetOptionWithValue("app", "login", "alias-credentials-as", "a_abc123")},
+
+        },
+
         new Dictionary<string, Option>()
         {
           {"url", GetOptionWithValue("app", "login", "url", "https://some.site/squidex")},
@@ -62,48 +73,48 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
         @"login app https://some.site/squidex app_name --client-id cid_abc123 --client-secret cs_abc123 -a a_abc123"
       },
 
-      // some ways to list schemas
+      //// some ways to list schemas
 
-      // some ways to export a schema
+      //// some ways to export a schema
 
-      // try different ways to logout
-      new object[ ]
-      {
-        new Dictionary<string, Option>()
-        {
-          {"name", GetOptionWithValue("app", "login", "name", "app_name")},
-        },
-        Nouns["app"], Nouns["app"].Verbs["logout"],
-        @"app logout --name app_name"
-      },
-      new object[ ]
-      {
-        new Dictionary<string, Option>()
-        {
-          {"name", GetOptionWithValue("app", "login", "name", "app_name")},
-        },
-        Nouns["app"], Nouns["app"].Verbs["logout"],
-        @"app logout -n app_name"
-      },
-      new object[ ]
-      {
-        new Dictionary<string, Option>()
-        {
-          {"name", GetOptionWithValue("app", "login", "name", "app_name")},
-        },
-        Nouns["app"], Nouns["app"].Verbs["logout"],
-        @"logout app app_name"
-      }
+      //// try different ways to logout
+      //new object[ ]
+      //{
+      //  new Dictionary<string, Option>()
+      //  {
+      //    {"name", GetOptionWithValue("app", "login", "name", "app_name")},
+      //  },
+      //  Nouns["app"], Nouns["app"].Verbs["logout"],
+      //  @"app logout --name app_name"
+      //},
+      //new object[ ]
+      //{
+      //  new Dictionary<string, Option>()
+      //  {
+      //    {"name", GetOptionWithValue("app", "login", "name", "app_name")},
+      //  },
+      //  Nouns["app"], Nouns["app"].Verbs["logout"],
+      //  @"app logout -n app_name"
+      //},
+      //new object[ ]
+      //{
+      //  new Dictionary<string, Option>()
+      //  {
+      //    {"name", GetOptionWithValue("app", "login", "name", "app_name")},
+      //  },
+      //  Nouns["app"], Nouns["app"].Verbs["logout"],
+      //  @"logout app app_name"
+      //}
     };
 
 
     [Theory]
     [MemberData(nameof(MapOperation_HappyPath_Data))]
-    public void MapOperation_HappyPath(Dictionary<string, Option> expectedOptions, Noun noun, Verb verb, string commandLine)
+    public void MapOperation_HappyPath(IRequest expectedRequest, Verb verb)
     {
       var sut = new RequestFactory(SerilogFixture.UsefullLogger<RequestFactory>());
 
-      var actual = sut.MapParameters(noun, verb, commandLine);
+      var actual = sut.GetRequestForVerb(verb);
       actual.Should().NotBeNull();
       actual.Count.Should().Be(verb.Options.Count);
 

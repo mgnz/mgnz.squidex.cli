@@ -1,7 +1,6 @@
 namespace MGNZ.Squidex.CLI.Tests.CLI
 {
   using System.Collections.Generic;
-  using System.Collections.ObjectModel;
 
   using MGNZ.Squidex.CLI.Common.CLI;
   using MGNZ.Squidex.CLI.Common.Commands;
@@ -52,9 +51,9 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
     [MemberData(nameof(Parse_HappyPath_Data))]
     public void Parse_HappyPath(object expected, string commandLine)
     {
-      var sut = new CommandLineDictionaryConverter(SerilogFixture.UsefullLogger<CommandLineDictionaryConverter>(), new Noun[]{ new AppNoun(), new AssetNoun(), new ContentNoun(), new SchemaNoun() });
+      var sut = new CommandLineOperationMapper(SerilogFixture.UsefullLogger<CommandLineOperationMapper>(), new Noun[]{ new AppNoun(), new AssetNoun(), new ContentNoun(), new SchemaNoun() });
 
-      var actual = sut.Parse(commandLine);
+      var actual = sut.MapOperation(commandLine);
     }
   }
 }
