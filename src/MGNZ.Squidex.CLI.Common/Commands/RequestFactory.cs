@@ -20,9 +20,12 @@ namespace MGNZ.Squidex.CLI.Common.Commands
       _logger = logger;
     }
 
-    public IRequest GetRequestForVerb(Verb verb)
+    public IRequest GetRequestForVerb(Noun noun)
     {
-      var instance = Activator.CreateInstance(verb.RequestType) as IRequest;
+      var verbKeyValuePair = noun.Verbs.Single();
+      var verb = verbKeyValuePair.Value;
+
+      var instance = (IRequest)Activator.CreateInstance(verb.RequestType);
 
       var optionValues = verb.Options;
       var optionProperties = GetOptions(verb.RequestType);
@@ -64,6 +67,6 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public interface IRequestFactory
   {
-    IRequest GetRequestForVerb(Verb verb);
+    IRequest GetRequestForVerb(Noun noun);
   }
 }

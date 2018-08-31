@@ -90,13 +90,13 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
     [Theory]
     [MemberData(nameof(MapOperation_HappyPath_Data))]
-    public void MapOperation_HappyPath(IRequest expectedRequest, Verb verb)
+    public void MapOperation_HappyPath(IRequest expectedRequest, Noun noun)
     {
       var sut = new RequestFactory(SerilogFixture.UsefullLogger<RequestFactory>());
 
-      var actual = sut.GetRequestForVerb(verb);
+      var actual = sut.GetRequestForVerb(noun);
       //actual.Should().NotBeNull();
-      //actual.Count.Should().Be(verb.Options.Count);
+      //actual.Count.Should().Be(noun.Options.Count);
 
       //foreach (var option in expectedOptions)
       //{
