@@ -100,22 +100,22 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     }
   }
 
-  [DebuggerDisplay("{GetLongNameFormatted} {Value}")]
+  [DebuggerDisplay("{GetFullNameFormatted} {Value}")]
   public class Option
   {
     /// <summary>
     ///   Gets a short name of this command line option, made of one character.
     /// </summary>
     public string ShortName { get; set; }
-
-    public string GetShortNameFormatted => $"-{ShortName}";
+    public string GetShortNameFormatted => string.IsNullOrWhiteSpace(ShortName) || string.IsNullOrEmpty(ShortName) ? string.Empty : $"-{ShortName}";
 
     /// <summary>
     ///   Gets long name of this command line option. This name is usually a single english word.
     /// </summary>
     public string LongName { get; set; }
+    public string GetLongNameFormatted => string.IsNullOrWhiteSpace(LongName) || string.IsNullOrEmpty(LongName) ? string.Empty : $"--{LongName}";
 
-    public string GetLongNameFormatted => $"--{LongName}";
+    public string GetFullNameFormatted => string.Join("|", new string[] {GetShortNameFormatted, GetLongNameFormatted});
 
     public bool IsNamed(string name) => name.Equals(GetShortNameFormatted) || name.Equals(GetLongNameFormatted);
 

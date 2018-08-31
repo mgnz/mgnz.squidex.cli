@@ -10,6 +10,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   using MGNZ.Squidex.CLI.Common.CLI;
 
   using Serilog;
+  using Serilog.Context;
 
   public class RequestFactory : IRequestFactory
   {
@@ -22,24 +23,30 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
     public IRequest GetRequestForVerb(Noun noun)
     {
-      var verbKeyValuePair = noun.Verbs.Single();
-      var verb = verbKeyValuePair.Value;
-
-      var instance = (IRequest)Activator.CreateInstance(verb.RequestType);
-
-      var optionValues = verb.Options;
-      var optionProperties = GetOptions(verb.RequestType);
-
-      var updatedOptions = optionValues.Keys.Intersect(optionProperties.Keys);
-      foreach (var updatedOption in updatedOptions)
+      using (LogContext.PushProperty("method", nameof(GetRequestForVerb)))
+      using (LogContext.PushProperty("args", noun))
       {
-        var optionProperty = optionProperties[updatedOption];
-        var optionValue = optionValues[updatedOption];
+        var verbKeyValuePair = noun.Verbs.Single();
+        var verb = verbKeyValuePair.Value;
 
-        optionProperty.Item2.SetValue(instance, optionValue.Value);
+        var instance = (IRequest)Activator.CreateInstance(verb.RequestType);
+
+        var optionValues = verb.Options;
+        var optionProperties = GetOptions(verb.RequestType);
+
+        var updatedOptions = optionValues.Keys.Intersect(optionProperties.Keys);
+        foreach (var updatedOption in updatedOptions)
+        {
+          var optionProperty = optionProperties[updatedOption];
+          var optionValue = optionValues[updatedOption];
+
+          _logger.Information("setting {propertyName} which was mapped from {optionKey} to value '{propertyValue}'", optionProperty.Item2.Name, optionValue.GetFullNameFormatted, optionValue.Value);
+          optionProperty.Item2.SetValue(instance, optionValue.Value);
+        }
+
+        _logger.Information("successfully mapped {@instance}", instance);
+        return instance;
       }
-
-      return instance;
     }
 
     private Dictionary<string, Tuple<OptionAttribute, PropertyInfo>> GetOptions(Type type)
@@ -59,10 +66,6 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
       return results;
     }
-
-    private OptionAttribute[] GetOptionAttributes(Type t) => (OptionAttribute[])Attribute.GetCustomAttributes(t, typeof(OptionAttribute));
-    private NounAttribute GetNounAttribute(Type t) => (NounAttribute)Attribute.GetCustomAttribute(t, typeof(NounAttribute));
-    private VerbAttribute GetVerbAttribute(Type t) => (VerbAttribute)Attribute.GetCustomAttribute(t, typeof(VerbAttribute));
   }
 
   public interface IRequestFactory
