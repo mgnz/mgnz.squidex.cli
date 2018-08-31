@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace MGNZ.Squidex.CLI.Common.Commands
 {
   using System.Collections.Generic;
@@ -6,6 +8,28 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class AppNoun : Noun
   {
+    public AppNoun(Dictionary<string, Dictionary<string, string>> withOptionValues, bool removeRemainingVerbs = true) : this()
+    {
+      if (removeRemainingVerbs)
+      {
+        var left = Verbs.Keys.Except(withOptionValues.Keys).ToList();
+        foreach (var i in left)
+        {
+          Verbs.Remove(i);
+        }
+      }
+
+      foreach (var verbKey in withOptionValues)
+      {
+        var verb = this.Verbs[verbKey.Key];
+        foreach (var optionKeyValue in verbKey.Value)
+        {
+          var option = verb.Options[optionKeyValue.Key];
+          option.Value = optionKeyValue.Value;
+        }
+      }
+    }
+
     public AppNoun()
     {
       Names = new[ ] {"app", "apps"};
