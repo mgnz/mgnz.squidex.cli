@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.CLI.Common.CLI;
+
   using Serilog;
 
   public class AppLogoutHandler : BaseHandler<AppLogoutRequest>
@@ -20,7 +22,9 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public class AppLogoutRequest : IRequest<Unit>
+  public class AppLogoutRequest : IRequest
   {
+    [Option("n", "name")] public string Name { get; set; }
+    [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }
 }

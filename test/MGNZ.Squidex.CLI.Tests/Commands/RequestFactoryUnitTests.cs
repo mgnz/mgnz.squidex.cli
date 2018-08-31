@@ -40,7 +40,13 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       // few ways to login
       new object[ ]
       {
-        null,
+        new AppLoginRequest()
+        {
+          Url = "https://some.site/squidex",
+          Name = "app_name",
+          Token = "t_abc123",
+          AliasCredentialsAs = "a_abc123"
+        }, 
         new AppNoun(new Dictionary<string, Dictionary<string, string>>()
         {
           {"login", new Dictionary<string, string>()
@@ -54,7 +60,14 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       },
       new object[ ]
       {
-        null,
+        new AppLoginRequest()
+        {
+          Url = "https://some.site/squidex",
+          Name = "app_name",
+          ClientId = "cid_abc123",
+          ClientSecret = "cs_abc123",
+          AliasCredentialsAs = "a_abc123"
+        },
         new AppNoun(new Dictionary<string, Dictionary<string, string>>()
         {
           {"login", new Dictionary<string, string>()
@@ -76,7 +89,10 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
       new object[ ]
       {
-        null,
+        new AppLogoutRequest()
+        {
+          Name = "app_name"
+        }, 
         new AppNoun(new Dictionary<string, Dictionary<string, string>>()
         {
           {"logout", new Dictionary<string, string>()
@@ -94,19 +110,19 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     {
       var sut = new RequestFactory(SerilogFixture.UsefullLogger<RequestFactory>());
 
-      var actual = sut.GetRequestForVerb(noun);
-      //actual.Should().NotBeNull();
-      //actual.Count.Should().Be(noun.Options.Count);
+      var actualRequest = sut.GetRequestForVerb(noun);
+      actualRequest.Should().NotBeNull();
 
-      //foreach (var option in expectedOptions)
-      //{
-      //  var expectedOption = option.Value.Item1;
-      //  var expectedOptionValue = option.Value.Item2;
-
-      //  var actualOption = actual[expectedOption.GetLongNameFormatted];
-
-      //  actualOption.Value.Should().BeEquivalentTo(expectedOptionValue);
-      //}
+      if (expectedRequest is AppLoginRequest expectedAppLoginRequest && actualRequest is AppLoginRequest actualAppLoginRequest)
+      {
+        actualAppLoginRequest.Should().BeEquivalentTo(expectedAppLoginRequest);
+      }
+      else if (expectedRequest is AppLogoutRequest expectedAppLogoutRequest && actualRequest is AppLogoutRequest actualAppLogoutRequest)
+      {
+        actualAppLogoutRequest.Should().BeEquivalentTo(expectedAppLogoutRequest);
+      }
+      else
+        Assert.True(false, $"Unexpected actual ({expectedRequest.GetType().Name}) or expected ({actualRequest.GetType().Name}) found");
     }
   }
 }
