@@ -7,26 +7,27 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   using Serilog;
   using Serilog.Context;
 
-  public class CommandLineParameterMapper : ICommandLineParameterMapper
+  public class RouteOptionsParser : IParseRouteOptions
   {
     private readonly ILogger _logger;
 
-    public CommandLineParameterMapper(ILogger logger)
+    public RouteOptionsParser(ILogger logger)
     {
       _logger = logger;
     }
 
-    public Dictionary<string, Option> MapParameters(Noun noun, Verb verb, string args)
+    public void ParseAndPopulateOptions(ref Noun noun, string args)
     {
-      return MapParameters(noun, verb, args.Split(new[] { ' ' }));
+      ParseAndPopulateOptions(ref noun, args.Split(new[] { ' ' }));
     }
 
-    public Dictionary<string, Option> MapParameters(Noun noun, Verb verb, string[ ] args)
+    public void ParseAndPopulateOptions(ref Noun noun, string[ ] args)
     {
-      using (LogContext.PushProperty("method", nameof(MapParameters)))
-      using (LogContext.PushProperty("args", new { noun, verb, args }))
+      using (LogContext.PushProperty("method", nameof(ParseAndPopulateOptions)))
+      using (LogContext.PushProperty("args", new { noun, args }))
       {
-        var mappedArguments = new Dictionary<string, Option>();
+        var verbKeyValuePair = noun.Verbs.Single();
+        var verb = verbKeyValuePair.Value;
 
         var candidateArguments = args.Skip(2).ToArray();
 
@@ -38,7 +39,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
         for (var i = 0; i < candidateArguments.Length; i++)
         {
           var argument = candidateArguments.ElementAtOrDefault(i);
-          // nullcheck return
+          // todo nullcheck return
 
           // check ordinal fields
           var ordinal = ordinals.ElementAtOrDefault(i);
@@ -58,9 +59,8 @@ namespace MGNZ.Squidex.CLI.Common.CLI
             }
 
             ordinal.Value = ordinalLikelyValue;
-            mappedArguments.Add(ordinal.GetLongNameFormatted, ordinal);
 
-            // log found
+            // todo log found
 
             continue;
           }
@@ -76,8 +76,6 @@ namespace MGNZ.Squidex.CLI.Common.CLI
               i++;
             }
 
-            mappedArguments.Add(optionNamed.GetLongNameFormatted, optionNamed);
-
             continue;
           }
           else
@@ -88,24 +86,25 @@ namespace MGNZ.Squidex.CLI.Common.CLI
             throw outOfRangeException;
           }
         }
-
-        _logger.Information("identified {@mappedArguments}", mappedArguments);
-
-        foreach (var kvp in verb.Options)
-        {
-          if (mappedArguments.ContainsKey(kvp.Value.GetLongNameFormatted)) continue;
-
-          mappedArguments.Add(kvp.Value.GetLongNameFormatted, kvp.Value);
-        }
-
-        return mappedArguments;
       }
     }
   }
 
-  public interface ICommandLineParameterMapper
+  public interface IParseRouteOptions
   {
-    Dictionary<string, Option> MapParameters(Noun noun, Verb verb, string args);
-    Dictionary<string, Option> MapParameters(Noun noun, Verb verb, string[] args);
+    /// <summary>
+    /// Gets a Noun with a Verb that has been processed; and populates the necessary Options form the remaining Command Line
+    /// </summary>
+    /// <param name="noun"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    void ParseAndPopulateOptions(ref Noun noun, string args);
+    /// <summary>
+    /// Gets a Noun with a Verb that has been processed; and populates the necessary Options form the remaining Command Line
+    /// </summary>
+    /// <param name="noun"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    void ParseAndPopulateOptions(ref Noun noun, string[] args);
   }
 }
