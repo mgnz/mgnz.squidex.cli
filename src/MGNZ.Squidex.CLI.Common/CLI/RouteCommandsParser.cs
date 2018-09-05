@@ -1,31 +1,32 @@
 namespace MGNZ.Squidex.CLI.Common.CLI
 {
+  using System;
   using System.Collections.Generic;
   using System.Linq;
-  using System.Threading.Tasks;
 
   using Serilog;
   using Serilog.Context;
 
-  public class CommandLineOperationMapper : ICommandLineOperationMapper
+  public class RouteCommandsParser : IParseRouteCommands
   {
     private readonly ILogger _logger;
     private readonly IEnumerable<Noun> _nouns;
 
-    public CommandLineOperationMapper(ILogger logger, IEnumerable<Noun> nouns)
+    public RouteCommandsParser(ILogger logger, IEnumerable<Noun> nouns)
     {
       _logger = logger;
       _nouns = nouns;
     }
 
-    public (Noun noun, Verb verb) MapOperation(string args)
+    public void
+      ParseAndPopulateOperation(out Noun nounVerbCombination, string args)
     {
-      return MapOperation(args.Split(new[ ] {' '}));
+      ParseAndPopulateOperation(out nounVerbCombination, args.Split(new[] { ' ' }));
     }
 
-    public (Noun noun, Verb verb) MapOperation(string[ ] args)
+    public void ParseAndPopulateOperation(out Noun nounVerbCombination, string[] args)
     {
-      using (LogContext.PushProperty("method", nameof(MapOperation)))
+      using (LogContext.PushProperty("method", nameof(ParseAndPopulateOperation)))
       using (LogContext.PushProperty("args", args))
       {
         Noun noun = null;
@@ -63,8 +64,21 @@ namespace MGNZ.Squidex.CLI.Common.CLI
           }
         }
 
-        _logger.Information("identified {@identifiedNoun}, {@identifiedVerb}", noun, verb);
-        return (noun, verb);
+        if (noun == null || verb == null)
+        {
+          var outOfRangeException = new ArgumentOutOfRangeException("nounVerbPair", string.Join(",", candidateArguments), $"Cannot identify either a Noun or a Verb; what we got was '{string.Join(" ", candidateArguments)}'");
+          _logger.Error(outOfRangeException, "Cannot identify either a Noun or a Verb; what we got was '{candidateArguments}'", string.Join(" ", candidateArguments));
+
+          throw outOfRangeException;
+        }
+        else
+        {
+          _logger.Information("identified {@identifiedNoun}, {@identifiedVerb}", noun, verb);
+
+          noun.Verbs.Clear();
+          noun.Verbs.Add(verb.GetDefaultName, verb);
+          nounVerbCombination = noun;
+        }
       }
     }
   }
@@ -77,9 +91,9 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   /// Actual deserialization into a HandlerRequest happens at a later stage; all this
   /// is interested in is getting the chunks out; so suppose it could be called the chunkifier
   /// </summary>
-  public interface ICommandLineOperationMapper
+  public interface IParseRouteCommands
   {
-    (Noun noun, Verb verb) MapOperation(string[] args);
-    (Noun noun, Verb verb) MapOperation(string args);
+    void ParseAndPopulateOperation(out Noun nounVerbCombination, string args);
+    void ParseAndPopulateOperation(out Noun nounVerbCombination, string[] args);
   }
 }
