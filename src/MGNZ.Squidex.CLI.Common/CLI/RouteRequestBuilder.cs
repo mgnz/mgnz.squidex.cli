@@ -1,4 +1,4 @@
-namespace MGNZ.Squidex.CLI.Common.Commands
+namespace MGNZ.Squidex.CLI.Common.CLI
 {
   using System;
   using System.Collections.Generic;
@@ -7,16 +7,14 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
-  using MGNZ.Squidex.CLI.Common.CLI;
-
   using Serilog;
   using Serilog.Context;
 
-  public class RequestFactory : IRequestFactory
+  public class RouteRequestBuilder : IBuildRouteRequests
   {
     private readonly ILogger _logger;
 
-    public RequestFactory(ILogger logger)
+    public RouteRequestBuilder(ILogger logger)
     {
       _logger = logger;
     }
@@ -68,7 +66,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public interface IRequestFactory
+  public interface IBuildRouteRequests
   {
     IRequest GetRequestForVerb(Noun noun);
   }

@@ -1,6 +1,5 @@
-namespace MGNZ.Squidex.CLI.Tests.Commands
+namespace MGNZ.Squidex.CLI.Tests.CLI
 {
-  using System;
   using System.Collections.Generic;
 
   using FluentAssertions;
@@ -14,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using Xunit;
 
   [Trait("category", "unit")]
-  public class RequestFactoryUnitTests
+  public class RouteRequestBuilderUnitTests
   {
     private static Option GetOption(string nounKey, string verbKey, string optionKey) => Nouns[nounKey].Verbs[verbKey].Options[optionKey];
 
@@ -108,7 +107,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [MemberData(nameof(MapOperation_HappyPath_Data))]
     public void MapOperation_HappyPath(IRequest expectedRequest, Noun noun)
     {
-      var sut = new RequestFactory(SerilogFixture.UsefullLogger<RequestFactory>());
+      var sut = new RouteRequestBuilder(SerilogFixture.UsefullLogger<RouteRequestBuilder>());
 
       var actualRequest = sut.GetRequestForVerb(noun);
       actualRequest.Should().NotBeNull();
