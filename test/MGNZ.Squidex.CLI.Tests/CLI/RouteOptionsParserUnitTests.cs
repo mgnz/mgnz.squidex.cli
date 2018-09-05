@@ -33,7 +33,7 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
         {"schema", new SchemaNoun()}
       };
 
-    public static List<object[]> MapOperation_HappyPath_Data => new List<object[]>
+    public static List<object[]> ParseAndPopulateOptions_HappyPath_Data => new List<object[]>
     {
       // few ways to login
       new object[ ]
@@ -154,8 +154,8 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
 
 
     [Theory]
-    [MemberData(nameof(MapOperation_HappyPath_Data))]
-    public void MapOperation_HappyPath(Noun expectedNoun, Noun inputNoun, string commandLine)
+    [MemberData(nameof(ParseAndPopulateOptions_HappyPath_Data))]
+    public void ParseAndPopulateOptions_HappyPath(Noun expectedNoun, Noun inputNoun, string commandLine)
     {
       // remember : inputNoun is partially pre-populated; ParseAndPopulateOptions is to fill in the
       // values for any options that have been defined.
