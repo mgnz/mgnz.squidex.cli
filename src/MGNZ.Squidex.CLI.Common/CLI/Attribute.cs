@@ -100,7 +100,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     }
   }
 
-  [DebuggerDisplay("{GetFullNameFormatted} {Value}")]
+  [DebuggerDisplay("{GetFullNameFormatted} [{Value}]")]
   public class Option
   {
     /// <summary>
@@ -141,6 +141,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public int? OrdanalityOrder { get; set; }
 
     public string Value { get; set; }
+    public bool HasValue => !string.IsNullOrWhiteSpace(Value) && !string.IsNullOrEmpty(Value);
   }
 
 
