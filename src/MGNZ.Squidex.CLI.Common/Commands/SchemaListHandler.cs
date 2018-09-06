@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.CLI.Common.CLI;
+
   using Serilog;
 
   public class SchemaListHandler : BaseHandler<SchemaListRequest>
@@ -20,7 +22,9 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public class SchemaListRequest : IRequest<Unit>
+  [Noun("schema"), Verb("list")]
+  public class SchemaListRequest : IRequest
   {
+    [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }
 }

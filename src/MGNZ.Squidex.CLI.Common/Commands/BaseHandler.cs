@@ -11,7 +11,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   using Serilog;
 
   public class BaseHandler<TRequest> : IRequestHandler<TRequest>
-    where TRequest : IRequest<Unit>
+    where TRequest : IRequest
   {
     public BaseHandler(ILogger logger, IContainer container)
     {

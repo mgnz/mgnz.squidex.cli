@@ -22,9 +22,10 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
+  [Noun("app"), Verb("logout")]
   public class AppLogoutRequest : IRequest
   {
-    [Option("n", "name")] public string Name { get; set; }
+    [Option("n", "name", required:true, ordanalityOrder:1)] public string Name { get; set; }
     [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }
 }

@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.CLI.Common.CLI;
+
   using Serilog;
 
   public class SchemaTagHandler : BaseHandler<SchemaTagRequest>
@@ -22,7 +24,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public class SchemaTagRequest : IRequest<Unit>
+  [Noun("schema"), Verb("tag")]
+  public class SchemaTagRequest : IRequest
   {
+    [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
+    [Option("t", "tags", required: true, ordanalityOrder: 2)] public string Tags { get; set; }
+    [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }
 }

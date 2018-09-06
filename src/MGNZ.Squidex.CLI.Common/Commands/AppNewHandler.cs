@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.CLI.Common.CLI;
+
   using Serilog;
 
   public class AppNewHandler : BaseHandler<AppNewRequest>
@@ -20,7 +22,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public class AppNewRequest : IRequest<Unit>
+  [Noun("app"), Verb("new")]
+  public class AppNewRequest : IRequest
   {
+    [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
+    [Option("t", "token")] public string Token { get; set; }
+    
   }
 }

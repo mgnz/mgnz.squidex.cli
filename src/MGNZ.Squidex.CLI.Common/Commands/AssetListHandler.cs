@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.CLI.Common.CLI;
+
   using Serilog;
 
   public class AssetListHandler : BaseHandler<AssetListRequest>
@@ -20,7 +22,9 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public class AssetListRequest : IRequest<Unit>
+  [Noun("asset"), Verb("list")]
+  public class AssetListRequest : IRequest
   {
+    [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }
 }

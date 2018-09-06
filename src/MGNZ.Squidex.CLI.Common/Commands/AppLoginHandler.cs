@@ -24,8 +24,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class AppLoginRequest : IRequest
   {
-    [Option("u", "url")] public string Url { get; set; }
-    [Option("n", "name")] public string Name { get; set; }
+    [Option("u", "url", required: true, ordanalityOrder: 1)] public string Url { get; set; }
+    [Option("n", "name", required: true, ordanalityOrder: 2)] public string Name { get; set; }
     [Option("cid", "client-id")] public string ClientId { get; set; }
     [Option("cs", "client-secret")] public string ClientSecret { get; set; }
     [Option("t", "token")] public string Token { get; set; }

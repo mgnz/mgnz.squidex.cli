@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.CLI.Common.CLI;
+
   using Serilog;
 
   public class ContentImportHandler : BaseHandler<ContentImportRequest>
@@ -19,7 +21,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public class ContentImportRequest : IRequest<Unit>
+  [Noun("content"), Verb("import")]
+  public class ContentImportRequest : IRequest
   {
+    [Option("sc", "schema", required: true, ordanalityOrder: 1)] public string Schema { get; set; }
+    [Option("p", "path", required: true, ordanalityOrder: 2)] public string Path { get; set; }
+    [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }
 }

@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.CLI.Common.CLI;
+
   using Serilog;
 
   public class AssetDeleteHandler : BaseHandler<AssetDeleteRequest>
@@ -20,7 +22,10 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public class AssetDeleteRequest : IRequest<Unit>
+  [Noun("asset"), Verb("delete")]
+  public class AssetDeleteRequest : IRequest
   {
+    [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
+    [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }
 }

@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.CLI.Common.CLI;
+
   using Serilog;
 
   public class AssetImportHandler : BaseHandler<AssetImportRequest>
@@ -20,7 +22,12 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public class AssetImportRequest : IRequest<Unit>
+  [Noun("asset"), Verb("import")]
+  public class AssetImportRequest : IRequest
   {
+    [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
+    [Option("p", "path", required: true, ordanalityOrder: 2)] public string Path { get; set; }
+    [Option("t", "tags", required: true, ordanalityOrder: 3)] public string Tags { get; set; }
+    [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }
 }

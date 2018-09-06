@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.CLI.Common.CLI;
+
   using Serilog;
 
   public class ContentDeleteHandler : BaseHandler<ContentDeleteRequest>
@@ -20,7 +22,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public class ContentDeleteRequest : IRequest<Unit>
+  [Noun("content"), Verb("delete")]
+  public class ContentDeleteRequest : IRequest
   {
+    [Option("sc", "schema", required: true, ordanalityOrder: 1)] public string Schema { get; set; }
+    [Option("id", "id", required: true, ordanalityOrder: 2)] public string Id { get; set; }
+    [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }
 }
