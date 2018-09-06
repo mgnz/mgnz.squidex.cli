@@ -44,6 +44,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
             Options = new Dictionary<string, Option>()
             {
               { "name", new Option() {ShortName = "n", LongName = "name", Required = true, OrdanalityOrder = 1} },
+              { "path", new Option() {ShortName = "p", LongName = "path", Required = true, OrdanalityOrder = 2} },
               { "alias-credentials", new Option() {ShortName = "c", LongName = "alias-credentials", Required = false} }
             }
           }
