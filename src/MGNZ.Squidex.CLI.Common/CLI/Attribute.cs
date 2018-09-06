@@ -92,11 +92,28 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   {
     public string ShortName { get; }
     public string LongName { get; }
+    public bool Required { get; }
+    public int OrdanalityOrder { get; }
 
-    public OptionAttribute(string shortName, string longName)
+    public OptionAttribute(string shortName, string longName, bool required = true, int ordanalityOrder = 0)
     {
       ShortName = shortName;
       LongName = longName;
+      Required = required;
+      OrdanalityOrder = ordanalityOrder;
+
+      // if the option is required; then it must have an ordanality
+
+      if (Required && ordanalityOrder <= 0)
+      {
+        var argumentOutOfRange = new ArgumentOutOfRangeException(nameof(OrdanalityOrder), OrdanalityOrder, $"When {nameof(Required)} of 'true' is supplied; a {nameof(OrdanalityOrder)} of '>= 1' (greater than or equal to one) must also be supplied.");
+        throw argumentOutOfRange;
+      }
+      else if (!Required && OrdanalityOrder >= 0)
+      {
+        var argumentOutOfRange = new ArgumentOutOfRangeException(nameof(OrdanalityOrder), OrdanalityOrder, $"When {nameof(Required)} of 'false' (the default value) is supplied; a {nameof(OrdanalityOrder)} of '0' must also be supplied (also the default value).");
+        throw argumentOutOfRange;
+      }
     }
   }
 
