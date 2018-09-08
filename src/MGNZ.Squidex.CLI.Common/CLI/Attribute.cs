@@ -54,7 +54,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   }
 
   [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
-  sealed class NounAttribute : Attribute
+  public sealed class NounAttribute : Attribute
   {
     public string Name { get; }
     public string[] Names { get; }
@@ -71,7 +71,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   }
 
   [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
-  sealed class VerbAttribute : Attribute
+  public sealed class VerbAttribute : Attribute
   {
     public string Name { get; }
     public string[] Names { get; }
@@ -88,7 +88,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   }
 
   [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
-  sealed class OptionAttribute : Attribute
+  public sealed class OptionAttribute : Attribute
   {
     public string ShortName { get; }
     public string LongName { get; }
