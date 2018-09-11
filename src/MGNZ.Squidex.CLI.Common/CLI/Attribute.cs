@@ -59,6 +59,8 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public string Name { get; }
     public string[] Names { get; }
 
+    public string GetDefaultName => (Names != null && Names.Any()) ? string.Join("-", Names) : Name;
+
     public NounAttribute(string[] names)
     {
       Names = names;
@@ -74,7 +76,9 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   public sealed class VerbAttribute : Attribute
   {
     public string Name { get; }
-    public string[] Names { get; }
+    public string[] Names { get; } 
+
+    public string GetDefaultName => (Names != null && Names.Any()) ? string.Join("-", Names) : Name;
 
     public VerbAttribute(string[] names)
     {
@@ -95,7 +99,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public bool Required { get; }
     public int OrdanalityOrder { get; }
 
-    public OptionAttribute(string shortName, string longName, bool required = true, int ordanalityOrder = 0)
+    public OptionAttribute(string shortName, string longName, bool required = false, int ordanalityOrder = 0)
     {
       ShortName = shortName;
       LongName = longName;
@@ -109,7 +113,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
         var argumentOutOfRange = new ArgumentOutOfRangeException(nameof(OrdanalityOrder), OrdanalityOrder, $"When {nameof(Required)} of 'true' is supplied; a {nameof(OrdanalityOrder)} of '>= 1' (greater than or equal to one) must also be supplied.");
         throw argumentOutOfRange;
       }
-      else if (!Required && OrdanalityOrder >= 0)
+      else if (!Required && OrdanalityOrder != 0)
       {
         var argumentOutOfRange = new ArgumentOutOfRangeException(nameof(OrdanalityOrder), OrdanalityOrder, $"When {nameof(Required)} of 'false' (the default value) is supplied; a {nameof(OrdanalityOrder)} of '0' must also be supplied (also the default value).");
         throw argumentOutOfRange;
