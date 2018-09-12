@@ -38,7 +38,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       }
     }
 
-    public Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly)
+    public Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, NounAttribute pairedWith = null)
     {
       var results = new Dictionary<string, Tuple<VerbAttribute, Type>>();
 
@@ -51,12 +51,46 @@ namespace MGNZ.Squidex.CLI.Common.CLI
           var attribute = type.GetCustomAttribute<VerbAttribute>(inherit:true);
           if (attribute != null)
           {
-            var longName = attribute.GetDefaultName;
-            results.Add(longName, new Tuple<VerbAttribute, Type>(attribute, type));
+            if (pairedWith == null)
+            {
+              var longName = attribute.GetDefaultName;
+              results.Add(longName, new Tuple<VerbAttribute, Type>(attribute, type));
+            }
+            else
+            {
+              // only returns the verbs that are paired with the noun we specify
+
+              var matchedNoun = type.GetCustomAttribute<NounAttribute>(inherit: true);
+              if (matchedNoun != null && matchedNoun.GetDefaultName.Equals(pairedWith.GetDefaultName))
+              {
+                var longName = attribute.GetDefaultName;
+                results.Add(longName, new Tuple<VerbAttribute, Type>(attribute, type));
+              }
+            }
           }
         }
 
         return results;
+      }
+    }
+
+    public IEnumerable<Tuple<Attribute, Type>> ReflectAttributes(Assembly assembly, params Attribute[] attributes)
+    {
+      using (LogContext.PushProperty("method", nameof(ReflectNouns)))
+      using (LogContext.PushProperty("args", assembly))
+      {
+        var types = assembly.GetTypes();
+        foreach (var type in types)
+        {
+          foreach (var candidate in attributes)
+          {
+            var attribute = type.GetCustomAttribute(candidate.GetType(), inherit: true);
+            if (attribute != null)
+            {
+              yield return new Tuple<Attribute, Type>(attribute, type);
+            }
+          }
+        }
       }
     }
 
@@ -86,7 +120,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   public interface IReflectRouteAttributes
   {
     Dictionary<string, Tuple<NounAttribute, Type>> ReflectNouns(Assembly assembly);
-    Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly);
+    Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, NounAttribute pairedWith = null);
     Dictionary<string, Tuple<OptionAttribute, PropertyInfo>> ReflectOptions(Type type);
   }
 }

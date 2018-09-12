@@ -30,6 +30,11 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       _noun = noun;
     }
 
+    public Verb()
+    {
+      
+    }
+
     public string[ ] Names { get; set; }
     public Dictionary<string, Option> Options { get; set; }
     public Type RequestType { get; set; }
@@ -56,10 +61,9 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
   public sealed class NounAttribute : Attribute
   {
-    public string Name { get; }
     public string[] Names { get; }
 
-    public string GetDefaultName => (Names != null && Names.Any()) ? string.Join("-", Names) : Name;
+    public string GetDefaultName => Names.First();
 
     public NounAttribute(string[] names)
     {
@@ -68,17 +72,16 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
     public NounAttribute(string name)
     {
-      Name = name;
+      Names = new[] { name };
     }
   }
 
   [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
   public sealed class VerbAttribute : Attribute
   {
-    public string Name { get; }
-    public string[] Names { get; } 
+    public string[] Names { get; }
 
-    public string GetDefaultName => (Names != null && Names.Any()) ? string.Join("-", Names) : Name;
+    public string GetDefaultName => Names.First();
 
     public VerbAttribute(string[] names)
     {
@@ -87,7 +90,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
     public VerbAttribute(string name)
     {
-      Name = name;
+      Names = new []{ name };
     }
   }
 
@@ -96,15 +99,19 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   {
     public string ShortName { get; }
     public string LongName { get; }
+    public char Seperator { get; }
     public bool Required { get; }
     public int OrdanalityOrder { get; }
+    public string HelpText { get; }
 
-    public OptionAttribute(string shortName, string longName, bool required = false, int ordanalityOrder = 0)
+    public OptionAttribute(string shortName, string longName, bool required = false, int ordanalityOrder = 0, char seperator = '-', string helpText = "")
     {
       ShortName = shortName;
       LongName = longName;
       Required = required;
       OrdanalityOrder = ordanalityOrder;
+      Seperator = seperator;
+      HelpText = helpText;
 
       // if the option is required; then it must have an ordanality
 

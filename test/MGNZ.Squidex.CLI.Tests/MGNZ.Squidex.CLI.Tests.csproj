@@ -26,4 +26,8 @@
     <ProjectReference Include="..\..\src\MGNZ.Squidex.CLI.Common\MGNZ.Squidex.CLI.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\" />
+  </ItemGroup>
+
 </Project>

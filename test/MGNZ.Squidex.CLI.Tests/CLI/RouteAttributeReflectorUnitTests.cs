@@ -114,24 +114,5 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
         actual.Item1.Should().BeEquivalentTo(expected.Value.Item1);
       }
     }
-
-    [Noun("noun1"), Verb("verb1")]
-    private class ReferenceA
-    {
-      [Option("a", "option-a", required: true, ordanalityOrder: 1)] public string OptionA { get; set; }
-      [Option("b", "option-b")] public string OptionB { get; set; }
-    }
-
-    [Noun("noun2")]
-    private class BaseNounReference1
-    {
-    }
-
-    [Verb("verb2")]
-    private class BaseVerbReference1 : BaseNounReference1
-    {
-      [Option("a", "option-a", required: true, ordanalityOrder: 1)] public string OptionA { get; set; }
-      [Option("b", "option-b")] public string OptionB { get; set; }
-    }
   }
 }
