@@ -62,7 +62,6 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   public sealed class NounAttribute : Attribute
   {
     public string[] Names { get; }
-
     public string GetDefaultName => Names.First();
 
     public NounAttribute(string[] names)
@@ -74,13 +73,17 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     {
       Names = new[] { name };
     }
+
+    public bool IsNamed(string name)
+    {
+      return Names.Contains(name);
+    }
   }
 
   [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
   public sealed class VerbAttribute : Attribute
   {
     public string[] Names { get; }
-
     public string GetDefaultName => Names.First();
 
     public VerbAttribute(string[] names)
@@ -90,9 +93,15 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
     public VerbAttribute(string name)
     {
-      Names = new []{ name };
+      Names = new[] { name };
+    }
+
+    public bool IsNamed(string name)
+    {
+      return Names.Contains(name);
     }
   }
+
 
   [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
   public sealed class OptionAttribute : Attribute
