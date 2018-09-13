@@ -81,7 +81,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
           else
           {
             var outOfRangeException = new ArgumentOutOfRangeException(argument, optionLikelyValue, $"'{noun.GetDefaultName} {verb.GetDefaultName}' Doesn't understand an argument of '{argument}'");
-            _logger.Error(outOfRangeException, "'{@noun.GetDefaultName} {@verb.GetDefaultName}' Doesn't understand an argument of '{@argument}'", noun.GetDefaultName, verb.GetDefaultName, verb.GetDefaultName, argument);
+            _logger.Error(outOfRangeException, "'{@noun.GetFullNameFormatted} {@verb.GetFullNameFormatted}' Doesn't understand an argument of '{@argument}'", noun.GetDefaultName, verb.GetDefaultName, verb.GetDefaultName, argument);
 
             throw outOfRangeException;
           }
