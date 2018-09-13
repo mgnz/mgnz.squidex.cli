@@ -2,6 +2,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 {
   using System;
   using System.Collections.Generic;
+  using System.Linq;
   using System.Reflection;
 
   using Serilog;
@@ -38,7 +39,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       }
     }
 
-    public Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, NounAttribute pairedWith = null)
+    public Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, string associcatedNounName = null)
     {
       var results = new Dictionary<string, Tuple<VerbAttribute, Type>>();
 
@@ -48,24 +49,30 @@ namespace MGNZ.Squidex.CLI.Common.CLI
         var types = assembly.GetTypes();
         foreach (var type in types)
         {
-          var attribute = type.GetCustomAttribute<VerbAttribute>(inherit:true);
-          if (attribute != null)
+          var attributeTypePairs = TypeHasAttributes(type, typeof(VerbAttribute), typeof(NounAttribute)).ToList();
+          if (attributeTypePairs.All(p => p.Item2 == true))
           {
-            if (pairedWith == null)
+            var nounAttribute = attributeTypePairs.SingleOrDefault(p => p.Item1 is NounAttribute)?.Item1 as NounAttribute;
+            var verbAttribute = attributeTypePairs.SingleOrDefault(p => p.Item1 is VerbAttribute)?.Item1 as VerbAttribute;
+            if(nounAttribute == null || verbAttribute == null) break;
+
+            // given an asspcicatedNounName
+            // == then accumulate the verb if the DefaultNounName of the noun matches; else skip it 
+            // == otherwise accumulate the verb
+
+            if ((string.IsNullOrWhiteSpace(associcatedNounName) || string.IsNullOrEmpty(associcatedNounName)) == false && nounAttribute.IsNamed(associcatedNounName))
             {
-              var longName = attribute.GetDefaultName;
-              results.Add(longName, new Tuple<VerbAttribute, Type>(attribute, type));
+              var defaultName = nounAttribute.GetDefaultName;
+              results.Add(defaultName, new Tuple<VerbAttribute, Type>(verbAttribute, type));
+            }
+            else if ((string.IsNullOrWhiteSpace(associcatedNounName) || string.IsNullOrEmpty(associcatedNounName)) == true)
+            {
+              var defaultName = nounAttribute.GetDefaultName;
+              results.Add(defaultName, new Tuple<VerbAttribute, Type>(verbAttribute, type));
             }
             else
             {
-              // only returns the verbs that are paired with the noun we specify
-
-              var matchedNoun = type.GetCustomAttribute<NounAttribute>(inherit: true);
-              if (matchedNoun != null && matchedNoun.GetDefaultName.Equals(pairedWith.GetDefaultName))
-              {
-                var longName = attribute.GetDefaultName;
-                results.Add(longName, new Tuple<VerbAttribute, Type>(attribute, type));
-              }
+              break;
             }
           }
         }
@@ -74,23 +81,13 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       }
     }
 
-    public IEnumerable<Tuple<Attribute, Type>> ReflectAttributes(Assembly assembly, params Attribute[] attributes)
+    public IEnumerable<Tuple<Attribute, bool>> TypeHasAttributes(Type type, params Type[ ] attributes)
     {
-      using (LogContext.PushProperty("method", nameof(ReflectNouns)))
-      using (LogContext.PushProperty("args", assembly))
+      foreach (var candidate in attributes)
       {
-        var types = assembly.GetTypes();
-        foreach (var type in types)
-        {
-          foreach (var candidate in attributes)
-          {
-            var attribute = type.GetCustomAttribute(candidate.GetType(), inherit: true);
-            if (attribute != null)
-            {
-              yield return new Tuple<Attribute, Type>(attribute, type);
-            }
-          }
-        }
+        var attribute = type.GetCustomAttribute(candidate, inherit: true);
+
+        yield return new Tuple<Attribute, bool>(attribute, attribute != null);
       }
     }
 
@@ -120,7 +117,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   public interface IReflectRouteAttributes
   {
     Dictionary<string, Tuple<NounAttribute, Type>> ReflectNouns(Assembly assembly);
-    Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, NounAttribute pairedWith = null);
+    Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, string associcatedNounName = null);
     Dictionary<string, Tuple<OptionAttribute, PropertyInfo>> ReflectOptions(Type type);
   }
 }
