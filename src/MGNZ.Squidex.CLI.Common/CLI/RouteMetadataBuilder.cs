@@ -67,12 +67,12 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
         //  //  currentVerb.Options = GetOptionMetadata(currentVerbType);
 
-        //  //  currentNoun.Verbs.Add(currentVerb.GetDefaultName, currentVerb);
+        //  //  currentNoun.Verbs.Add(currentVerb.GetFullNameFormatted, currentVerb);
         //  //}
 
         //  currentNoun.Verbs = GetVerbMetadata(referenceAssembly, currentNounAttribute);
 
-        //  results.Add(currentNoun.GetDefaultName, currentNoun);
+        //  results.Add(currentNoun.GetFullNameFormatted, currentNoun);
         //}
 
         return GetNounMetadata(assembly);
@@ -105,11 +105,11 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       return reuslts;
     }
 
-    public Dictionary<string, Verb> GetVerbMetadata(Assembly assembly, NounAttribute pairedWith = null)
+    public Dictionary<string, Verb> GetVerbMetadata(Assembly assembly, string associcatedNounName = null)
     {
       var reuslts = new Dictionary<string, Verb>();
 
-      var verbKvps = _attributeReflector.ReflectVerbs(assembly, pairedWith);
+      var verbKvps = _attributeReflector.ReflectVerbs(assembly, associcatedNounName);
       foreach (var verbKvp in verbKvps)
       {
         var currentVerbAttribute = verbKvp.Value.Item1;
@@ -195,10 +195,10 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
         //  currentVerb.Options = GetOptionMetadata(currentVerbType);
 
-        //  currentNoun.Verbs.Add(currentVerb.GetDefaultName, currentVerb);
+        //  currentNoun.Verbs.Add(currentVerb.GetFullNameFormatted, currentVerb);
         //}
 
-        currentNoun.Verbs = GetVerbMetadata(assembly, currentNounAttribute);
+        currentNoun.Verbs = GetVerbMetadata(assembly, currentNounAttribute.GetDefaultName);
 
         results.Add(currentNoun.GetDefaultName, currentNoun);
       }
@@ -209,6 +209,5 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
   public interface IBuildRouteMetadata
   {
-    Dictionary<string, Noun> GetNounMetadata();
   }
 }
