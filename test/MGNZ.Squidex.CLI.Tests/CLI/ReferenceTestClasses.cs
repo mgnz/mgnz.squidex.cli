@@ -27,4 +27,14 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
     [Option("b", "option-b")]
     public string OptionB { get; set; }
   }
+
+  [Verb("verb3")]
+  internal class BaseVerbReference2 : BaseNounReference1
+  {
+    [Option("a", "option-a", true, 1)]
+    public string OptionA { get; set; }
+
+    [Option("b", "option-b")]
+    public string OptionB { get; set; }
+  }
 }
