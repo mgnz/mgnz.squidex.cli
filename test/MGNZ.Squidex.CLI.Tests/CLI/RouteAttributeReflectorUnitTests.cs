@@ -11,6 +11,7 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
 
   using Xunit;
 
+  [Trait("category", "unit")]
   public class RouteAttributeReflectorUnitTests
   {
     public static List<object[]> ReflectNouns_HappyPath_Data => new List<object[]>
@@ -52,26 +53,49 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
         new Dictionary<string, Tuple<VerbAttribute, Type>> ()
         {
           {"verb1", new Tuple<VerbAttribute, Type>(new VerbAttribute("verb1") {}, typeof(ReferenceA))},
-          {"verb2", new Tuple<VerbAttribute, Type>(new VerbAttribute("verb2") {}, typeof(BaseVerbReference1))}
+          {"verb2", new Tuple<VerbAttribute, Type>(new VerbAttribute("verb2") {}, typeof(BaseVerbReference1))},
+          {"verb3", new Tuple<VerbAttribute, Type>(new VerbAttribute("verb3") {}, typeof(BaseVerbReference2))}
         },
-        typeof(BaseVerbReference1).Assembly
+        typeof(BaseVerbReference1).Assembly,
+        null
+      },
+      new object[ ]
+      {
+        new Dictionary<string, Tuple<VerbAttribute, Type>> ()
+        {
+          {"verb2", new Tuple<VerbAttribute, Type>(new VerbAttribute("verb2") {}, typeof(BaseVerbReference1))},
+          {"verb3", new Tuple<VerbAttribute, Type>(new VerbAttribute("verb3") {}, typeof(BaseVerbReference2))}
+        },
+        typeof(BaseVerbReference1).Assembly,
+        "noun2"
+      },
+      new object[ ]
+      {
+        new Dictionary<string, Tuple<VerbAttribute, Type>> ()
+        {
+          {"verb1", new Tuple<VerbAttribute, Type>(new VerbAttribute("verb1") {}, typeof(ReferenceA))}
+        },
+        typeof(BaseVerbReference1).Assembly,
+        "noun1"
       }
     };
 
     [Theory]
     [MemberData(nameof(ReflectVerbs_HappyPath_Data))]
-    public void ReflectVerbs_HappyPath(Dictionary<string, Tuple<VerbAttribute, Type>> expectedResponse, Assembly inputAssembly)
+    public void ReflectVerbs_HappyPath(Dictionary<string, Tuple<VerbAttribute, Type>> expectedResponse, Assembly inputAssembly, string inputAssocicatedNounName)
     {
       var sut = new RouteAttributeReflector(SerilogFixture.UsefullLogger<RouteAttributeReflector>());
-      var actualResponse = sut.ReflectVerbs(inputAssembly);
+      var actualResponse = sut.ReflectVerbs(inputAssembly, inputAssocicatedNounName);
 
       actualResponse.Keys.Should().Contain(expectedResponse.Keys);
 
-      foreach (var expected in expectedResponse)
+      foreach (var expectedPair in expectedResponse)
       {
-        var actual = actualResponse[expected.Key];
+        var actual = actualResponse[expectedPair.Key];
 
-        actual.Item1.Should().BeEquivalentTo(expected.Value.Item1);
+        //actual.Should().BeEquivalentTo(expectedPair.Value);
+        actual.Item1.Should().BeEquivalentTo(expectedPair.Value.Item1);
+        actual.Item2.Should().Be(expectedPair.Value.Item2);
       }
     }
 
