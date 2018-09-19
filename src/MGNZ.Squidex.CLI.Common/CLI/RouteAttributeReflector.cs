@@ -27,7 +27,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
         var types = assembly.GetTypes();
         foreach (var type in types)
         {
-          var attribute = type.GetCustomAttribute<NounAttribute>(inherit: true);
+          var attribute = type.GetCustomAttribute<NounAttribute>(inherit: false);
           if (attribute != null)
           {
             var longName = attribute.GetDefaultName;
@@ -43,7 +43,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     {
       var results = new Dictionary<string, Tuple<VerbAttribute, Type>>();
 
-      using (LogContext.PushProperty("method", nameof(ReflectNouns)))
+      using (LogContext.PushProperty("method", nameof(ReflectVerbs)))
       using (LogContext.PushProperty("args", assembly))
       {
         var types = assembly.GetTypes();
@@ -62,17 +62,13 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
             if ((string.IsNullOrWhiteSpace(associcatedNounName) || string.IsNullOrEmpty(associcatedNounName)) == false && nounAttribute.IsNamed(associcatedNounName))
             {
-              var defaultName = nounAttribute.GetDefaultName;
+              var defaultName = verbAttribute.GetDefaultName;
               results.Add(defaultName, new Tuple<VerbAttribute, Type>(verbAttribute, type));
             }
             else if ((string.IsNullOrWhiteSpace(associcatedNounName) || string.IsNullOrEmpty(associcatedNounName)) == true)
             {
-              var defaultName = nounAttribute.GetDefaultName;
+              var defaultName = verbAttribute.GetDefaultName;
               results.Add(defaultName, new Tuple<VerbAttribute, Type>(verbAttribute, type));
-            }
-            else
-            {
-              break;
             }
           }
         }
@@ -95,7 +91,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     {
       var results = new Dictionary<string, Tuple<OptionAttribute, PropertyInfo>>();
 
-      using (LogContext.PushProperty("method", nameof(ReflectNouns)))
+      using (LogContext.PushProperty("method", nameof(ReflectOptions)))
       using (LogContext.PushProperty("args", type))
       {
         var properties = type.GetProperties();
