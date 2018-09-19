@@ -58,7 +58,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       .ToArray();
   }
 
-  [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
   public sealed class NounAttribute : Attribute
   {
     public string[] Names { get; }
@@ -80,7 +80,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     }
   }
 
-  [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
   public sealed class VerbAttribute : Attribute
   {
     public string[] Names { get; }
