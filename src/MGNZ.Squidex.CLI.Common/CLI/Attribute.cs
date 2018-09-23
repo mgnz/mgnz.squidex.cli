@@ -9,15 +9,15 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   [DebuggerDisplay("{GetDefaultName}")]
   public class Noun
   {
-    public Dictionary<string, Verb> Verbs { get; set; }
     public string[ ] Names { get; set; }
-
-    public string GetDefaultName => Names.Take(1).ToString();
+    public string GetDefaultName => Names.First();
 
     public bool Named(string name)
     {
       return Names.Contains(name);
     }
+
+    public Dictionary<string, Verb> Verbs { get; set; }
   }
 
   [DebuggerDisplay("{GetDefaultName}")]
@@ -108,18 +108,16 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   {
     public string ShortName { get; }
     public string LongName { get; }
-    public char Seperator { get; }
     public bool Required { get; }
-    public int OrdanalityOrder { get; }
+    public int? OrdanalityOrder { get; }
     public string HelpText { get; }
 
-    public OptionAttribute(string shortName, string longName, bool required = false, int ordanalityOrder = 0, char seperator = '-', string helpText = "")
+    public OptionAttribute(string shortName, string longName, bool required = false, int ordanalityOrder = 0, string helpText = "")
     {
       ShortName = shortName;
       LongName = longName;
       Required = required;
       OrdanalityOrder = ordanalityOrder;
-      Seperator = seperator;
       HelpText = helpText;
 
       // if the option is required; then it must have an ordanality
@@ -134,6 +132,12 @@ namespace MGNZ.Squidex.CLI.Common.CLI
         var argumentOutOfRange = new ArgumentOutOfRangeException(nameof(OrdanalityOrder), OrdanalityOrder, $"When {nameof(Required)} of 'false' (the default value) is supplied; a {nameof(OrdanalityOrder)} of '0' must also be supplied (also the default value).");
         throw argumentOutOfRange;
       }
+
+      // something something cant have optional null argument on an attribute
+      // CS0181 C# Attribute constructor parameter has type, which is not a valid attribute parameter type
+
+      if (ordanalityOrder != 0)
+        OrdanalityOrder = ordanalityOrder;
     }
   }
 
@@ -157,12 +161,6 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public bool IsNamed(string name) => name.Equals(GetShortNameFormatted) || name.Equals(GetLongNameFormatted);
 
     /// <summary>
-    ///   When applying attribute to <see cref="System.Collections.Generic.IEnumerable{T}" /> target properties,
-    ///   it allows you to split an argument and consume its content as a sequence.
-    /// </summary>
-    public char Separator { get; set; }
-
-    /// <summary>
     ///   Gets or sets a value indicating whether a command line option is required.
     /// </summary>
     public bool Required { get; set; }
@@ -170,7 +168,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     /// <summary>
     ///   Gets or sets a short description of this command line option. Usually a sentence summary.
     /// </summary>
-    public string HelpText { get; set; }
+    public string HelpText { get; set; } = string.Empty;
 
     /// <summary>
     /// Determines Ordanality and the 
