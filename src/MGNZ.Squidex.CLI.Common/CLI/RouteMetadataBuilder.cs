@@ -102,6 +102,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
   public interface IBuildRouteMetadata
   {
+    Dictionary<string, Option> GetOptionMetadata(Type containingType);
     Dictionary<string, Verb> GetVerbMetadata(Assembly assembly, string nounName = null);
     Dictionary<string, Noun> GetNounMetadata(Assembly assembly, string named = null);
   }

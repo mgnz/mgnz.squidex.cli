@@ -39,7 +39,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       }
     }
 
-    public Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, string associcatedNounName = null)
+    public Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, string nounName = null)
     {
       var results = new Dictionary<string, Tuple<VerbAttribute, Type>>();
 
@@ -60,12 +60,12 @@ namespace MGNZ.Squidex.CLI.Common.CLI
             // == then accumulate the verb if the DefaultNounName of the noun matches; else skip it 
             // == otherwise accumulate the verb
 
-            if ((string.IsNullOrWhiteSpace(associcatedNounName) || string.IsNullOrEmpty(associcatedNounName)) == false && nounAttribute.IsNamed(associcatedNounName))
+            if ((string.IsNullOrWhiteSpace(nounName) || string.IsNullOrEmpty(nounName)) == false && nounAttribute.IsNamed(nounName))
             {
               var defaultName = verbAttribute.GetDefaultName;
               results.Add(defaultName, new Tuple<VerbAttribute, Type>(verbAttribute, type));
             }
-            else if ((string.IsNullOrWhiteSpace(associcatedNounName) || string.IsNullOrEmpty(associcatedNounName)) == true)
+            else if ((string.IsNullOrWhiteSpace(nounName) || string.IsNullOrEmpty(nounName)) == true)
             {
               var defaultName = verbAttribute.GetDefaultName;
               results.Add(defaultName, new Tuple<VerbAttribute, Type>(verbAttribute, type));
@@ -113,7 +113,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
   public interface IReflectRouteAttributes
   {
     Dictionary<string, Tuple<NounAttribute, Type>> ReflectNouns(Assembly assembly);
-    Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, string associcatedNounName = null);
+    Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, string nounName = null);
     Dictionary<string, Tuple<OptionAttribute, PropertyInfo>> ReflectOptions(Type type);
   }
 }
