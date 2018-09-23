@@ -12,37 +12,90 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
 
   using Xunit;
 
+  [Trait("category", "unit")]
   public class RouteMetadataBuilderUnitTests
   {
-    public static List<object[ ]> ReflectNouns_HappyPath_Data => new List<object[ ]>
+    public static List<object[ ]> GetMetadata_HappyPath_Data => new List<object[ ]>
     {
-      // Dictionary<string, Tuple<NounAttribute, Type>>
+      // Dictionary<string, Noun>
       new object[ ]
       {
         new Dictionary<string, Noun>
         {
-          { "noun1", new AppNoun() }
+          {
+            "noun1", new Noun()
+            {
+              Verbs = new Dictionary<string, Verb>()
+              {
+                { "verb1", new Verb() { Options = new Dictionary<string, Option>()
+                    {
+                        { "-a|--option-a", new Option() { ShortName = "a", LongName = "option-a", Required = true, OrdanalityOrder = 1 } },
+                        { "-b|--option-b", new Option() { ShortName = "b", LongName = "option-b", OrdanalityOrder = 0 } }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "noun2", new Noun()
+            {
+              Verbs = new Dictionary<string, Verb>()
+              {
+                { "verb2", new Verb() { Options = new Dictionary<string, Option>()
+                    {
+                      { "-a|--option-a", new Option() { ShortName = "a", LongName = "option-a", Required = true, OrdanalityOrder = 1 } },
+                      { "-b|--option-b", new Option() { ShortName = "b", LongName = "option-b", OrdanalityOrder = 0  } }
+                    }
+                  }
+                },
+                { "verb3", new Verb() { Options = new Dictionary<string, Option>()
+                    {
+                      { "-a|--option-a", new Option() { ShortName = "a", LongName = "option-a", Required = true, OrdanalityOrder = 1 } },
+                      { "-b|--option-b", new Option() { ShortName = "b", LongName = "option-b", OrdanalityOrder = 0  } }
+                    }
+                  }
+                }
+              }
+            }
+          }
         },
         typeof(BaseVerbReference1).Assembly
       }
     };
 
-    [Theory]
-    [MemberData(nameof(ReflectNouns_HappyPath_Data))]
-    public void ReflectNouns_HappyPath(Dictionary<string, Tuple<NounAttribute, Type>> expectedResponse, Assembly inputAssembly)
+    [Theory()]
+    [MemberData(nameof(GetMetadata_HappyPath_Data))]
+    public void ReflectNouns_HappyPath(Dictionary<string, Noun> expectedResponse, Assembly inputAssembly)
     {
       var routeAttributeReflector = new RouteAttributeReflector(SerilogFixture.UsefullLogger<RouteAttributeReflector>());
       var sut = new RouteMetadataBuilder(SerilogFixture.UsefullLogger<RouteMetadataBuilder>(), routeAttributeReflector);
-      //var actualResponse = sut.GetNounMetadata();
+      var actualResponse = sut.GetMetadata(inputAssembly);
 
-      //actualResponse.Keys.Should().Contain(expectedResponse.Keys);
+      actualResponse.Keys.Should().Contain(expectedResponse.Keys);
 
-      //foreach (var expected in expectedResponse)
-      //{
-      //  var actual = actualResponse[expected.Key];
+      foreach (var expectedKvp in expectedResponse)
+      {
+        var actualNoun = actualResponse[expectedKvp.Key];
 
-      //  actual.Item1.Should().BeEquivalentTo(expected.Value.Item1);
-      //}
+        actualNoun.Verbs.Should().NotBeNull();
+        actualNoun.Verbs.Keys.Should().Contain(expectedKvp.Value.Verbs.Keys);
+
+        foreach (var expectedVerbKvp in expectedKvp.Value.Verbs)
+        {
+          var actualVerb = actualNoun.Verbs[expectedVerbKvp.Key];
+
+          actualVerb.Options.Should().NotBeNull();
+          actualVerb.Options.Keys.Should().Contain(expectedVerbKvp.Value.Options.Keys);
+
+          foreach (var expectedOptionKvp in expectedVerbKvp.Value.Options)
+          {
+            var actualOption = actualVerb.Options[expectedOptionKvp.Key];
+
+            expectedOptionKvp.Value.Should().BeEquivalentTo(actualOption);
+          }
+        }
+      }
     }
   }
 }
