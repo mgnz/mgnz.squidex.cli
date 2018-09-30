@@ -23,7 +23,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("schema"), Verb("export")]
-  public class SchemaExportRequest : IRequest
+  public class SchemaExportRequest: BaseRequest
   {
     [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
     [Option("p", "path", required: true, ordanalityOrder: 2)] public string Path { get; set; }

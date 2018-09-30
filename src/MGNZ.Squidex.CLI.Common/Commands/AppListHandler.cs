@@ -23,7 +23,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("app"), Verb("list")]
-  public class AppListRequest : IRequest
+  public class AppListRequest: BaseRequest
   {
     [Option("t", "token", required: true, ordanalityOrder: 1)] public string Token { get; set; }
   }

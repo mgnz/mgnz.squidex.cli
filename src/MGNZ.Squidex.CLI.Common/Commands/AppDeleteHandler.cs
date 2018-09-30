@@ -23,7 +23,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("app"), Verb("delete")]
-  public class AppDeleteRequest : IRequest
+  public class AppDeleteRequest: BaseRequest
   {
     [Option("n", "name", required:true, ordanalityOrder:1)] public string Name { get; set; }
     [Option("t", "token", required: true, ordanalityOrder: 2)] public string Token { get; set; }

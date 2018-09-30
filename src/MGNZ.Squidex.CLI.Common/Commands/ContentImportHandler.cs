@@ -22,7 +22,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("content"), Verb("import")]
-  public class ContentImportRequest : IRequest
+  public class ContentImportRequest: BaseRequest
   {
     [Option("sc", "schema", required: true, ordanalityOrder: 1)] public string Schema { get; set; }
     [Option("p", "path", required: true, ordanalityOrder: 2)] public string Path { get; set; }

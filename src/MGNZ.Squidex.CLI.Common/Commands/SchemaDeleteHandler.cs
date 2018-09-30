@@ -23,7 +23,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("schema"), Verb("delete")]
-  public class SchemaDeleteRequest : IRequest
+  public class SchemaDeleteRequest: BaseRequest
   {
     [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
     [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }

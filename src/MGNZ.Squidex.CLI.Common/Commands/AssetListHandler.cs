@@ -23,7 +23,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("asset"), Verb("list")]
-  public class AssetListRequest : IRequest
+  public class AssetListRequest: BaseRequest
   {
     [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }

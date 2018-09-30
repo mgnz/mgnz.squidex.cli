@@ -22,7 +22,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
-  public class AppLoginRequest : IRequest
+  public class AppLoginRequest: BaseRequest
   {
     [Option("u", "url", required: true, ordanalityOrder: 1)] public string Url { get; set; }
     [Option("n", "name", required: true, ordanalityOrder: 2)] public string Name { get; set; }

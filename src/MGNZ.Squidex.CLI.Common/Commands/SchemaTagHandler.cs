@@ -25,7 +25,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("schema"), Verb("tag")]
-  public class SchemaTagRequest : IRequest
+  public class SchemaTagRequest: BaseRequest
   {
     [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
     [Option("t", "tags", required: true, ordanalityOrder: 2)] public string Tags { get; set; }

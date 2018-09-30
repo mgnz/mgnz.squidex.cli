@@ -23,7 +23,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("asset"), Verb("tag")]
-  public class AssetTagRequest : IRequest
+  public class AssetTagRequest: BaseRequest
   {
     [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
     [Option("t", "tags", required: true, ordanalityOrder: 2)] public string Tags { get; set; }

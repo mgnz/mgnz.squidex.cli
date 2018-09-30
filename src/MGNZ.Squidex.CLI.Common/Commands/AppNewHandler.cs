@@ -23,7 +23,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("app"), Verb("new")]
-  public class AppNewRequest : IRequest
+  public class AppNewRequest: BaseRequest
   {
     [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
     [Option("t", "token")] public string Token { get; set; }

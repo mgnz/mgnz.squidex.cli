@@ -23,7 +23,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("schema"), Verb("list")]
-  public class SchemaListRequest : IRequest
+  public class SchemaListRequest: BaseRequest
   {
     [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }

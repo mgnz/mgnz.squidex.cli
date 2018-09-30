@@ -23,7 +23,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("content"), Verb("delete")]
-  public class ContentDeleteRequest : IRequest
+  public class ContentDeleteRequest: BaseRequest
   {
     [Option("sc", "schema", required: true, ordanalityOrder: 1)] public string Schema { get; set; }
     [Option("id", "id", required: true, ordanalityOrder: 2)] public string Id { get; set; }

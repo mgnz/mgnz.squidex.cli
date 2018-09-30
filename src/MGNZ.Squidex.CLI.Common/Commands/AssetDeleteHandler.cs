@@ -23,7 +23,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   }
 
   [Noun("asset"), Verb("delete")]
-  public class AssetDeleteRequest : IRequest
+  public class AssetDeleteRequest: BaseRequest
   {
     [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
     [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
