@@ -1,13 +1,11 @@
 namespace MGNZ.Squidex.CLI.Tests.CLI
 {
-  using System;
   using System.Collections.Generic;
   using System.Reflection;
 
   using FluentAssertions;
 
   using MGNZ.Squidex.CLI.Common.CLI;
-  using MGNZ.Squidex.CLI.Common.Commands;
   using MGNZ.Squidex.CLI.Tests.Platform;
 
   using Xunit;
