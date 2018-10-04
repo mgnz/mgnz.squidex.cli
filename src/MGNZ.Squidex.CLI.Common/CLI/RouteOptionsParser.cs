@@ -16,11 +16,6 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       _logger = logger;
     }
 
-    public void ParseAndPopulateOptions(ref Noun noun, string args)
-    {
-      ParseAndPopulateOptions(ref noun, args.Split(new[] { ' ' }));
-    }
-
     public void ParseAndPopulateOptions(ref Noun noun, string[ ] args)
     {
       using (LogContext.PushProperty("method", nameof(ParseAndPopulateOptions)))
@@ -92,13 +87,6 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
   public interface IParseRouteOptions
   {
-    /// <summary>
-    /// Gets a Noun with a Verb that has been processed; and populates the necessary Options form the remaining Command Line
-    /// </summary>
-    /// <param name="noun"></param>
-    /// <param name="args"></param>
-    /// <returns></returns>
-    void ParseAndPopulateOptions(ref Noun noun, string args);
     /// <summary>
     /// Gets a Noun with a Verb that has been processed; and populates the necessary Options form the remaining Command Line
     /// </summary>

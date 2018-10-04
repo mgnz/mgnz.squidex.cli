@@ -29,8 +29,8 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
               {
                 { "verb1", new Verb() { Options = new Dictionary<string, Option>()
                     {
-                        { "-a|--option-a", new Option() { ShortName = "a", LongName = "option-a", Required = true, OrdanalityOrder = 1 } },
-                        { "-b|--option-b", new Option() { ShortName = "b", LongName = "option-b", OrdanalityOrder = 0 } }
+                        { "option-a", new Option() { ShortName = "a", LongName = "option-a", Required = true, OrdanalityOrder = 1 } },
+                        { "option-b", new Option() { ShortName = "b", LongName = "option-b", OrdanalityOrder = 0 } }
                     }
                   }
                 }
@@ -44,15 +44,15 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
               {
                 { "verb2", new Verb() { Options = new Dictionary<string, Option>()
                     {
-                      { "-a|--option-a", new Option() { ShortName = "a", LongName = "option-a", Required = true, OrdanalityOrder = 1 } },
-                      { "-b|--option-b", new Option() { ShortName = "b", LongName = "option-b", OrdanalityOrder = 0  } }
+                      { "option-a", new Option() { ShortName = "a", LongName = "option-a", Required = true, OrdanalityOrder = 1 } },
+                      { "option-b", new Option() { ShortName = "b", LongName = "option-b", OrdanalityOrder = 0  } }
                     }
                   }
                 },
                 { "verb3", new Verb() { Options = new Dictionary<string, Option>()
                     {
-                      { "-a|--option-a", new Option() { ShortName = "a", LongName = "option-a", Required = true, OrdanalityOrder = 1 } },
-                      { "-b|--option-b", new Option() { ShortName = "b", LongName = "option-b", OrdanalityOrder = 0  } }
+                      { "option-a", new Option() { ShortName = "a", LongName = "option-a", Required = true, OrdanalityOrder = 1 } },
+                      { "option-b", new Option() { ShortName = "b", LongName = "option-b", OrdanalityOrder = 0  } }
                     }
                   }
                 }

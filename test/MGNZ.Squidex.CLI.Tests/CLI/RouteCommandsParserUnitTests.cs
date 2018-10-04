@@ -1,6 +1,8 @@
 namespace MGNZ.Squidex.CLI.Tests.CLI
 {
+  using System;
   using System.Collections.Generic;
+  using System.Linq;
 
   using FluentAssertions;
 
@@ -98,11 +100,11 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
     [MemberData(nameof(ParseAndPopulateOperation_HappyPath_Data))]
     public void ParseAndPopulateOperation_HappyPath(Noun expectedNounVerbPair, string commandLine)
     {
-      var sut = new RouteCommandsParser(SerilogFixture.UsefullLogger<RouteCommandsParser>(),
-        new Noun[ ] {new AppNoun(), new AssetNoun(), new ContentNoun(), new SchemaNoun()});
+      var preCachedNouns = new Noun[ ] {new AppNoun(), new AssetNoun(), new ContentNoun(), new SchemaNoun()};
 
-      var actualNounVerbPair = new Noun();
-      sut.ParseAndPopulateOperation(out actualNounVerbPair, commandLine);
+      var sut = new RouteCommandsParser(SerilogFixture.UsefullLogger<RouteCommandsParser>());
+
+      var actualNounVerbPair = sut.ParseAndPopulateOperation(preCachedNouns, commandLine.Split(' '));
 
       actualNounVerbPair.Should().BeEquivalentTo(expectedNounVerbPair);
     }

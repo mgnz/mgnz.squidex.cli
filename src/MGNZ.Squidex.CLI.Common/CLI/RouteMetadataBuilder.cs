@@ -47,7 +47,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
           HelpText = currentOptionAttribute.HelpText
         };
 
-        reuslts.Add(currentOption.GetFullNameFormatted, currentOption);
+        reuslts.Add(currentOption.LongName, currentOption);
       }
 
       return reuslts;
@@ -84,7 +84,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       var nounKvps = _attributeReflector.ReflectNouns(assembly);
       foreach (var nounKvp in nounKvps)
       {
-        var currentNounAttribute = nounKvp.Value.Item1;
+        var currentNounAttribute = nounKvp.Value;
 
         var currentNoun = new Noun()
         {

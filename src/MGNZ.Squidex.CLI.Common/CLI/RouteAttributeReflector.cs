@@ -17,9 +17,9 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       _logger = logger;
     }
 
-    public Dictionary<string, Tuple<NounAttribute, Type>> ReflectNouns(Assembly assembly)
+    public Dictionary<string, NounAttribute> ReflectNouns(Assembly assembly)
     {
-      var results = new Dictionary<string, Tuple<NounAttribute, Type>>();
+      var results = new Dictionary<string, NounAttribute>();
 
       using (LogContext.PushProperty("method", nameof(ReflectNouns)))
       using (LogContext.PushProperty("args", assembly))
@@ -31,7 +31,8 @@ namespace MGNZ.Squidex.CLI.Common.CLI
           if (attribute != null)
           {
             var longName = attribute.GetDefaultName;
-            results.Add(longName, new Tuple<NounAttribute, Type>(attribute, type));
+            if(! results.ContainsKey(longName))
+              results.Add(longName, attribute);
           }
         }
 
@@ -50,10 +51,11 @@ namespace MGNZ.Squidex.CLI.Common.CLI
         foreach (var type in types)
         {
           var attributeTypePairs = TypeHasAttributes(type, typeof(VerbAttribute), typeof(NounAttribute)).ToList();
-          if (attributeTypePairs.All(p => p.Item2 == true))
+          if (attributeTypePairs.All(p => p.isApplied == true))
           {
-            var nounAttribute = attributeTypePairs.SingleOrDefault(p => p.Item1 is NounAttribute)?.Item1 as NounAttribute;
-            var verbAttribute = attributeTypePairs.SingleOrDefault(p => p.Item1 is VerbAttribute)?.Item1 as VerbAttribute;
+            var nounAttribute = attributeTypePairs.SingleOrDefault(p => p.attribute is NounAttribute).attribute as NounAttribute;
+            var verbAttribute = attributeTypePairs.SingleOrDefault(p => p.attribute is VerbAttribute).attribute as VerbAttribute;
+
             if(nounAttribute == null || verbAttribute == null) break;
 
             // given an asspcicatedNounName
@@ -77,13 +79,13 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       }
     }
 
-    public IEnumerable<Tuple<Attribute, bool>> TypeHasAttributes(Type type, params Type[ ] attributes)
+    public IEnumerable<(Type candidate, Attribute attribute, bool isApplied)> TypeHasAttributes(Type type, params Type[] attributes)
     {
       foreach (var candidate in attributes)
       {
         var attribute = type.GetCustomAttribute(candidate, inherit: true);
 
-        yield return new Tuple<Attribute, bool>(attribute, attribute != null);
+        yield return (candidate, attribute, attribute != null);
       }
     }
 
@@ -112,7 +114,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
   public interface IReflectRouteAttributes
   {
-    Dictionary<string, Tuple<NounAttribute, Type>> ReflectNouns(Assembly assembly);
+    Dictionary<string, NounAttribute> ReflectNouns(Assembly assembly);
     Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, string nounName = null);
     Dictionary<string, Tuple<OptionAttribute, PropertyInfo>> ReflectOptions(Type type);
   }

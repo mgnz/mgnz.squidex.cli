@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
   using MediatR;
 
+  using MGNZ.Squidex.CLI.Common.Commands;
+
   using Serilog;
   using Serilog.Context;
 
@@ -19,7 +21,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
       _logger = logger;
     }
 
-    public IRequest GetRequestForVerb(Noun noun)
+    public BaseRequest GetRequestForVerb(Noun noun)
     {
       using (LogContext.PushProperty("method", nameof(GetRequestForVerb)))
       using (LogContext.PushProperty("args", noun))
@@ -27,7 +29,7 @@ namespace MGNZ.Squidex.CLI.Common.CLI
         var verbKeyValuePair = noun.Verbs.Single();
         var verb = verbKeyValuePair.Value;
 
-        var instance = (IRequest)Activator.CreateInstance(verb.RequestType);
+        var instance = (BaseRequest)Activator.CreateInstance(verb.RequestType);
 
         var optionValues = verb.Options;
         var optionProperties = GetOptions(verb.RequestType);
@@ -68,6 +70,6 @@ namespace MGNZ.Squidex.CLI.Common.CLI
 
   public interface IBuildRouteRequests
   {
-    IRequest GetRequestForVerb(Noun noun);
+    BaseRequest GetRequestForVerb(Noun noun);
   }
 }

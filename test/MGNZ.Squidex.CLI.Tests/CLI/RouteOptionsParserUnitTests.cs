@@ -152,6 +152,7 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
       }
     };
 
+    // todo : works for strict search when we want interactive-cli router this needs to search for partial matches; and also look for Enrichment(s)
 
     [Theory]
     [MemberData(nameof(ParseAndPopulateOptions_HappyPath_Data))]
@@ -162,7 +163,7 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
 
       var sut = new RouteOptionsParser(SerilogFixture.UsefullLogger<RouteOptionsParser>());
 
-      sut.ParseAndPopulateOptions(ref inputNoun, commandLine);
+      sut.ParseAndPopulateOptions(ref inputNoun, commandLine.Split(' '));
       inputNoun.Should().NotBeNull();
       inputNoun.Verbs.Should().HaveCount(1);
       inputNoun.Verbs.Single().Value.Should().NotBeNull();

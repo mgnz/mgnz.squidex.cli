@@ -19,10 +19,10 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
       // Dictionary<string, Tuple<NounAttribute, Type>>
       new object[ ]
       {
-        new Dictionary<string, Tuple<NounAttribute, Type>> ()
+        new Dictionary<string, NounAttribute> ()
         {
-          {"noun1", new Tuple<NounAttribute, Type>(new NounAttribute("noun1") {}, typeof(ReferenceA))},
-          {"noun2", new Tuple<NounAttribute, Type>(new NounAttribute("noun2") {}, typeof(BaseNounReference1))}
+          {"noun1", new NounAttribute("noun1") {}},
+          {"noun2", new NounAttribute("noun2") {}}
         },
         typeof(BaseVerbReference1).Assembly
       }
@@ -30,7 +30,7 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
 
     [Theory]
     [MemberData(nameof(ReflectNouns_HappyPath_Data))]
-    public void ReflectNouns_HappyPath(Dictionary<string, Tuple<NounAttribute, Type>> expectedResponse, Assembly inputAssembly)
+    public void ReflectNouns_HappyPath(Dictionary<string, NounAttribute> expectedResponse, Assembly inputAssembly)
     {
       var sut = new RouteAttributeReflector(SerilogFixture.UsefullLogger<RouteAttributeReflector>());
       var actualResponse = sut.ReflectNouns(inputAssembly);
@@ -41,7 +41,7 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
       {
         var actual = actualResponse[expected.Key];
 
-        actual.Item1.Should().BeEquivalentTo(expected.Value.Item1);
+        actual.Should().BeEquivalentTo(expected.Value);
       }
     }
 
