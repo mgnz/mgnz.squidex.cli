@@ -22,6 +22,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     }
   }
 
+  [Noun("app"), Verb("login")]
   public class AppLoginRequest: BaseRequest
   {
     [Option("u", "url", required: true, ordanalityOrder: 1)] public string Url { get; set; }
