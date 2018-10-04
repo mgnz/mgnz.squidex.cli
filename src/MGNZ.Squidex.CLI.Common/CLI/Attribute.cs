@@ -49,12 +49,12 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     public Option GetOptionNamed(string name) => Options.SingleOrDefault(option => option.Value.IsNamed(name)).Value;
 
     public Option[ ] GetOrdinalOptions => Options.Values
-      .Where(where => where.OrdanalityOrder.HasValue)
+      .Where(where => where.IsOrdinal == true)
       .OrderBy(order => order.OrdanalityOrder)
       .ToArray();
 
     public Option[] GetParametrizedOptions => Options.Values
-      .Where(where => where.OrdanalityOrder.HasValue == false)
+      .Where(where => where.IsOrdinal == false)
       .ToArray();
   }
 
@@ -133,11 +133,11 @@ namespace MGNZ.Squidex.CLI.Common.CLI
         throw argumentOutOfRange;
       }
 
-      // something something cant have optional null argument on an attribute
+      // something something cant have optional null argument on an attribute; so if we see a zero here we flip it back to null
       // CS0181 C# Attribute constructor parameter has type, which is not a valid attribute parameter type
 
-      if (ordanalityOrder != 0)
-        OrdanalityOrder = ordanalityOrder;
+      if (ordanalityOrder == 0)
+        OrdanalityOrder = null;
     }
   }
 
@@ -174,6 +174,8 @@ namespace MGNZ.Squidex.CLI.Common.CLI
     /// Determines Ordanality and the 
     /// </summary>
     public int? OrdanalityOrder { get; set; }
+
+    public bool IsOrdinal => OrdanalityOrder.HasValue == true;
 
     public string Value { get; set; }
     public bool HasValue => !string.IsNullOrWhiteSpace(Value) && !string.IsNullOrEmpty(Value);
