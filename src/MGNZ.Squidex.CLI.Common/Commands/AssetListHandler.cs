@@ -7,7 +7,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
-  using MGNZ.Squidex.CLI.Common.CLI;
+  using MGNZ.Squidex.CLI.Common.Routing;
 
   using Serilog;
 

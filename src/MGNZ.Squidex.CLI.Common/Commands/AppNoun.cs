@@ -1,10 +1,10 @@
-using System.Linq;
-
 namespace MGNZ.Squidex.CLI.Common.Commands
 {
+  using System.Linq;
+
   using System.Collections.Generic;
 
-  using MGNZ.Squidex.CLI.Common.CLI;
+  using MGNZ.Squidex.CLI.Common.Routing;
 
   public class AppNoun : Noun
   {

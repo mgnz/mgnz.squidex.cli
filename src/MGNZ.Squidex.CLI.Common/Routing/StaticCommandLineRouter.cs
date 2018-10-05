@@ -1,4 +1,4 @@
-namespace MGNZ.Squidex.CLI.Common.CLI
+namespace MGNZ.Squidex.CLI.Common.Routing
 {
   using System;
   using System.Collections.Generic;

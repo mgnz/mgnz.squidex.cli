@@ -1,6 +1,6 @@
-namespace MGNZ.Squidex.CLI.Tests.CLI
+namespace MGNZ.Squidex.CLI.Tests.Routing
 {
-  using MGNZ.Squidex.CLI.Common.CLI;
+  using MGNZ.Squidex.CLI.Common.Routing;
 
   [Noun("noun1")]
   [Verb("verb1")]

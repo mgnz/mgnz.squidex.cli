@@ -2,7 +2,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 {
   using System.Collections.Generic;
 
-  using MGNZ.Squidex.CLI.Common.CLI;
+  using MGNZ.Squidex.CLI.Common.Routing;
 
   public class AssetNoun : Noun
   {

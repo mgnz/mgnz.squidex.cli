@@ -1,9 +1,9 @@
-using MGNZ.Squidex.CLI.Common.CLI;
-
 namespace MGNZ.Squidex.CLI.Common.Commands
 {
   using System.Threading;
   using System.Threading.Tasks;
+
+  using MGNZ.Squidex.CLI.Common.Routing;
 
   using Autofac;
 

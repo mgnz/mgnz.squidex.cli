@@ -1,4 +1,4 @@
-namespace MGNZ.Squidex.CLI.Tests.CLI
+namespace MGNZ.Squidex.CLI.Tests.Routing
 {
   using System.Collections.Generic;
 
@@ -6,7 +6,7 @@ namespace MGNZ.Squidex.CLI.Tests.CLI
 
   using MediatR;
 
-  using MGNZ.Squidex.CLI.Common.CLI;
+  using MGNZ.Squidex.CLI.Common.Routing;
   using MGNZ.Squidex.CLI.Common.Commands;
   using MGNZ.Squidex.CLI.Tests.Platform;
 
