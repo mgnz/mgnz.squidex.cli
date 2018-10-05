@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -20,7 +19,6 @@
     <PackageReference Include="Serilog.Sinks.Seq" Version="4.0.1-dev-00157" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
-    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,7 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-reportgenerator-cli" Version=" 4.0.0-rc6" />
+    <DotNetCliToolReference Include="dotnet-reportgenerator-cli" Version="4.0.0-rc6" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
