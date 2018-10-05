@@ -7,6 +7,7 @@ namespace MGNZ.Squidex.CLI.Tests.Routing
 
   using MGNZ.Squidex.CLI.Common.Routing;
   using MGNZ.Squidex.CLI.Common.Commands;
+  using MGNZ.Squidex.CLI.Tests.Commands;
   using MGNZ.Squidex.CLI.Tests.Platform;
 
   using Xunit;

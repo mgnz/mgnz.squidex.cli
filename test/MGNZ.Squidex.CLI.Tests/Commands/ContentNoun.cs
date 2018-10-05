@@ -1,7 +1,8 @@
-namespace MGNZ.Squidex.CLI.Common.Commands
+namespace MGNZ.Squidex.CLI.Tests.Commands
 {
   using System.Collections.Generic;
 
+  using MGNZ.Squidex.CLI.Common.Commands;
   using MGNZ.Squidex.CLI.Common.Routing;
 
   public class ContentNoun : Noun
