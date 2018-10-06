@@ -100,8 +100,9 @@ namespace MGNZ.Squidex.CLI.Tests.Routing
       var commandParser = new RouteCommandsParser(SerilogFixture.UsefullLogger<RouteCommandsParser>());
       var optionParser = new RouteOptionsParser(SerilogFixture.UsefullLogger<RouteOptionsParser>());
       var routeBuilder = new RouteRequestBuilder(SerilogFixture.UsefullLogger<RouteRequestBuilder>());
+      var routeValidator = new RouteRequestValidator(SerilogFixture.UsefullLogger<RouteRequestValidator>());
 
-      var sut = new StaticCommandLineRouter(SerilogFixture.UsefullLogger<RouteOptionsParser>(), commandParser, optionParser, routeBuilder);
+      var sut = new StaticCommandLineRouter(SerilogFixture.UsefullLogger<RouteOptionsParser>(), commandParser, optionParser, routeBuilder, routeValidator);
 
       var actual = sut.GetOne(cachedNouns.Values, inCommandLine.Split(' '));
 
