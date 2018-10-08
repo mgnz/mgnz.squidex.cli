@@ -6,7 +6,6 @@ namespace MGNZ.Squidex.CLI.Tests.Routing
 
   using MGNZ.Squidex.CLI.Common.Routing;
   using MGNZ.Squidex.CLI.Common.Commands;
-  using MGNZ.Squidex.CLI.Tests.Platform;
 
   using Xunit;
 
@@ -93,16 +92,8 @@ namespace MGNZ.Squidex.CLI.Tests.Routing
     [MemberData(nameof(GetOne_HappyPath_Data))]
     public void GetOne_HappyPath(BaseRequest expected, string inCommandLine)
     {
-      var attributeReflector = new RouteAttributeReflector(SerilogFixture.UsefullLogger<RouteAttributeReflector>());
-      var metadataBuilder = new RouteMetadataBuilder(SerilogFixture.UsefullLogger<RouteMetadataBuilder>(), attributeReflector);
-      var cachedNouns = metadataBuilder.GetMetadata(typeof(RouteCommandsParser).Assembly);
-
-      var commandParser = new RouteCommandsParser(SerilogFixture.UsefullLogger<RouteCommandsParser>());
-      var optionParser = new RouteOptionsParser(SerilogFixture.UsefullLogger<RouteOptionsParser>());
-      var routeBuilder = new RouteRequestBuilder(SerilogFixture.UsefullLogger<RouteRequestBuilder>());
-      var routeValidator = new RouteRequestValidator(SerilogFixture.UsefullLogger<RouteRequestValidator>());
-
-      var sut = new StaticCommandLineRouter(SerilogFixture.UsefullLogger<RouteOptionsParser>(), commandParser, optionParser, routeBuilder, routeValidator);
+      var cachedNouns = new RouteMetadataBuilderFixture().Build().GetMetadata(typeof(RouteCommandsParser).Assembly);
+      var sut = new StaticCommandLineRouterFixture().Build();
 
       var actual = sut.GetOne(cachedNouns.Values, inCommandLine.Split(' '));
 
