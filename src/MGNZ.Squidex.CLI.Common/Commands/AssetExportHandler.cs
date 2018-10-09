@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class AssetExportHandler : BaseHandler<AssetExportRequest>
   {
-    public AssetExportHandler(ILogger logger, IContainer container) : base(logger, container) { }
+    public AssetExportHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(AssetExportRequest request, CancellationToken cancellationToken)

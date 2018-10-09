@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class ContentImportHandler : BaseHandler<ContentImportRequest>
   {
-    public ContentImportHandler(ILogger logger, IContainer container) : base(logger, container) { }
+    public ContentImportHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
     /// <inheritdoc />
     public override async Task<Unit> Handle(ContentImportRequest request, CancellationToken cancellationToken)
     {

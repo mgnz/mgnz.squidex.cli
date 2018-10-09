@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class SchemaExportHandler : BaseHandler<SchemaExportRequest>
   {
-    public SchemaExportHandler(ILogger logger, IContainer container) : base(logger, container) { }
+    public SchemaExportHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(SchemaExportRequest request, CancellationToken cancellationToken)

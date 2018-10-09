@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class AppNewHandler : BaseHandler<AppNewRequest>
   {
-    public AppNewHandler(ILogger logger, IContainer container) : base(logger, container) { }
+    public AppNewHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(AppNewRequest request, CancellationToken cancellationToken)

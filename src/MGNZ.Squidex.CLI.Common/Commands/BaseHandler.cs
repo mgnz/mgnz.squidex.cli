@@ -13,14 +13,16 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   public class BaseHandler<TRequest>: IRequestHandler<TRequest>
     where TRequest: IRequest
   {
-    public BaseHandler(ILogger logger, IContainer container)
+    public BaseHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container)
     {
       Logger = logger;
+      ClientFactory = clientFactory;
       Container = container;
     }
 
-    protected ILogger Logger { get; }
-    protected IContainer Container { get; }
+    protected ILogger Logger { get; private set; }
+    public IClientProxyFactory ClientFactory { get; private set; }
+    protected IContainer Container { get; private set; }
 
     /// <inheritdoc />
     public virtual Task<Unit> Handle(TRequest request, CancellationToken cancellationToken)

@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class SchemaListHandler : BaseHandler<SchemaListRequest>
   {
-    public SchemaListHandler(ILogger logger, IContainer container) : base(logger, container) { }
+    public SchemaListHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(SchemaListRequest request, CancellationToken cancellationToken)

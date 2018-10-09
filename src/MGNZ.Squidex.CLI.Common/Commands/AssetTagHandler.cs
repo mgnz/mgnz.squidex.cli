@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class AssetTagHandler : BaseHandler<AssetTagRequest>
   {
-    public AssetTagHandler(ILogger logger, IContainer container) : base(logger, container) { }
+    public AssetTagHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(AssetTagRequest request, CancellationToken cancellationToken)

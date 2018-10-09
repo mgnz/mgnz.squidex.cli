@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class AppListHandler : BaseHandler<AppListRequest>
   {
-    public AppListHandler(ILogger logger, IContainer container) : base(logger, container) { }
+    public AppListHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(AppListRequest request, CancellationToken cancellationToken)

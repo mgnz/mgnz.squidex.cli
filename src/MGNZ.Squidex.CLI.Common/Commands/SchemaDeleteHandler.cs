@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class SchemaDeleteHandler : BaseHandler<SchemaDeleteRequest>
   {
-    public SchemaDeleteHandler(ILogger logger, IContainer container) : base(logger, container) { }
+    public SchemaDeleteHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(SchemaDeleteRequest request, CancellationToken cancellationToken)

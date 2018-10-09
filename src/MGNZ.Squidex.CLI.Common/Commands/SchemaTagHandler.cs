@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class SchemaTagHandler : BaseHandler<SchemaTagRequest>
   {
-    public SchemaTagHandler(ILogger logger, IContainer container) : base(logger, container)
+    public SchemaTagHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container)
     {
     }
 

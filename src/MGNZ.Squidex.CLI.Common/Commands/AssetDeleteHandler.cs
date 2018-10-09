@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class AssetDeleteHandler : BaseHandler<AssetDeleteRequest>
   {
-    public AssetDeleteHandler(ILogger logger, IContainer container) : base(logger, container) { }
+    public AssetDeleteHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(AssetDeleteRequest request, CancellationToken cancellationToken)

@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class AppDeleteHandler : BaseHandler<AppDeleteRequest>
   {
-    public AppDeleteHandler(ILogger logger, IContainer container) : base(logger, container) { }
+    public AppDeleteHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(AppDeleteRequest request, CancellationToken cancellationToken)
