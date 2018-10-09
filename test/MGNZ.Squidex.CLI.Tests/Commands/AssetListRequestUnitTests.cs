@@ -10,7 +10,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   using Xunit;
 
-  [Trait("category", "working")]
+  [Trait("category", "unit")]
   public class AssetListRequestUnitTests
   {
     // [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }

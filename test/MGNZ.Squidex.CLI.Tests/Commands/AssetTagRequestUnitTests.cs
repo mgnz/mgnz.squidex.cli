@@ -10,7 +10,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   using Xunit;
 
-  [Trait("category", "working")]
+  [Trait("category", "unit")]
   public class AssetTagRequestUnitTests
   {
     // [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }

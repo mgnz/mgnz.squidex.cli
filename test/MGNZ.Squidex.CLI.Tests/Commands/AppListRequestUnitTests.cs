@@ -10,7 +10,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   using Xunit;
 
-  [Trait("category", "working")]
+  [Trait("category", "unit")]
   public class AppListRequestUnitTests
   {
     // [Option("t", "token", required: true, ordanalityOrder: 1)] public string Token { get; set; }

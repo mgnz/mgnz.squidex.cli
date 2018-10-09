@@ -4,7 +4,7 @@ namespace MGNZ.Squidex.CLI.Tests.Routing
 
   using Xunit;
 
-  [Trait("category", "working")]
+  [Trait("category", "unit")]
   public class RouteRequestValidatorUnitTests
   {
     public static List<object[ ]> Validate_HappyPath_Data => new List<object[ ]>

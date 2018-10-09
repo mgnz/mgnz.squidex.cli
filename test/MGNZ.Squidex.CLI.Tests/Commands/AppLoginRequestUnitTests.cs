@@ -10,7 +10,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   using Xunit;
 
-  [Trait("category", "working")]
+  [Trait("category", "unit")]
   public class AppLoginRequestUnitTests
   {
     // [Option("u", "url", required: true, ordanalityOrder: 1)] public string Url { get; set; }
