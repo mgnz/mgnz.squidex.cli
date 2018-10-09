@@ -25,7 +25,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     /// <inheritdoc />
     public virtual Task<Unit> Handle(TRequest request, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      return Task.FromResult(new Unit());
     }
   }
 }
