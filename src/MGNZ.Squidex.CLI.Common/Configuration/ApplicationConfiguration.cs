@@ -4,6 +4,6 @@ namespace MGNZ.Squidex.CLI.Common.Configuration
 
   public class ApplicationConfiguration
   {
-    public Dictionary<string, Credentials> NamedCredentials { get; set; }
+    public Dictionary<string, Credentials> AliasCredentials { get; set; }
   }
 }
