@@ -13,8 +13,9 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   [Trait("category", "unit")]
   public class ContentDeleteRequestUnitTests
   {
-    // [Option("sc", "schema", required: true, ordanalityOrder: 1)] public string Schema { get; set; }
-    // [Option("id", "id", required: true, ordanalityOrder: 2)] public string Id { get; set; }
+    // [Option("app", "application", required: true, ordanalityOrder: 1)] public string Application { get; set; }
+    // [Option("sc", "schema", required: true, ordanalityOrder: 2)] public string Schema { get; set; }
+    // [Option("id", "id", required: true, ordanalityOrder: 3)] public string Id { get; set; }
     // [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
 
     public static List<object[]> StaticRouter_Verify_SimpleMap_HappyPath_Data => new List<object[]>
@@ -24,24 +25,26 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
         // expected
         new ContentDeleteRequest
         {
+          Application = "application:application",
           Schema = "schema:schema",
           Id = "id:id",
           AliasCredentials = "aliascredentials:aliascredentials"
         },
         // input : command line
-        "content delete schema:schema id:id -c aliascredentials:aliascredentials"
+        "content delete application:application schema:schema id:id -c aliascredentials:aliascredentials"
       },
       new object[ ]
       {
         // expected
         new ContentDeleteRequest
         {
+          Application = "application:application",
           Schema = "schema:schema",
           Id = "id:id",
           AliasCredentials = "aliascredentials:aliascredentials"
         },
         // input : command line
-        "delete content schema:schema id:id -c aliascredentials:aliascredentials"
+        "delete content application:application schema:schema id:id -c aliascredentials:aliascredentials"
       }
     };
 

@@ -13,8 +13,9 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   [Trait("category", "unit")]
   public class ContentImportRequestUnitTests
   {
-    // [Option("sc", "schema", required: true, ordanalityOrder: 1)] public string Schema { get; set; }
-    // [Option("p", "path", required: true, ordanalityOrder: 2)] public string Path { get; set; }
+    // [Option("app", "application", required: true, ordanalityOrder: 1)] public string Application { get; set; }
+    // [Option("sc", "schema", required: true, ordanalityOrder: 2)] public string Schema { get; set; }
+    // [Option("p", "path", required: true, ordanalityOrder: 3)] public string Path { get; set; }
     // [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
 
     public static List<object[]> StaticRouter_Verify_SimpleMap_HappyPath_Data => new List<object[]>
@@ -24,24 +25,26 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
         // expected
         new ContentImportRequest
         {
+          Application = "application:application",
           Schema = "schema:schema",
           Path = "path:path",
           AliasCredentials = "aliascredentials:aliascredentials"
         },
         // input : command line
-        "content import schema:schema path:path -c aliascredentials:aliascredentials"
+        "content import application:application schema:schema path:path -c aliascredentials:aliascredentials"
       },
       new object[ ]
       {
         // expected
         new ContentImportRequest
         {
+          Application = "application:application",
           Schema = "schema:schema",
           Path = "path:path",
           AliasCredentials = "aliascredentials:aliascredentials"
         },
         // input : command line
-        "import content schema:schema path:path --alias-credentials aliascredentials:aliascredentials"
+        "import content application:application schema:schema path:path --alias-credentials aliascredentials:aliascredentials"
       }
     };
 

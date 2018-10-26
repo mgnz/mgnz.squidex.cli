@@ -49,7 +49,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   [Noun("content"), Verb("export")]
   public class ContentExportRequest: BaseRequest
   {
-    [Option("a", "application", required: true, ordanalityOrder: 1)] public string Application { get; set; }
+    [Option("app", "application", required: true, ordanalityOrder: 1)] public string Application { get; set; }
     [Option("sc", "schema", required: true, ordanalityOrder: 2)] public string Schema { get; set; }
     [Option("p", "path", required: true, ordanalityOrder: 3)] public string Path { get; set; }
     [Option("a", "all")] public string All { get; set; }

@@ -13,8 +13,9 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   [Trait("category", "unit")]
   public class ContentExportRequestUnitTests
   {
-    // [Option("sc", "schema", required: true, ordanalityOrder: 1)] public string Schema { get; set; }
-    // [Option("p", "path", required: true, ordanalityOrder: 2)] public string Path { get; set; }
+    // [Option("app", "application", required: true, ordanalityOrder: 1)] public string Application { get; set; }
+    // [Option("sc", "schema", required: true, ordanalityOrder: 2)] public string Schema { get; set; }
+    // [Option("p", "path", required: true, ordanalityOrder: 3)] public string Path { get; set; }
     // [Option("a", "all")] public string All { get; set; }
     // [Option("t", "top")] public string Top { get; set; }
     // [Option("s", "skip")] public string Skip { get; set; }
@@ -30,6 +31,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
         // expected
         new ContentExportRequest
         {
+          Application = "application:application",
           Schema = "schema:schema",
           Path = "path:path",
           All = "all:all",
@@ -41,13 +43,14 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
           AliasCredentials = "aliascredentials:aliascredentials"
         },
         // input : command line
-        "content export schema:schema path:path -a all:all -t top:top -s skip:skip -ob orderby:orderby -qb queryby:queryby -fb filterby:filterby -c aliascredentials:aliascredentials"
+        "content export application:application schema:schema path:path -a all:all -t top:top -s skip:skip -ob orderby:orderby -qb queryby:queryby -fb filterby:filterby -c aliascredentials:aliascredentials"
       },
       new object[ ]
       {
         // expected
         new ContentExportRequest
         {
+          Application = "application:application",
           Schema = "schema:schema",
           Path = "path:path",
           All = "all:all",
@@ -59,7 +62,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
           AliasCredentials = "aliascredentials:aliascredentials"
         },
         // input : command line
-        "export content schema:schema path:path --all all:all --top top:top --skip skip:skip --order-by orderby:orderby --query-by queryby:queryby --filter-by filterby:filterby --alias-credentials aliascredentials:aliascredentials"
+        "export content application:application schema:schema path:path --all all:all --top top:top --skip skip:skip --order-by orderby:orderby --query-by queryby:queryby --filter-by filterby:filterby --alias-credentials aliascredentials:aliascredentials"
       }
     };
 

@@ -30,7 +30,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   [Noun("content"), Verb("delete")]
   public class ContentDeleteRequest: BaseRequest
   {
-    [Option("a", "application", required: true, ordanalityOrder: 1)] public string Application { get; set; }
+    [Option("app", "application", required: true, ordanalityOrder: 1)] public string Application { get; set; }
     [Option("sc", "schema", required: true, ordanalityOrder: 2)] public string Schema { get; set; }
     [Option("id", "id", required: true, ordanalityOrder: 2)] public string Id { get; set; }
     [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
