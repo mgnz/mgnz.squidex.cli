@@ -7,6 +7,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.Client;
   using MGNZ.Squidex.CLI.Common.Routing;
 
   using Serilog;
@@ -18,14 +19,19 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     /// <inheritdoc />
     public override async Task<Unit> Handle(ContentDeleteRequest request, CancellationToken cancellationToken)
     {
-      return await base.Handle(request, cancellationToken);
+      var proxy = ClientFactory.GetClientProxy<ISquidexContentClient>(request.AliasCredentials);
+
+      await proxy.Delete(request.Application, request.Schema, request.Id);
+
+      return Unit.Value;
     }
   }
 
   [Noun("content"), Verb("delete")]
   public class ContentDeleteRequest: BaseRequest
   {
-    [Option("sc", "schema", required: true, ordanalityOrder: 1)] public string Schema { get; set; }
+    [Option("a", "application", required: true, ordanalityOrder: 1)] public string Application { get; set; }
+    [Option("sc", "schema", required: true, ordanalityOrder: 2)] public string Schema { get; set; }
     [Option("id", "id", required: true, ordanalityOrder: 2)] public string Id { get; set; }
     [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }
