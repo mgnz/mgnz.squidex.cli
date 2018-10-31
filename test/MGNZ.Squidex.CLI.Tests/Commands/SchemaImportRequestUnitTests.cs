@@ -45,7 +45,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       }
     };
 
-    [Theory]
+    [Theory(Skip = "in progress")]
     [MemberData(nameof(StaticRouter_Verify_SimpleMap_HappyPath_Data))]
     public void StaticRouter_Verify_SimpleMap_HappyPath(SchemaImportRequest expected, string inCommandLine)
     {
