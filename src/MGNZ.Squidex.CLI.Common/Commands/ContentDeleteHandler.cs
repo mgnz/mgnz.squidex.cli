@@ -14,7 +14,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class ContentDeleteHandler : BaseHandler<ContentDeleteRequest>
   {
-    public ContentDeleteHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
+    public ContentDeleteHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container)
+      : base(logger, clientFactory, container) { }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(ContentDeleteRequest request, CancellationToken cancellationToken)

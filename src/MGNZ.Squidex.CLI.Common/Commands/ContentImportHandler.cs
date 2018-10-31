@@ -17,10 +17,10 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   {
     private IFileHandler _fileHandler = null;
 
-    public ContentImportHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container)
+    public ContentImportHandler(ILogger logger, IClientProxyFactory clientFactory, IFileHandler fileHandler, IContainer container)
       : base(logger, clientFactory, container)
     {
-      this._fileHandler = Container.Resolve<IFileHandler>();
+      this._fileHandler = fileHandler;
     }
     /// <inheritdoc />
     public override async Task<Unit> Handle(ContentImportRequest request, CancellationToken cancellationToken)

@@ -1,7 +1,6 @@
 namespace MGNZ.Squidex.CLI.Common.Commands
 {
   using System;
-  using System.Linq;
   using System.Threading;
   using System.Threading.Tasks;
 
@@ -20,10 +19,10 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   {
     private IFileHandler _fileHandler = null;
 
-    public ContentExportHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container)
+    public ContentExportHandler(ILogger logger, IClientProxyFactory clientFactory, IFileHandler fileHandler, IContainer container)
       : base(logger, clientFactory, container)
     {
-      this._fileHandler = Container.Resolve<IFileHandler>();
+      this._fileHandler = fileHandler;
     }
 
     /// <inheritdoc />
