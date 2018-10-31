@@ -209,3 +209,4 @@ project.lock.json
 
 coverage.xml
 coverage.json
+/test/MGNZ.Squidex.CLI.Tests/testsettings.aut.json
