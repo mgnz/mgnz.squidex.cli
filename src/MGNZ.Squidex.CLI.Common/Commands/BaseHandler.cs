@@ -29,5 +29,29 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     {
       return Task.FromResult(new Unit());
     }
+
+    protected void ThrowSchemaPublishCreateFailure(dynamic publishResult)
+    {
+
+    }
+
+    protected void ThrowSchemaCreateFailure(dynamic createResult)
+    {
+
+    }
+
+    protected void ThrowSchemaDeleteFailure(dynamic deleteResult)
+    {
+    }
+
+    protected void ThrowSchemaGetFailure(object outputFileContent)
+    {
+
+    }
+
+    protected async Task<bool> SchemaExists(string application, string name)
+    {
+      return true;
+    }
   }
 }
