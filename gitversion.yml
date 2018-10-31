@@ -14,7 +14,6 @@ build-metadata-padding: 4
 commits-since-version-source-padding: 4
 commit-message-incrementing: Enabled
 
-
 branches:
   master:
     regex: master
