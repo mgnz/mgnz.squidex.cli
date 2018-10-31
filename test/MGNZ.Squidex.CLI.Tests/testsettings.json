@@ -1,0 +1,16 @@
+{
+  "AliasCredentials": {
+    "aut-developer": {
+      "BaseAddress": "http://playpen.cms.mad.geek.nz:80",
+      "App": "aut",
+      "ClientId": "mgnz-aut-testclient",
+      "ClientSecret": "V3DJ6r8UJgulQIx0nMDWxIhGInBp7bx2DI/QvIkyUnQ="
+    },
+    "aut-editor": {
+      "BaseAddress": "http://playpen.cms.mad.geek.nz:80",
+      "App": "aut",
+      "ClientId": "mgnz-aut-testeditor",
+      "ClientSecret": "rRLoIyQbFo8btOfxiI2kn5LjN7aObqyeSHhnvPiIxoU="
+    }
+  }
+}
