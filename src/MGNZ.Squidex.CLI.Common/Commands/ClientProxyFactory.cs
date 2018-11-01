@@ -75,6 +75,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     private TProxy CreateProxy<TProxy>(string aliasCredentials, Uri baseAddress)
       where TProxy : class
     {
+      // todo : https://github.com/mgnz/mgnz.squidex.cli/issues/27
+
       return RestService.For<TProxy>(
         new HttpClient(
           new SimpleAccessTokenHttpClientHandler(
