@@ -1,5 +1,6 @@
 namespace MGNZ.Squidex.CLI.Common.Commands
 {
+  using System;
   using System.Threading;
   using System.Threading.Tasks;
 
@@ -31,15 +32,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
       if (await SchemaExists(request.Application, request.Name))
       {
-        var deleteResult = await proxy.DeleteSchema(request.Application, request.Name);
-        ThrowSchemaDeleteFailure(deleteResult);
+        await proxy.DeleteSchema(request.Application, request.Name);
       }
 
-      var createResult = await proxy.CreateSchema(request.Application, inputFileContent);
-      ThrowSchemaCreateFailure(createResult);
-
-      var publishResult = await proxy.PublishSchema(request.Application, request.Name);
-      ThrowSchemaPublishCreateFailure(publishResult);
+      await proxy.CreateSchema(request.Application, inputFileContent);
+      await proxy.PublishSchema(request.Application, request.Name);
 
       return Unit.Value;
     }
