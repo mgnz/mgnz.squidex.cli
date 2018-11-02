@@ -1,6 +1,11 @@
+using System;
+using System.Collections.Generic;
+using MGNZ.Squidex.Client.Transport;
+using Newtonsoft.Json;
+
 namespace MGNZ.Squidex.CLI.Common.Commands
 {
-  using System;
+  using System.Linq;
   using System.Threading;
   using System.Threading.Tasks;
 
@@ -28,14 +33,17 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     public override async Task<Unit> Handle(SchemaImportRequest request, CancellationToken cancellationToken)
     {
       var proxy = ClientFactory.GetClientProxy<ISquidexAppSchemaClient>(request.AliasCredentials);
-      dynamic inputFileContent = _fileHandler.ReadFile(request.Path);
+      var fileContent = await FileEx.ReadAllTextAsync(request.Path);
+      var schema = JsonConvert.DeserializeObject<dynamic>(fileContent);
 
-      if (await SchemaExists(request.Application, request.Name))
+      if (await proxy.SchemaExists(request.Application, request.Name))
       {
         await proxy.DeleteSchema(request.Application, request.Name);
       }
 
-      await proxy.CreateSchema(request.Application, inputFileContent);
+      schema.name = request.Name;
+
+      await proxy.CreateSchema(request.Application, schema);
       await proxy.PublishSchema(request.Application, request.Name);
 
       return Unit.Value;
