@@ -32,6 +32,11 @@ namespace MGNZ.Squidex.CLI.Tests
     public Lazy<dynamic> Schema1Data1Query => this._schema1data1query.Value;
     public Lazy<dynamic> Schema1Data1Post => this._schema1data1post.Value;
 
+    public static string Schema1Path { get { return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets", "schema1.json"); } }
+    public static string Schema1DataQueryPath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets", "schema1.data.query.json");
+    public static string Schema1Data1QueryPath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets", "schema1.data.1.query.json");
+    public static string Schema1Data1PostPath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets", "schema1.data.1.post.json");
+
     public dynamic LoadAsset(string path) => JsonConvert.DeserializeObject(this.StreamToString(this.GetManifestResourceStream(path)));
 
     private Stream GetManifestResourceStream(string fullyQualifiedNamespace) => this.GetManifestResourceStream(typeof(AssetLoader).GetTypeInfo().Assembly, fullyQualifiedNamespace);
