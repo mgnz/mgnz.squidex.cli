@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using MGNZ.Squidex.Client.Transport;
-using Newtonsoft.Json;
-
 namespace MGNZ.Squidex.CLI.Common.Commands
 {
   using System.Linq;
@@ -16,6 +11,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   using MGNZ.Squidex.Client;
   using MGNZ.Squidex.CLI.Common.Platform;
   using MGNZ.Squidex.CLI.Common.Routing;
+
+  using Newtonsoft.Json;
 
   using Serilog;
 
