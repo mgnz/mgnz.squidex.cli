@@ -18,9 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="testsettings.aut.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="testsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
