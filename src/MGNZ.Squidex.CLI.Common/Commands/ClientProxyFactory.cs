@@ -54,7 +54,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
         // todo : creating client and storing
 
         var newEndpointClient = CreateProxy<TProxy>(aliasCredentials, settings.baseAddress);
-        endpointClients.Add(newEndpointClient.GetType(), newEndpointClient);
+        endpointClients[newEndpointClient.GetType()] = newEndpointClient;
 
         return newEndpointClient;
       }
