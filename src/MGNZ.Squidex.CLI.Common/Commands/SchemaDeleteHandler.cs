@@ -27,8 +27,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
       if (await SchemaExists(request.Application, request.Name))
       {
-        var deleteResult = await proxy.DeleteSchema(request.Application, request.Name);
-        ThrowSchemaDeleteFailure(deleteResult);
+        await proxy.DeleteSchema(request.Application, request.Name);
+      }
+      else
+      {
+        // todo : log and throw not found
       }
 
       return Unit.Value;

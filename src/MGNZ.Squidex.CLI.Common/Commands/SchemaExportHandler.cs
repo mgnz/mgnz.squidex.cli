@@ -13,6 +13,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   using MGNZ.Squidex.CLI.Common.Platform;
   using MGNZ.Squidex.CLI.Common.Routing;
 
+  using Newtonsoft.Json;
+
   using Serilog;
 
   public class SchemaExportHandler : BaseHandler<SchemaExportRequest>
@@ -32,10 +34,14 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
       if (await SchemaExists(request.Application, request.Name))
       {
-        var outputFileContent = await proxy.GetSchema(request.Application, request.Name);
-        ThrowSchemaGetFailure(outputFileContent);
+        var data = await proxy.GetSchema(request.Application, request.Name);
 
-        await _fileHandler.WriteFile(request.Path, outputFileContent);
+        var json = JsonConvert.SerializeObject(data, Formatting.Indented);
+        await FileEx.WriteAllTextAsync(request.Path, json);
+      }
+      else
+      {
+        // todo : log and throw not found
       }
 
       return Unit.Value;
