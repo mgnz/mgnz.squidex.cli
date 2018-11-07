@@ -19,12 +19,12 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class SchemaExportHandler : BaseHandler<SchemaExportRequest>
   {
-    private readonly IFileHandler _fileHandler;
+    private readonly IConsoleWriter _consoleWriter;
 
-    public SchemaExportHandler(ILogger logger, IClientProxyFactory clientFactory, IFileHandler fileHandler, IContainer container)
+    public SchemaExportHandler(ILogger logger, IClientProxyFactory clientFactory, IConsoleWriter consoleWriter, IContainer container)
       : base(logger, clientFactory, container)
     {
-      _fileHandler = fileHandler;
+      _consoleWriter = consoleWriter;
     }
 
     /// <inheritdoc />

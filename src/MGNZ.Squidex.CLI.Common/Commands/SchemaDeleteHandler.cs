@@ -8,16 +8,19 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   using MediatR;
 
   using MGNZ.Squidex.Client;
+  using MGNZ.Squidex.CLI.Common.Platform;
   using MGNZ.Squidex.CLI.Common.Routing;
 
   using Serilog;
 
   public class SchemaDeleteHandler : BaseHandler<SchemaDeleteRequest>
   {
-    public SchemaDeleteHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container)
+    private readonly IConsoleWriter _consoleWriter;
+
+    public SchemaDeleteHandler(ILogger logger, IClientProxyFactory clientFactory, IConsoleWriter consoleWriter, IContainer container)
       : base(logger, clientFactory, container)
     {
-
+      _consoleWriter = consoleWriter;
     }
 
     /// <inheritdoc />

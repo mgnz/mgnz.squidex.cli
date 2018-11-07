@@ -18,12 +18,12 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class SchemaImportHandler : BaseHandler<SchemaImportRequest>
   {
-    private readonly IFileHandler _fileHandler;
+    private readonly IConsoleWriter _consoleWriter;
 
-    public SchemaImportHandler(ILogger logger, IClientProxyFactory clientFactory, IFileHandler fileHandler, IContainer container) 
+    public SchemaImportHandler(ILogger logger, IClientProxyFactory clientFactory, IConsoleWriter consoleWriter, IContainer container) 
       : base(logger, clientFactory, container)
     {
-      _fileHandler = fileHandler;
+      _consoleWriter = consoleWriter;
     }
 
     /// <inheritdoc />
