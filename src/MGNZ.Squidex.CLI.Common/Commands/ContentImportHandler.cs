@@ -8,8 +8,11 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   using MediatR;
 
   using MGNZ.Squidex.Client;
+  using MGNZ.Squidex.Client.Transport;
   using MGNZ.Squidex.CLI.Common.Platform;
   using MGNZ.Squidex.CLI.Common.Routing;
+
+  using Newtonsoft.Json;
 
   using Serilog;
 
@@ -26,9 +29,10 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     public override async Task<Unit> Handle(ContentImportRequest request, CancellationToken cancellationToken)
     {
       var proxy = ClientFactory.GetClientProxy<ISquidexContentClient>(request.AliasCredentials);
-      dynamic inputFileContent = _fileHandler.ReadFile(request.Path);
-
-      foreach (var itemContent in inputFileContent.items)
+      var json = await FileEx.ReadAllTextAsync(request.Path);
+      var inputFileContent = JsonConvert.DeserializeObject<QueryResponse<dynamic>>(json);
+      
+      foreach (dynamic itemContent in inputFileContent.Items)
       {
         var data = itemContent.data;
 

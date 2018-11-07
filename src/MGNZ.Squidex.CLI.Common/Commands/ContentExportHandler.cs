@@ -13,6 +13,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   using MGNZ.Squidex.CLI.Common.Platform;
   using MGNZ.Squidex.CLI.Common.Routing;
 
+  using Newtonsoft.Json;
+
   using Serilog;
 
   public class ContentExportHandler : BaseHandler<ContentExportRequest>
@@ -39,7 +41,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
         Top = Convert.ToInt32(request.Top)
       });
 
-      await _fileHandler.WriteFile(request.Path, outputFileContent);
+      var json = JsonConvert.SerializeObject(outputFileContent, Formatting.Indented);
+      await FileEx.WriteAllTextAsync(request.Path, json);
 
       return Unit.Value;
     }
