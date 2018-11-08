@@ -56,39 +56,46 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [Fact]
     public async Task SchemaImport_Execute_EndToEnd()
     {
+      var schemaName = $"{nameof(SchemaHandlersIntegrationTest)}_{nameof(SchemaImport_Execute_EndToEnd)}".Replace("_", string.Empty);
+
       await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
 
-      await ImportSchemaStory(_schemaImportHandler);
-      await _checker.AssertSchemaMustExist("aut", "test-schema-1", delay: TimeSpan.FromSeconds(0.5));
+      await ImportSchemaStory(_schemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await _checker.AssertSchemaMustExist("aut", schemaName, delay: TimeSpan.FromSeconds(0.5));
 
-      await DeleteSchemaStory(_schemaDeleteHandler);
+      await DeleteSchemaStory(_schemaDeleteHandler, "aut", schemaName);
       await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
     [Fact]
     public async Task SchemaExport_Execute_EndToEnd()
     {
-      await _checker.AssertNoSchemasExist("aut");
-      await ImportSchemaStory(_schemaImportHandler);
+      var schemaName = $"{nameof(SchemaHandlersIntegrationTest)}_{nameof(SchemaExport_Execute_EndToEnd)}";
+      var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(SchemaExport_Execute_EndToEnd)}-out.json");
 
-      await ExportSchemaStory(_schemaExportHandler);
-      var exportedFileExists = File.Exists(Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(SchemaExport_Execute_EndToEnd)}-out.json"));
+      await _checker.AssertNoSchemasExist("aut");
+      await ImportSchemaStory(_schemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+
+      await ExportSchemaStory(_schemaExportHandler, "aut", schemaName, exportPath);
+      var exportedFileExists = File.Exists(exportPath);
       exportedFileExists.Should().BeTrue($"{nameof(SchemaExportRequest)} failed to export file");
 
       // todo validate export file
 
-      await DeleteSchemaStory(_schemaDeleteHandler);
+      await DeleteSchemaStory(_schemaDeleteHandler, "aut", schemaName);
       await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
     [Fact]
     public async Task SchemaDelete_Execute_EndToEnd()
     {
-      await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
-      await ImportSchemaStory(_schemaImportHandler);
+      var schemaName = $"{nameof(SchemaHandlersIntegrationTest)}_{nameof(SchemaDelete_Execute_EndToEnd)}";
 
-      await DeleteSchemaStory(_schemaDeleteHandler);
-      await _checker.AssertSchemaMustNotExist("aut", "test-schema-1", delay: TimeSpan.FromSeconds(5));
+      await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await ImportSchemaStory(_schemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+
+      await DeleteSchemaStory(_schemaDeleteHandler, "aut", schemaName);
+      await _checker.AssertSchemaMustNotExist("aut", schemaName, delay: TimeSpan.FromSeconds(5));
 
       await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
@@ -103,35 +110,35 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     {
     }
 
-    private async Task<Unit> DeleteSchemaStory(SchemaDeleteHandler schemaDeleteHandler)
+    private async Task<Unit> DeleteSchemaStory(SchemaDeleteHandler schemaDeleteHandler, string application, string name)
     {
       return await schemaDeleteHandler.Handle(new SchemaDeleteRequest()
       {
         AliasCredentials = "aut-developer",
-        Application = "aut",
-        Name = "test-schema-1"
+        Application = application,
+        Name = name,
       }, CancellationToken.None);
     }
 
-    private async Task<Unit> ExportSchemaStory(SchemaExportHandler schemaExportHandler)
+    private async Task<Unit> ExportSchemaStory(SchemaExportHandler schemaExportHandler, string application, string name, string path)
     {
       return await schemaExportHandler.Handle(new SchemaExportRequest()
       {
         AliasCredentials = "aut-developer",
-        Application = "aut",
-        Name = "test-schema-1",
-        Path = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)}-out.json")
+        Application = application,
+        Name = name,
+        Path = path,
       }, CancellationToken.None);
     }
 
-    private async Task<Unit> ImportSchemaStory(SchemaImportHandler schemaImportHandler)
+    private async Task<Unit> ImportSchemaStory(SchemaImportHandler schemaImportHandler, string application, string name, string path)
     {
       return await schemaImportHandler.Handle(new SchemaImportRequest()
       {
         AliasCredentials = "aut-developer",
-        Application = "aut",
-        Name = "test-schema-1",
-        Path = AssetLoader.Schema1Path
+        Application = application,
+        Name = name,
+        Path = path
       }, CancellationToken.None);
     }
   }
