@@ -1,7 +1,5 @@
 namespace MGNZ.Squidex.CLI.Common.Platform
 {
-  using System;
-
   using Serilog;
 
   public class ConsoleWriter : IConsoleWriter
@@ -15,15 +13,11 @@ namespace MGNZ.Squidex.CLI.Common.Platform
     public void WriteLine(string messageTemplate, params object[] propertyValues)
     {
       _logger.Verbose(messageTemplate, propertyValues);
-
-      Console.WriteLine(messageTemplate, propertyValues);
     }
 
     public void WriteLine(string message)
     {
       _logger.Verbose(message);
-
-      Console.WriteLine(message);
     }
   }
 
