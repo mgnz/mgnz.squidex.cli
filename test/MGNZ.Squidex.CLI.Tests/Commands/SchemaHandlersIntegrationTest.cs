@@ -1,3 +1,6 @@
+using System.Linq;
+using Bogus;
+
 namespace MGNZ.Squidex.CLI.Tests.Commands
 {
   using System;
@@ -53,10 +56,12 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       _checker = clientFactory.GetClientProxy<ISquidexAppSchemaClient>("aut-developer");
     }
 
+    private string GetSchemaName =>  new Faker().Random.AlphaNumeric(40).ToLower();
+
     [Fact]
     public async Task SchemaImport_Execute_EndToEnd()
     {
-      var schemaName = $"{nameof(SchemaHandlersIntegrationTest)}_{nameof(SchemaImport_Execute_EndToEnd)}".Replace("_", string.Empty);
+      var schemaName = GetSchemaName;
 
       await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
 
@@ -70,7 +75,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [Fact]
     public async Task SchemaExport_Execute_EndToEnd()
     {
-      var schemaName = $"{nameof(SchemaHandlersIntegrationTest)}_{nameof(SchemaExport_Execute_EndToEnd)}";
+      var schemaName = GetSchemaName;
       var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(SchemaExport_Execute_EndToEnd)}-out.json");
 
       await _checker.AssertNoSchemasExist("aut");
@@ -89,7 +94,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [Fact]
     public async Task SchemaDelete_Execute_EndToEnd()
     {
-      var schemaName = $"{nameof(SchemaHandlersIntegrationTest)}_{nameof(SchemaDelete_Execute_EndToEnd)}";
+      var schemaName = GetSchemaName;
 
       await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
       await ImportSchemaStory(_schemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
