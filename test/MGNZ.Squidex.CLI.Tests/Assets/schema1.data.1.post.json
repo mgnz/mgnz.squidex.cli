@@ -1,0 +1,46 @@
+{
+  "stringfield": {
+    "iv": "stringfield value"
+  },
+  "localizablestringfield": {
+    "sm": "localizablestringfield sm value",
+    "en": "localizablestringfield en value"
+  },
+  "datetimefield": {
+    "iv": "2018-07-09T11:15:12Z"
+  },
+  "numberfield": {
+    "iv": 1
+  },
+  "arrayfield": {
+    "iv": [
+      {
+        "arraystringfield1": "arraystringfield1 value 1",
+        "arraydatetimefield1": "2018-07-09T11:15:25Z"
+      },
+      {
+        "arraystringfield1": "arraystringfield1 value 2",
+        "arraydatetimefield1": "2018-07-09T11:15:36Z"
+      }
+    ]
+  },
+  "geolocationfield": {
+    "iv": {
+      "latitude": -44.93991652716803,
+      "longitude": 170.33203125
+    }
+  },
+  "tagsfield": {
+    "iv": [
+      "a",
+      "b",
+      "c"
+    ]
+  },
+  "assetsfield": {
+    "iv": []
+  },
+  "referencesfield": {
+    "iv": []
+  }
+}

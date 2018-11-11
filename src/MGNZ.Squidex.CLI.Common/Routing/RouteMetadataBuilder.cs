@@ -44,7 +44,8 @@ namespace MGNZ.Squidex.CLI.Common.Routing
           LongName = currentOptionAttribute.LongName,
           Required = currentOptionAttribute.Required,
           OrdanalityOrder = currentOptionAttribute.OrdanalityOrder,
-          HelpText = currentOptionAttribute.HelpText
+          HelpText = currentOptionAttribute.HelpText,
+          PropertyInfo = currentOptionPropertyInfo
         };
 
         reuslts.Add(currentOption.LongName, currentOption);

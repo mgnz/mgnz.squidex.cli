@@ -22,6 +22,14 @@ namespace MGNZ.Squidex.CLI.Common.Platform
       var uniencoding = new UnicodeEncoding();
       var result = uniencoding.GetBytes(data);
 
+      var directory = Path.GetDirectoryName(path);
+      //if (string.IsNullOrEmpty(directory) || string.IsNullOrWhiteSpace(directory))
+      //{
+      //  // todo : log and throw
+      //}
+
+      Directory.CreateDirectory(directory);
+
       using (var stream = File.Open(path, FileMode.OpenOrCreate))
       {
         stream.Seek(0, SeekOrigin.End);

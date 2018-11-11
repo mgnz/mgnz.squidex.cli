@@ -4,6 +4,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Linq;
+  using System.Reflection;
 
   // name of a thing
   [DebuggerDisplay("{GetDefaultName}")]
@@ -178,7 +179,9 @@ namespace MGNZ.Squidex.CLI.Common.Routing
     public bool IsOrdinal => OrdanalityOrder.HasValue == true;
 
     public string Value { get; set; }
-    public bool HasValue => !string.IsNullOrWhiteSpace(Value) && !string.IsNullOrEmpty(Value);
+    public bool HasValue => (string.IsNullOrWhiteSpace(Value) || string.IsNullOrEmpty(Value)) == false;
+
+    public PropertyInfo PropertyInfo { get; set; }
   }
 
 
