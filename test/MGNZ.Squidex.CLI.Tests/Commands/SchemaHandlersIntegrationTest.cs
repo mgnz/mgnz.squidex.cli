@@ -1,6 +1,3 @@
-using System.Linq;
-using Bogus;
-
 namespace MGNZ.Squidex.CLI.Tests.Commands
 {
   using System;
@@ -8,6 +5,8 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using System.Reflection;
   using System.Threading;
   using System.Threading.Tasks;
+
+  using Bogus;
 
   using FluentAssertions;
 
