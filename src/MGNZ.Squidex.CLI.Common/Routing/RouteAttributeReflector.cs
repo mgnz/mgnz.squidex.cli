@@ -91,6 +91,8 @@ namespace MGNZ.Squidex.CLI.Common.Routing
 
     public Dictionary<string, Tuple<OptionAttribute, PropertyInfo>> ReflectOptions(Type type)
     {
+      // todo : refactor this so that it returns a named tuple so its a little easier
+
       var results = new Dictionary<string, Tuple<OptionAttribute, PropertyInfo>>();
 
       using (LogContext.PushProperty("method", nameof(ReflectOptions)))
