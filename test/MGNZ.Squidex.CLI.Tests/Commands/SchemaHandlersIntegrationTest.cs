@@ -3,14 +3,11 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using System;
   using System.IO;
   using System.Reflection;
-  using System.Threading;
   using System.Threading.Tasks;
 
   using Bogus;
 
   using FluentAssertions;
-
-  using MediatR;
 
   using MGNZ.Squidex.Client;
   using MGNZ.Squidex.CLI.Common.Commands;
@@ -64,10 +61,10 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
       await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
 
-      await ImportSchemaStory(_schemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaStories.ImportSchema(_schemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
       await _checker.AssertSchemaMustExist("aut", schemaName, delay: TimeSpan.FromSeconds(0.5));
 
-      await DeleteSchemaStory(_schemaDeleteHandler, "aut", schemaName);
+      await SchemaStories.DeleteSchema(_schemaDeleteHandler, "aut", schemaName);
       await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
@@ -78,15 +75,15 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(SchemaExport_Execute_EndToEnd)}-out.json");
 
       await _checker.AssertNoSchemasExist("aut");
-      await ImportSchemaStory(_schemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaStories.ImportSchema(_schemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
 
-      await ExportSchemaStory(_schemaExportHandler, "aut", schemaName, exportPath);
+      await SchemaStories.ExportSchema(_schemaExportHandler, "aut", schemaName, exportPath);
       var exportedFileExists = File.Exists(exportPath);
       exportedFileExists.Should().BeTrue($"{nameof(SchemaExportRequest)} failed to export file");
 
       // todo validate export file
 
-      await DeleteSchemaStory(_schemaDeleteHandler, "aut", schemaName);
+      await SchemaStories.DeleteSchema(_schemaDeleteHandler, "aut", schemaName);
       await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
@@ -96,9 +93,9 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       var schemaName = GetSchemaName;
 
       await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
-      await ImportSchemaStory(_schemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaStories.ImportSchema(_schemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
 
-      await DeleteSchemaStory(_schemaDeleteHandler, "aut", schemaName);
+      await SchemaStories.DeleteSchema(_schemaDeleteHandler, "aut", schemaName);
       await _checker.AssertSchemaMustNotExist("aut", schemaName, delay: TimeSpan.FromSeconds(5));
 
       await _checker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
@@ -112,38 +109,6 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [Fact(Skip = "tag not implemented")]
     public async Task SchemaTag_Execute_EndToEnd()
     {
-    }
-
-    private async Task<Unit> DeleteSchemaStory(SchemaDeleteHandler schemaDeleteHandler, string application, string name)
-    {
-      return await schemaDeleteHandler.Handle(new SchemaDeleteRequest()
-      {
-        AliasCredentials = "aut-developer",
-        Application = application,
-        Name = name,
-      }, CancellationToken.None);
-    }
-
-    private async Task<Unit> ExportSchemaStory(SchemaExportHandler schemaExportHandler, string application, string name, string path)
-    {
-      return await schemaExportHandler.Handle(new SchemaExportRequest()
-      {
-        AliasCredentials = "aut-developer",
-        Application = application,
-        Name = name,
-        Path = path,
-      }, CancellationToken.None);
-    }
-
-    private async Task<Unit> ImportSchemaStory(SchemaImportHandler schemaImportHandler, string application, string name, string path)
-    {
-      return await schemaImportHandler.Handle(new SchemaImportRequest()
-      {
-        AliasCredentials = "aut-developer",
-        Application = application,
-        Name = name,
-        Path = path
-      }, CancellationToken.None);
     }
   }
 }
