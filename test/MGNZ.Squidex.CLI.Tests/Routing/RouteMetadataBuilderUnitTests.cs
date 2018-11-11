@@ -90,7 +90,8 @@ namespace MGNZ.Squidex.CLI.Tests.Routing
           {
             var actualOption = actualVerb.Options[expectedOptionKvp.Key];
 
-            expectedOptionKvp.Value.Should().BeEquivalentTo(actualOption);
+            expectedOptionKvp.Value.Should().BeEquivalentTo(actualOption, options =>
+              options.Excluding(option => option.PropertyInfo));
           }
         }
       }
