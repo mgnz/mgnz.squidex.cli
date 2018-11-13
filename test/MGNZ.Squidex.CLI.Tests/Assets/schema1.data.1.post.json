@@ -1,46 +1,32 @@
 {
-  "stringfield": {
-    "iv": "stringfield value"
-  },
+  "stringfield": { "iv": "stringfield value" },
   "localizablestringfield": {
-    "sm": "localizablestringfield sm value",
-    "en": "localizablestringfield en value"
+    "en": "localizablestringfield value en",
+    "sm": "localizablestringfield  value sm"
   },
-  "datetimefield": {
-    "iv": "2018-07-09T11:15:12Z"
-  },
-  "numberfield": {
-    "iv": 1
-  },
+  "datetimefield": { "iv": "2018-11-13T07:57:34Z" },
+  "numberfield": { "iv": 666777 },
   "arrayfield": {
     "iv": [
       {
-        "arraystringfield1": "arraystringfield1 value 1",
-        "arraydatetimefield1": "2018-07-09T11:15:25Z"
+        "arraystringfield1": "arraystringfield1 value",
+        "arraydatetimefield1": "2018-11-13T07:57:52Z"
       },
       {
-        "arraystringfield1": "arraystringfield1 value 2",
-        "arraydatetimefield1": "2018-07-09T11:15:36Z"
+        "arraystringfield1": "arraystringfield1 value",
+        "arraydatetimefield1": "2018-11-13T07:57:58Z"
       }
     ]
   },
+  "assetsfield": { "iv": null },
   "geolocationfield": {
     "iv": {
-      "latitude": -44.93991652716803,
-      "longitude": 170.33203125
+      "latitude": -45.88581415265299,
+      "longitude": 170.57995319366455
     }
   },
-  "tagsfield": {
-    "iv": [
-      "a",
-      "b",
-      "c"
-    ]
-  },
-  "assetsfield": {
-    "iv": []
-  },
-  "referencesfield": {
-    "iv": []
-  }
+  "referencesfield": { "iv": null },
+  "booleanfield": { "iv": true },
+  "jsonfield": { "iv": { "blah": "blah-value" } },
+  "tagsfield": { "iv": [ "tag-a", "tag-x" ] }
 }
