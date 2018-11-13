@@ -18,12 +18,12 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class ContentImportHandler : BaseHandler<ContentImportRequest>
   {
-    private IFileHandler _fileHandler = null;
+    private IConsoleWriter _consoleWriter = null;
 
-    public ContentImportHandler(ILogger logger, IClientProxyFactory clientFactory, IFileHandler fileHandler, IContainer container)
+    public ContentImportHandler(ILogger logger, IClientProxyFactory clientFactory, IConsoleWriter consoleWriter, IContainer container)
       : base(logger, clientFactory, container)
     {
-      this._fileHandler = fileHandler;
+      this._consoleWriter = consoleWriter;
     }
     /// <inheritdoc />
     public override async Task<Unit> Handle(ContentImportRequest request, CancellationToken cancellationToken)

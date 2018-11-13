@@ -19,12 +19,12 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   public class ContentExportHandler : BaseHandler<ContentExportRequest>
   {
-    private IFileHandler _fileHandler = null;
+    private IConsoleWriter _consoleWriter = null;
 
-    public ContentExportHandler(ILogger logger, IClientProxyFactory clientFactory, IFileHandler fileHandler, IContainer container)
+    public ContentExportHandler(ILogger logger, IClientProxyFactory clientFactory, IConsoleWriter consoleWriter, IContainer container)
       : base(logger, clientFactory, container)
     {
-      this._fileHandler = fileHandler;
+      this._consoleWriter = consoleWriter;
     }
 
     /// <inheritdoc />
