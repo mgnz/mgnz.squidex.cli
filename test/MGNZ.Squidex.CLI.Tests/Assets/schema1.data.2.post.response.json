@@ -2,7 +2,7 @@
   "id": null,
   "data": {
     "stringfield": {
-      "iv": "data 1 stringfield value"
+      "iv": "data 2 stringfield value"
     },
     "localizablestringfield": {
       "en": "localizablestringfield value en",

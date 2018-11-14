@@ -1,5 +1,5 @@
 {
-  "stringfield": { "iv": "data 1 stringfield value" },
+  "stringfield": { "iv": "data 2 stringfield value" },
   "localizablestringfield": {
     "en": "localizablestringfield value en",
     "sm": "localizablestringfield  value sm"
