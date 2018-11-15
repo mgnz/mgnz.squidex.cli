@@ -79,3 +79,12 @@ branches:
     track-merge-target: true
     tracks-release-branches: true
     is-release-branch: false
+  dependabot:
+    regex: dependabot?[/-]
+    mode: ContinuousDelivery
+    tag: useBranchName
+    increment: None
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    tracks-release-branches: false
+    is-release-branch: false
