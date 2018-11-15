@@ -99,6 +99,33 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [Fact]
     public async Task ContentDelete_Execute_EndToEnd()
     {
+      var schemaName = GetRandomSchemaName;
+      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await ContentStories.ImportContent(ContentImportHandler, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
+
+      var content = await ContentChecker.Query<dynamic>("aut", schemaName, new QueryRequest()
+      {
+        Skip = 0,
+        Top = 100
+      });
+
+      content.Total.Should().Be(2);
+      var actualFirst = content.Items[0];
+      var actualSecond = content.Items[1];
+
+      // act
+
+      await ContentStories.DeleteContent(ContentDeleteHandler, "aut", schemaName, actualFirst.Id);
+
+      // todo : verify export content
+
+      await ContentChecker.AssertContentMustNotExists("aut", schemaName, actualFirst.Id);
+      await ContentChecker.AssertContentMustExists("aut", schemaName, actualSecond.Id);
+
+      // clean up
+
+      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
     }
 
     [Fact]
