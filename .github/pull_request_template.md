@@ -8,3 +8,5 @@ New automated-tests
 
 New integration-tests
 -
+
++semver:major|minor
