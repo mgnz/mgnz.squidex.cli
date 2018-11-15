@@ -55,14 +55,15 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       }, CancellationToken.None);
     }
 
-    public static async Task<Unit> PostContent(ContentPostHandler handler, string application, string schema, string path, string aliasCredentials = "aut-developer")
+    public static async Task<Unit> PostContent(ContentPostHandler handler, string application, string schema, string path, bool publish = false, string aliasCredentials = "aut-developer")
     {
       return await handler.Handle(new ContentPostRequest
       {
         AliasCredentials = aliasCredentials,
         Application = application,
         Schema = schema,
-        Path = path
+        Path = path,
+        Publish = publish.ToString()
       }, CancellationToken.None);
     }
   }

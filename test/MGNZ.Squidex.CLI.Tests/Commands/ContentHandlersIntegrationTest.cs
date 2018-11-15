@@ -131,7 +131,31 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [Fact]
     public async Task ContentPost_Execute_EndToEnd()
     {
+      var schemaName = GetRandomSchemaName;
+      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
 
+      var expectedFirst = AssetLoader.Schema1DataExportResponse.Value.Items[0];
+      var expectedSecond = AssetLoader.Schema1DataExportResponse.Value.Items[1];
+
+      // act
+
+      await ContentStories.PostContent(ContentPostHandler, "aut", schemaName, AssetLoader.Schema1Data1PostPath, publish: true);
+      await ContentStories.PostContent(ContentPostHandler, "aut", schemaName, AssetLoader.Schema1Data2PostPath, publish: true);
+
+      var content = await ContentChecker.Query<dynamic>("aut", schemaName, new QueryRequest()
+      {
+        Skip = 0,
+        Top = 100
+      });
+
+      content.Total.Should().Be(2);
+      var actualFirst = content.Items[0];
+      var actualSecond = content.Items[1];
+
+      // todo : verify export content
+
+      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
     }
   }
 }

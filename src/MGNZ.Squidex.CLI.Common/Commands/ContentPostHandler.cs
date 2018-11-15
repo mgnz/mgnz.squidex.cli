@@ -8,6 +8,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   using MediatR;
 
   using MGNZ.Squidex.Client;
+  using MGNZ.Squidex.Client.Model;
   using MGNZ.Squidex.Client.Transport;
   using MGNZ.Squidex.CLI.Common.Platform;
   using MGNZ.Squidex.CLI.Common.Routing;
@@ -30,9 +31,13 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     {
       var proxy = ClientFactory.GetClientProxy<ISquidexContentClient>(request.AliasCredentials);
       var json = await FileEx.ReadAllTextAsync(request.Path);
-      var inputFileContent = JsonConvert.DeserializeObject<QueryResponse<dynamic>>(json);
+      var inputFileContent = JsonConvert.DeserializeObject<dynamic>(json);
 
-      await proxy.Create<dynamic>(request.Application, request.Schema, inputFileContent);
+      var publish = false;
+      bool.TryParse(request.Publish, out publish);
+
+      var createResponse = await proxy.Create<dynamic>(request.Application, request.Schema, inputFileContent);
+      if (publish) await proxy.Publish(request.Application, request.Schema, createResponse.Id);
 
       return Unit.Value;
     }
@@ -45,5 +50,6 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     [Option("sc", "schema", required: true, ordanalityOrder: 2)] public string Schema { get; set; }
     [Option("p", "path", required: true, ordanalityOrder: 3)] public string Path { get; set; }
     [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
+    [Option("u", "publish")] public string Publish { get; set; }
   }
 }

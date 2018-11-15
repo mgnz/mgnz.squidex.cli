@@ -26,6 +26,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     protected ContentImportHandler ContentImportHandler { get; } = null;
     protected ContentExportHandler ContentExportHandler { get; } = null;
     protected ContentDeleteHandler ContentDeleteHandler { get; } = null;
+    protected ContentPostHandler ContentPostHandler { get; } = null;
 
     protected string GetRandomSchemaName =>  new Faker().Random.AlphaNumeric(40).ToLower();
     
@@ -52,6 +53,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       ContentImportHandler = new ContentImportHandler(SerilogFixture.UsefullLogger<ContentImportHandler>(), clientFactory, consoleWriter, null);
       ContentExportHandler = new ContentExportHandler(SerilogFixture.UsefullLogger<ContentExportHandler>(), clientFactory, consoleWriter, null);
       ContentDeleteHandler = new ContentDeleteHandler(SerilogFixture.UsefullLogger<ContentDeleteHandler>(), clientFactory, consoleWriter, null);
+      ContentPostHandler = new ContentPostHandler(SerilogFixture.UsefullLogger<ContentImportHandler>(), clientFactory, consoleWriter, null);
     }
   }
 }
