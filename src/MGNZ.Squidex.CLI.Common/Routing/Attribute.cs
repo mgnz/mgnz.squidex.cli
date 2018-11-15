@@ -179,7 +179,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
     public bool IsOrdinal => OrdanalityOrder.HasValue == true;
 
     public string Value { get; set; }
-    public bool HasValue => (string.IsNullOrWhiteSpace(Value) || string.IsNullOrEmpty(Value)) == false;
+    public bool HasValue => !string.IsNullOrWhiteSpace(Value) && !string.IsNullOrEmpty(Value);
 
     public PropertyInfo PropertyInfo { get; set; }
   }

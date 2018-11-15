@@ -12,11 +12,11 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   public class SchemaRequestsStaticRouterUnitTests : BaseRequestStaticRouterUnitTest
   {
-    public static List<object[]> StaticRouter_Verify_SchemaImport_Data => BuildSchemaImportData("schema", "import").ToList();
-    public static List<object[]> StaticRouter_Verify_SchemaExport_Data => BuildSchemaImportData("schema", "export").ToList();
-    public static List<object[]> StaticRouter_Verify_SchemaDelete_Data => BuildSchemaImportData("schema", "delete").ToList();
-    public static List<object[]> StaticRouter_Verify_SchemaList_Data => BuildSchemaImportData("schema", "list").ToList();
-    public static List<object[]> StaticRouter_Verify_SchemaTag_Data => BuildSchemaImportData("schema", "tag").ToList();
+    public static List<object[]> StaticRouter_Verify_SchemaImport_Data => BuildSchemaImportData("schema", "import");
+    public static List<object[]> StaticRouter_Verify_SchemaExport_Data => BuildSchemaImportData("schema", "export");
+    public static List<object[]> StaticRouter_Verify_SchemaDelete_Data => BuildSchemaImportData("schema", "delete");
+    public static List<object[]> StaticRouter_Verify_SchemaList_Data => BuildSchemaImportData("schema", "list");
+    public static List<object[]> StaticRouter_Verify_SchemaTag_Data => BuildSchemaImportData("schema", "tag");
 
     [Theory]
     [MemberData(nameof(StaticRouter_Verify_SchemaImport_Data))]

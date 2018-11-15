@@ -1,46 +1,161 @@
- namespace MGNZ.Squidex.CLI.Tests.Commands
+
+namespace MGNZ.Squidex.CLI.Tests.Commands
 {
+  using System;
   using System.IO;
-  using System.Reflection;
   using System.Threading.Tasks;
 
-  using MGNZ.Squidex.Client;
-  using MGNZ.Squidex.Client.Handlers;
-  using MGNZ.Squidex.CLI.Common.Commands;
-  using MGNZ.Squidex.CLI.Common.Configuration;
-  using MGNZ.Squidex.CLI.Tests.Platform;
-  using MGNZ.Squidex.CLI.Tests.Plumbing;
+  using FluentAssertions;
 
-  using Microsoft.Extensions.Configuration;
+  using MGNZ.Squidex.Client.Transport;
+  using MGNZ.Squidex.CLI.Common.Commands;
+  using MGNZ.Squidex.CLI.Tests.Assets;
+  using MGNZ.Squidex.CLI.Tests.Platform;
+
+  using Newtonsoft.Json;
 
   using Xunit;
 
   [Collection("Sequential Squidex Integration Tests")]
   [Trait("category", "squidex-cli-integration")]
-  public class ContentHandlersIntegrationTest
+  public class ContentHandlersIntegrationTest : BaseHandlerIntegrationTest
   {
-    readonly ApplicationConfiguration _applicationConfiguration = null;
-
-    public ContentHandlersIntegrationTest()
+    [Fact(Skip = "used to setup data in assets only")]
+    public async Task get_asset_data()
     {
-      var configurationRoot = TestHelper.GetConfigurationRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-      configurationRoot.Bind(_applicationConfiguration);
+      var schemaName = GetRandomSchemaName;
+      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+
+      var post1response = await ContentChecker.Create<dynamic>("aut", schemaName, AssetLoader.Schema1Data1Post.Value);
+      var post2response = await ContentChecker.Create<dynamic>("aut", schemaName, AssetLoader.Schema1Data2Post.Value);
+
+      var queryresponse = await ContentChecker.Query<dynamic>("aut", schemaName, new QueryRequest()
+      {
+        Skip = 0,
+        Top = 100
+      });
+
+      var post1responsestring = JsonConvert.SerializeObject(post1response, Formatting.Indented); 
+      var post2responsestring = JsonConvert.SerializeObject(post2response, Formatting.Indented);
+      var queryresponsestring = JsonConvert.SerializeObject(queryresponse, Formatting.Indented);
+
+      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
     }
 
-    [Fact(Skip = "under development")]
-    //[Fact()]
-    public async Task Execute_EndToEnd()
+    [Fact]
+    public async Task ContentImport_Execute_EndToEnd()
     {
-      var authTokenFactory = new OAuthTokenFactory(SerilogFixture.UsefullLogger<OAuthTokenFactory>(), _applicationConfiguration);
-      var clientFactory = new ClientProxyFactoryFixture() { ApplicationConfiguration = _applicationConfiguration, OAuthTokenFactory = authTokenFactory } .Build();
+      var schemaName = GetRandomSchemaName;
+      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
 
-      var fileHandler = new FileHandlerMock() { ReadFile = FileHandlerMock.WithReadFileAsNoOp(), WriteFile = FileHandlerMock.WithWriteFileAsNoOp() } .Build();
+      var expectedFirst = AssetLoader.Schema1DataQueryResponse.Value.Items[0];
+      var expectedSecond = AssetLoader.Schema1DataQueryResponse.Value.Items[1];
 
-      var contentImport = new ContentImportHandler(SerilogFixture.UsefullLogger<ContentImportHandler>(), clientFactory, fileHandler, null);
-      var contentExport = new ContentExportHandler(SerilogFixture.UsefullLogger<ContentExportHandler>(), clientFactory, fileHandler, null);
-      var contentDelete = new ContentDeleteHandler(SerilogFixture.UsefullLogger<ContentDeleteHandler>(), clientFactory, null);
+      await ContentStories.ImportContent(ContentImportHandler, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
 
-      
+      var content = await ContentChecker.Query<dynamic>("aut", schemaName, new QueryRequest()
+      {
+        Skip = 0,
+        Top = 100
+      });
+
+      var testCount = content.Total;
+      testCount.Should().Be(2);
+
+      var actualFirst = content.Items[0];
+      var actualSecond = content.Items[1];
+
+      // todo : verify
+
+      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
+    }
+
+    [Fact]
+    public async Task ContentExport_Execute_EndToEnd()
+    {
+      var schemaName = GetRandomSchemaName;
+      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await ContentStories.ImportContent(ContentImportHandler, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
+
+      var expectedFirst = AssetLoader.Schema1DataExportResponse.Value.Items[0];
+      var expectedSecond = AssetLoader.Schema1DataExportResponse.Value.Items[1];
+
+      var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(ContentHandlersIntegrationTest)} {nameof(ContentExport_Execute_EndToEnd)}-out.json");
+
+      // act
+
+      await ContentStories.ExportContent(ContentExportHandler, "aut", schemaName, exportPath, top: "10", skip: "0");
+      var exportedFileExists = File.Exists(exportPath);
+      exportedFileExists.Should().BeTrue($"{nameof(SchemaExportRequest)} failed to export file");
+
+      // todo : verify export content
+
+      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
+    }
+
+    [Fact]
+    public async Task ContentDelete_Execute_EndToEnd()
+    {
+      var schemaName = GetRandomSchemaName;
+      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await ContentStories.ImportContent(ContentImportHandler, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
+
+      var content = await ContentChecker.Query<dynamic>("aut", schemaName, new QueryRequest()
+      {
+        Skip = 0,
+        Top = 100
+      });
+
+      content.Total.Should().Be(2);
+      var actualFirst = content.Items[0];
+      var actualSecond = content.Items[1];
+
+      // act
+
+      await ContentStories.DeleteContent(ContentDeleteHandler, "aut", schemaName, actualFirst.Id);
+
+      // todo : verify export content
+
+      await ContentChecker.AssertContentMustNotExists("aut", schemaName, actualFirst.Id);
+      await ContentChecker.AssertContentMustExists("aut", schemaName, actualSecond.Id);
+
+      // clean up
+
+      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
+    }
+
+    [Fact]
+    public async Task ContentPost_Execute_EndToEnd()
+    {
+      var schemaName = GetRandomSchemaName;
+      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+
+      var expectedFirst = AssetLoader.Schema1DataExportResponse.Value.Items[0];
+      var expectedSecond = AssetLoader.Schema1DataExportResponse.Value.Items[1];
+
+      // act
+
+      await ContentStories.PostContent(ContentPostHandler, "aut", schemaName, AssetLoader.Schema1Data1PostPath, publish: true);
+      await ContentStories.PostContent(ContentPostHandler, "aut", schemaName, AssetLoader.Schema1Data2PostPath, publish: true);
+
+      var content = await ContentChecker.Query<dynamic>("aut", schemaName, new QueryRequest()
+      {
+        Skip = 0,
+        Top = 100
+      });
+
+      content.Total.Should().Be(2);
+      var actualFirst = content.Items[0];
+      var actualSecond = content.Items[1];
+
+      // todo : verify export content
+
+      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
     }
   }
 }
