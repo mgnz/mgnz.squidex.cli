@@ -2,11 +2,13 @@
 namespace MGNZ.Squidex.CLI.Tests.Commands
 {
   using System;
+  using System.IO;
   using System.Threading.Tasks;
 
   using FluentAssertions;
 
   using MGNZ.Squidex.Client.Transport;
+  using MGNZ.Squidex.CLI.Common.Commands;
   using MGNZ.Squidex.CLI.Tests.Assets;
   using MGNZ.Squidex.CLI.Tests.Platform;
 
@@ -73,6 +75,25 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [Fact]
     public async Task ContentExport_Execute_EndToEnd()
     {
+      var schemaName = GetRandomSchemaName;
+      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await ContentStories.ImportContent(ContentImportHandler, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
+
+      var expectedFirst = AssetLoader.Schema1DataExportResponse.Value.Items[0];
+      var expectedSecond = AssetLoader.Schema1DataExportResponse.Value.Items[1];
+
+      var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(ContentHandlersIntegrationTest)} {nameof(ContentExport_Execute_EndToEnd)}-out.json");
+
+      // act
+
+      await ContentStories.ExportContent(ContentExportHandler, "aut", schemaName, exportPath, top: "10", skip: "0");
+      var exportedFileExists = File.Exists(exportPath);
+      exportedFileExists.Should().BeTrue($"{nameof(SchemaExportRequest)} failed to export file");
+
+      // todo : verify export content
+
+      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
     }
 
     [Fact]

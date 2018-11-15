@@ -22,6 +22,7 @@ namespace MGNZ.Squidex.CLI.Tests.Assets
     public static Lazy<dynamic> Schema1DataImport => new Lazy<dynamic>(LoadAsset($"{ns}.schema1.data.import.json"));
     public static Lazy<dynamic> Schema1DataImportResponse => new Lazy<dynamic>(LoadAsset($"{ns}.schema1.data.import.response.json"));
     public static Lazy<dynamic> Schema1DataQueryResponse => new Lazy<dynamic>(LoadAsset($"{ns}.schema1.data.query.response.json"));
+    public static Lazy<dynamic> Schema1DataExportResponse => new Lazy<dynamic>(LoadAsset($"{ns}.schema1.data.export.response.json"));
 
 
     public static string ExecutingPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -33,6 +34,7 @@ namespace MGNZ.Squidex.CLI.Tests.Assets
     public static string Schema1Data2PostResponsePath => Path.Combine(AssetPath, "schema1.data.2.post.response.json");
     public static string Schema1DataImportPath => Path.Combine(AssetPath, "schema1.data.import.json");
     public static string Schema1DataImportResponsePath => Path.Combine(AssetPath, "schema1.data.import.response.json");
+    public static string Schema1DataExportResponsePath => Path.Combine(AssetPath, "schema1.data.export.response.json");
 
     public static string ExportPath => Path.Combine(ExecutingPath, "Exports");
 
