@@ -1,5 +1,4 @@
-
-next-version: 1.0.0
+next-version: 0.1
 assembly-versioning-scheme: MajorMinorPatch
 mode: ContinuousDelivery
 continuous-delivery-fallback-tag: ci
