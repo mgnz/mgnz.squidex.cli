@@ -10,6 +10,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   using Xunit;
 
+  [Trait("category", "unit")]
   public class SchemaRequestsStaticRouterUnitTests : BaseRequestStaticRouterUnitTest
   {
     public static List<object[]> StaticRouter_Verify_SchemaImport_Data => BuildSchemaImportData("schema", "import");

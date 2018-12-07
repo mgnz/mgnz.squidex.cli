@@ -9,6 +9,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   using Xunit;
 
+  [Trait("category", "unit")]
   public class ContentRequestStaticRouterUnitTests : BaseRequestStaticRouterUnitTest
   {
     public static List<object[]> StaticRouter_Verify_ContentImport_Data => BuildSchemaImportData("content", "import");
