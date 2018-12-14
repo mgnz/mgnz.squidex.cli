@@ -117,7 +117,7 @@ steps:
    "
 
    write-host $config
-   set-content -value $config -path "$(Build.SourcesDirectory)/test/MGNZ.Squidex.Client.Tests/bin/$(Build.Configuration)/netcoreapp2.1/testsettings.aut.json"
+   set-content -value $config -path "$(Build.SourcesDirectory)/test/MGNZ.Squidex.Cli.Tests/bin/$(Build.Configuration)/netcoreapp2.1/testsettings.aut.json"
   displayName: 'generate testsettings for integration testing'
 
 - task: DotNetCoreCLI@2
@@ -130,7 +130,7 @@ steps:
     arguments: '--configuration $(Build.Configuration) --filter category=unit|category=squidex-api-integration /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
 
 
-- script: 'reportgenerator -reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports -tag:$(mgnz_ci_libverssion) -reportTypes:HTMLInline;HTMLChart;Badges -historydir:"C:\Archive\oss mgnz.squidex.client [integration]\Coverage"'
+- script: 'reportgenerator -reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports -tag:$(mgnz_ci_libverssion) -reportTypes:HTMLInline;HTMLChart;Badges -historydir:"C:\Archive\oss MGNZ.Squidex.Cli [integration]\Coverage"'
   displayName: 'reportgenerator '
 
 - task: PublishCodeCoverageResults@1
@@ -150,7 +150,7 @@ steps:
 
     publishWebProjects: false
 
-    projects: '**/MGNZ.Squidex.Client.csproj'
+    projects: '**/MGNZ.Squidex.Cli.csproj'
 
     arguments: '--configuration $(Build.Configuration) --no-build --output $(Build.ArtifactStagingDirectory)\publish\unstable /p:Version=$(mgnz_ci_libverssion) --version-suffix $(mgnz_ci_libverssion_suffix)'
 
@@ -162,15 +162,15 @@ steps:
 
     publishWebProjects: false
 
-    projects: '**/MGNZ.Squidex.Client.csproj'
+    projects: '**/MGNZ.Squidex.Cli.csproj'
 
     arguments: '--configuration $(Build.Configuration) --no-build --output $(Build.ArtifactStagingDirectory)\publish\stable /p:Version=$(mgnz_release_libversion) --version-suffix $(mgnz_release_libversion_suffix)'
 
 
-- script: 'dotnet pack  src\MGNZ.Squidex.Client\MGNZ.Squidex.Client.csproj --configuration $(Build.Configuration) --include-symbols -p:SymbolPackageFormat=snupkg --output $(Build.ArtifactStagingDirectory)\packages\unstable /p:PackageVersion=$(MGNZ_CI_PACKAGEVERSION)'
+- script: 'dotnet pack  src\MGNZ.Squidex.Cli\MGNZ.Squidex.Cli.csproj --configuration $(Build.Configuration) --include-symbols -p:SymbolPackageFormat=snupkg --output $(Build.ArtifactStagingDirectory)\packages\unstable /p:PackageVersion=$(MGNZ_CI_PACKAGEVERSION)'
   displayName: 'dotnet pack (unstable)'
 
-- script: 'dotnet pack  src\MGNZ.Squidex.Client\MGNZ.Squidex.Client.csproj --configuration $(Build.Configuration) --include-symbols -p:SymbolPackageFormat=snupkg --output $(Build.ArtifactStagingDirectory)\packages\stable /p:PackageVersion=$(MGNZ_RELEASE_PACKAGEVERSION)'
+- script: 'dotnet pack  src\MGNZ.Squidex.Cli\MGNZ.Squidex.Cli.csproj --configuration $(Build.Configuration) --include-symbols -p:SymbolPackageFormat=snupkg --output $(Build.ArtifactStagingDirectory)\packages\stable /p:PackageVersion=$(MGNZ_RELEASE_PACKAGEVERSION)'
   displayName: 'dotnet pack (stable)'
 
 - task: nkdagility.variablehydration.variabledehydration-task.variabledehydration@0
