@@ -99,18 +99,18 @@ steps:
 - powershell: |
    $config = "
    {
-       ""BaseAddressUri"": ""$(baseAddressUri)"",
-       ""AdministratorToken"": ""$(administratorToken)"",
-       ""Clients"": {
+       ""AliasCredentials"": {
          ""aut-developer"": {
-           ""OAuthAppName"": ""$(clients.aut-developer.oAuthAppName)"",
-           ""OAuthClientId"": ""$(clients.aut-developer.oAuthClientId)"",
-           ""OAuthClientSecret"": ""$(clients.aut-developer.oAuthClientSecret)""
+           ""BaseAddressUri"": ""$(baseAddressUri)"",
+           ""App"": ""$(clients.aut-developer.oAuthAppName)"",
+           ""ClientId"": ""$(clients.aut-developer.oAuthClientId)"",
+           ""ClientSecret"": ""$(clients.aut-developer.oAuthClientSecret)""
          },
          ""aut-editor"": {
-           ""OAuthAppName"": ""$(clients.aut-editor.oAuthAppName)"",
-           ""OAuthClientId"": ""$(clients.aut-editor.oAuthClientId)"",
-           ""OAuthClientSecret"": ""$(clients.aut-editor.oAuthClientSecret)""
+           ""BaseAddressUri"": ""$(baseAddressUri)"",
+           ""App"": ""$(clients.aut-editor.oAuthAppName)"",
+           ""ClientId"": ""$(clients.aut-editor.oAuthClientId)"",
+           ""ClientSecret"": ""$(clients.aut-editor.oAuthClientSecret)""
          }
        }
      }
