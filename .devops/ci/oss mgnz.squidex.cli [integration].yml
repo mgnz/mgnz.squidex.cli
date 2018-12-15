@@ -101,13 +101,13 @@ steps:
    {
        ""AliasCredentials"": {
          ""aut-developer"": {
-           ""BaseAddressUri"": ""$(baseAddressUri)"",
+           ""BaseAddress"": ""$(baseAddressUri)"",
            ""App"": ""$(clients.aut-developer.oAuthAppName)"",
            ""ClientId"": ""$(clients.aut-developer.oAuthClientId)"",
            ""ClientSecret"": ""$(clients.aut-developer.oAuthClientSecret)""
          },
          ""aut-editor"": {
-           ""BaseAddressUri"": ""$(baseAddressUri)"",
+           ""BaseAddress"": ""$(baseAddressUri)"",
            ""App"": ""$(clients.aut-editor.oAuthAppName)"",
            ""ClientId"": ""$(clients.aut-editor.oAuthClientId)"",
            ""ClientSecret"": ""$(clients.aut-editor.oAuthClientSecret)""
