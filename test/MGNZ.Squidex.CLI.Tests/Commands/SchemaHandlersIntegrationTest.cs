@@ -7,8 +7,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using FluentAssertions;
 
   using MGNZ.Squidex.CLI.Common.Commands;
-  using MGNZ.Squidex.CLI.Tests.Assets;
-  using MGNZ.Squidex.CLI.Tests.Platform;
+  using MGNZ.Squidex.Tests.Shared.Code;
 
   using Xunit;
 
