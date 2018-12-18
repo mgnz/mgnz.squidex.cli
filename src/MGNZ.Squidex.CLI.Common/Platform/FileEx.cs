@@ -1,3 +1,4 @@
+
 namespace MGNZ.Squidex.CLI.Common.Platform
 {
   using System.IO;
@@ -6,6 +7,21 @@ namespace MGNZ.Squidex.CLI.Common.Platform
 
   public static class FileEx
   {
+    public static async Task<Stream> ReadFileAsStream(string path)
+    {
+      using (var sourceStream = File.Open(path, FileMode.Open))
+      {
+        var memoryStream = new MemoryStream();
+
+        var result = new byte[sourceStream.Length];
+        await sourceStream.ReadAsync(result, 0, (int)sourceStream.Length);
+
+        await sourceStream.CopyToAsync(memoryStream);
+
+        return memoryStream;
+      }
+    }
+
     public static async Task<string> ReadAllTextAsync(string path)
     {
       using (var sourceStream = File.Open(path, FileMode.Open))
