@@ -28,6 +28,14 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     protected ContentDeleteHandler ContentDeleteHandler { get; } = null;
     protected ContentPostHandler ContentPostHandler { get; } = null;
 
+    protected ISquidexAttachmentClient AttachmentChecker { get; } = null;
+    protected AssetImportHandler AttachmentImportHandler { get; } = null;
+    protected AssetExportHandler AttachmentExportHandler { get; } = null;
+    protected AssetDeleteHandler AttachmentDeleteHandler { get; } = null;
+    protected AssetListHandler AttachmentListHandler { get; } = null;
+    protected AssetTagHandler AttachmentTagHandler { get; } = null;
+
+
     protected string GetRandomSchemaName =>  new Faker().Random.AlphaNumeric(40).ToLower();
     
     public BaseHandlerIntegrationTest()
@@ -54,6 +62,13 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       ContentExportHandler = new ContentExportHandler(SerilogFixture.UsefullLogger<ContentExportHandler>(), clientFactory, consoleWriter, null);
       ContentDeleteHandler = new ContentDeleteHandler(SerilogFixture.UsefullLogger<ContentDeleteHandler>(), clientFactory, consoleWriter, null);
       ContentPostHandler = new ContentPostHandler(SerilogFixture.UsefullLogger<ContentImportHandler>(), clientFactory, consoleWriter, null);
+
+      AttachmentChecker = clientFactory.GetClientProxy<ISquidexAttachmentClient>("aut-developer");
+      AttachmentImportHandler = new AssetImportHandler(SerilogFixture.UsefullLogger<AssetImportHandler>(), clientFactory, consoleWriter, null);
+      AttachmentExportHandler = new AssetExportHandler(SerilogFixture.UsefullLogger<AssetExportHandler>(), clientFactory, consoleWriter, null);
+      AttachmentDeleteHandler = new AssetDeleteHandler(SerilogFixture.UsefullLogger<AssetDeleteHandler>(), clientFactory, consoleWriter, null);
+      AttachmentListHandler = new AssetListHandler(SerilogFixture.UsefullLogger<AssetListHandler>(), clientFactory, consoleWriter, null);
+      AttachmentTagHandler = new AssetTagHandler(SerilogFixture.UsefullLogger<AssetTagHandler>(), clientFactory, consoleWriter, null);
     }
   }
 }
