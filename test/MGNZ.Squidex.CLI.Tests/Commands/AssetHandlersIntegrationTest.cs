@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using Xunit;
 
   [Collection("Sequential Squidex Integration Tests")]
-  [Trait("category", "squidex-cli-integration")]
+  //[Trait("category", "squidex-cli-integration")]
   [Trait("category", "inprogress")]
   public class AssetHandlersIntegrationTest : BaseHandlerIntegrationTest
   {
