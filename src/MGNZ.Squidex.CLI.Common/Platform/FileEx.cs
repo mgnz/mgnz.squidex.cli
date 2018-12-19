@@ -11,12 +11,10 @@ namespace MGNZ.Squidex.CLI.Common.Platform
     {
       using (var sourceStream = File.Open(path, FileMode.Open))
       {
-        var memoryStream = new MemoryStream();
-
         var result = new byte[sourceStream.Length];
         await sourceStream.ReadAsync(result, 0, (int)sourceStream.Length);
 
-        await sourceStream.CopyToAsync(memoryStream);
+        var memoryStream = new MemoryStream(result);
 
         return memoryStream;
       }
