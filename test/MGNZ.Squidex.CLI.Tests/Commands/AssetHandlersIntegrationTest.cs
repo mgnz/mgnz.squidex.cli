@@ -24,7 +24,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
       await AttachmentChecker.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
 
-      await AssetStories.ImportAsset(AttachmentImportHandler, "aut", schemaName, MGNZ.Squidex.Tests.Shared.Code.AssetLoader.Asset1Path);
+      await AssetStories.ImportAsset(AttachmentImportHandler, "aut", schemaName, MGNZ.Squidex.Tests.Shared.Code.AssetLoader.Asset2Path);
       await AttachmentChecker.AssertAttachmentMustExist("aut", schemaName, delay: TimeSpan.FromSeconds(0.5));
 
       await AssetStories.DeleteAsset(AttachmentDeleteHandler, "aut", schemaName);
