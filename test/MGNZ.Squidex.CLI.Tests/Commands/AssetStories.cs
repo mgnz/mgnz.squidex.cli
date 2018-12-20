@@ -61,5 +61,16 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
         Tags = string.Join(',', tags)
       }, CancellationToken.None);
     }
+
+    public static async Task<Unit> UpdateAsset(AssetUpdateContentHandler handler, string application, string id, string path, string aliasCredentials = "aut-developer")
+    {
+      return await handler.Handle(new AssetUpdateContentRequest()
+      {
+        AliasCredentials = aliasCredentials,
+        Application = application,
+        Id = id,
+        Path = path
+      }, CancellationToken.None);
+    }
   }
 }

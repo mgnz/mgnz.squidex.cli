@@ -52,7 +52,7 @@ namespace MGNZ.Squidex.Client
       var count = data.Total;
       if (count == 0) return default(AttachmentContent);
 
-      var item = data.Items.FirstOrDefault(d => CheckEquality(d, fileName));
+      var item = data.Items.SingleOrDefault(d => CheckEquality(d, fileName));
 
       return item;
     }

@@ -34,6 +34,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     protected AssetDeleteHandler AttachmentDeleteHandler { get; } = null;
     protected AssetListHandler AttachmentListHandler { get; } = null;
     protected AssetTagHandler AttachmentTagHandler { get; } = null;
+    protected AssetUpdateContentHandler AssetUpdateContentHandler { get; } = null;
 
 
     protected string GetRandomSchemaName =>  new Faker().Random.AlphaNumeric(40).ToLower();
@@ -69,6 +70,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       AttachmentDeleteHandler = new AssetDeleteHandler(SerilogFixture.UsefullLogger<AssetDeleteHandler>(), clientFactory, consoleWriter, null);
       AttachmentListHandler = new AssetListHandler(SerilogFixture.UsefullLogger<AssetListHandler>(), clientFactory, consoleWriter, null);
       AttachmentTagHandler = new AssetTagHandler(SerilogFixture.UsefullLogger<AssetTagHandler>(), clientFactory, consoleWriter, null);
+      AssetUpdateContentHandler = new AssetUpdateContentHandler(SerilogFixture.UsefullLogger<AssetUpdateContentHandler>(), clientFactory, consoleWriter, null);
     }
   }
 }
