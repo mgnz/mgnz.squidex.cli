@@ -17,6 +17,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     public static List<object[]> StaticRouter_Verify_AssetDelete_Data => BuildSchemaImportData("asset", "delete");
     public static List<object[]> StaticRouter_Verify_AssetList_Data => BuildSchemaImportData("asset", "list");
     public static List<object[]> StaticRouter_Verify_AssetTag_Data => BuildSchemaImportData("asset", "tag");
+    public static List<object[]> StaticRouter_Verify_AssetUpdate_Data => BuildSchemaImportData("asset", "update");
 
     [Theory]
     [MemberData(nameof(StaticRouter_Verify_AssetImport_Data))]
@@ -95,6 +96,22 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
       actual.Should().NotBeNull();
       actual.Should().BeAssignableTo<AssetTagRequest>();
+      actual.Should().BeEquivalentTo(expectedRequest);
+    }
+
+    [Theory]
+    [MemberData(nameof(StaticRouter_Verify_AssetUpdate_Data))]
+    public void StaticRouter_Verify_AssetUpdate(AssetUpdateContentRequest expectedRequest, string inCommandLine)
+    {
+      var router = new StaticCommandLineRouterFixture()
+      {
+        WithRouteValidator = new RouteRequestValidatorFixture().Mock()
+      }.Build();
+
+      var actual = router.GetOne(RoutingMetadata.Value.Values, inCommandLine.Split(' '));
+
+      actual.Should().NotBeNull();
+      actual.Should().BeAssignableTo<AssetUpdateContentRequest>();
       actual.Should().BeEquivalentTo(expectedRequest);
     }
   }
