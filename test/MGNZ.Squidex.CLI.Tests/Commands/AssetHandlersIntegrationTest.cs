@@ -7,15 +7,13 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using FluentAssertions;
 
   using MGNZ.Squidex.Client;
-  using MGNZ.Squidex.CLI.Common.Commands;
   using MGNZ.Squidex.CLI.Common.Platform;
   using MGNZ.Squidex.Tests.Shared.Code;
 
   using Xunit;
 
   [Collection("Sequential Squidex Integration Tests")]
-  //[Trait("category", "squidex-cli-integration")]
-  [Trait("category", "inprogress")]
+  [Trait("category", "squidex-cli-integration")]
   public class AssetHandlersIntegrationTest : BaseHandlerIntegrationTest
   {
     [Fact]
