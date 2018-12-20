@@ -11,7 +11,7 @@ namespace MGNZ.Squidex.Tests.Shared.Code
 
     public static string ExecutingPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     public static string AssetPath => Path.Combine(ExecutingPath, "Shared", "Assets");
-    private static string ns => typeof(AssetLoader).Namespace;
+    private static string ns => "MGNZ.Squidex.CLI.Tests.Shared.Assets";
 
     public static Stream Asset1 => LoadBinaryAsset($"{ns}.app1.asset1.7z");
     public static dynamic Asset1PostResponse => LoadAsset($"{ns}.app1.asset1.7z.post.response.json");

@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.Client;
+  using MGNZ.Squidex.Client.Model;
   using MGNZ.Squidex.CLI.Common.Platform;
   using MGNZ.Squidex.CLI.Common.Routing;
 
@@ -24,7 +26,16 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     /// <inheritdoc />
     public override async Task<Unit> Handle(AssetListRequest request, CancellationToken cancellationToken)
     {
-      return await base.Handle(request, cancellationToken);
+      var proxy = ClientFactory.GetClientProxy<ISquidexAttachmentClient>(request.AliasCredentials);
+
+      var dto = await proxy.GetAssets(request.Application, new ListRequest()
+      {
+        Skip = 0, Top = 200
+      });
+
+      // todo : output to console
+
+      return Unit.Value;
     }
   }
 

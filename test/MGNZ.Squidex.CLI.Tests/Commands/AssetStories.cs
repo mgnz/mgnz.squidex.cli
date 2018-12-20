@@ -41,5 +41,25 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
         Path = path
       }, CancellationToken.None);
     }
+
+    public static async Task<Unit> ListAsset(AssetListHandler assetImportHandler, string application, string aliasCredentials = "aut-developer")
+    {
+      return await assetImportHandler.Handle(new AssetListRequest()
+      {
+        AliasCredentials = aliasCredentials,
+        Application = application
+      }, CancellationToken.None);
+    }
+
+    public static async Task<Unit> TagAsset(AssetTagHandler handler, string application, string id, string[] tags, string aliasCredentials = "aut-developer")
+    {
+      return await handler.Handle(new AssetTagRequest()
+      {
+        AliasCredentials = aliasCredentials,
+        Application = application,
+        Id = id,
+        Tags = string.Join(',', tags)
+      }, CancellationToken.None);
+    }
   }
 }

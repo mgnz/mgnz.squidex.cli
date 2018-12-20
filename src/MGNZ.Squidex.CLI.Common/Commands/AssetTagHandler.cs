@@ -7,6 +7,8 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.Client;
+  using MGNZ.Squidex.Client.Transport;
   using MGNZ.Squidex.CLI.Common.Platform;
   using MGNZ.Squidex.CLI.Common.Routing;
 
@@ -24,7 +26,16 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     /// <inheritdoc />
     public override async Task<Unit> Handle(AssetTagRequest request, CancellationToken cancellationToken)
     {
-      return await base.Handle(request, cancellationToken);
+      var proxy = ClientFactory.GetClientProxy<ISquidexAttachmentClient>(request.AliasCredentials);
+
+      var tagsArray = request.Tags.Split(new char[] {','});
+
+      await proxy.UpdateAssetTags(request.Application, request.Id, new UpdateAssetDto()
+      {
+        Tags = tagsArray
+      });
+
+      return Unit.Value;
     }
   }
 
@@ -32,7 +43,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   public class AssetTagRequest: BaseRequest
   {
     [Option("app", "application", required: true, ordanalityOrder: 1)] public string Application { get; set; }
-    [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
+    [Option("id", "id", required: true, ordanalityOrder: 1)] public string Id { get; set; }
     [Option("t", "tags", required: true, ordanalityOrder: 2)] public string Tags { get; set; }
     [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }

@@ -1,14 +1,13 @@
 namespace MGNZ.Squidex.CLI.Tests.Commands
 {
   using System;
-  using System.IO;
+  using System.Linq;
   using System.Threading.Tasks;
 
   using FluentAssertions;
 
   using MGNZ.Squidex.Client;
-  using MGNZ.Squidex.CLI.Common.Commands;
-
+  using MGNZ.Squidex.CLI.Common.Platform;
   using MGNZ.Squidex.Tests.Shared.Code;
 
   using Xunit;
@@ -21,17 +20,17 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [Fact]
     public async Task AssetImport_Execute_EndToEnd()
     {
-      var schemaName = $"{GetRandomSchemaName.Substring(0, 10)}.jpg";
+      var name1 = $"{GetRandomSchemaName.Substring(0, 10)}.jpg";
 
       await AttachmentChecker.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
 
-      await AssetStories.ImportAsset(AttachmentImportHandler, "aut", schemaName, MGNZ.Squidex.Tests.Shared.Code.AssetLoader.Asset2Path);
-      var dto = await AttachmentChecker.GetByNameOrDefault_NEW("aut", schemaName);
+      await AssetStories.ImportAsset(AttachmentImportHandler, "aut", name1, AssetLoader.Asset2Path);
+      var item1 = await AttachmentChecker.GetByNameOrDefault_NEW("aut", name1);
 
-      dto.Should().NotBeNull();
-      dto.IsImage.Should().BeTrue();
+      item1.Should().NotBeNull();
+      item1.IsImage.Should().BeTrue();
 
-      await AssetStories.DeleteAsset(AttachmentDeleteHandler, "aut", dto.Id);
+      await AssetStories.DeleteAsset(AttachmentDeleteHandler, "aut", item1.Id);
       await AttachmentChecker.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
@@ -57,25 +56,54 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [Fact]
     public async Task AssetDelete_Execute_EndToEnd()
     {
-      //var schemaName = GetRandomSchemaName;
+      var name1 = $"{GetRandomSchemaName.Substring(0, 10)}.jpg";
 
-      //await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
-      //await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await AttachmentChecker.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
 
-      //await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
-      //await SchemaChecker.AssertSchemaMustNotExist("aut", schemaName, delay: TimeSpan.FromSeconds(5));
+      var posted1 = await AttachmentChecker.Post("aut", name1,  MimeTypeMap.GetMimeType("jpg"), AssetLoader.Asset2);
 
-      //await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await AssetStories.DeleteAsset(AttachmentDeleteHandler, "aut", posted1.Id);
+      await AttachmentChecker.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
-    [Fact(Skip = "tag not implemented")]
+    [Fact]
     public async Task AssetList_Execute_EndToEnd()
     {
+      var name1 = $"{GetRandomSchemaName.Substring(0, 10)}.jpg";
+      var name2 = $"{GetRandomSchemaName.Substring(0, 10)}.jpg";
+
+      await AttachmentChecker.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
+
+      var posted1 = await AttachmentChecker.Post("aut", name1,  MimeTypeMap.GetMimeType("jpg"), AssetLoader.Asset2);
+      var posted2 =  await AttachmentChecker.Post("aut", name2,  MimeTypeMap.GetMimeType("jpg"), AssetLoader.Asset3);
+
+      await AssetStories.ListAsset(AttachmentListHandler, "aut");
+
+      // todo : assert expected output to console service
+
+      await AssetStories.DeleteAsset(AttachmentDeleteHandler, "aut", posted1.Id);
+      await AssetStories.DeleteAsset(AttachmentDeleteHandler, "aut", posted2.Id);
+      await AttachmentChecker.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
-    [Fact(Skip = "tag not implemented")]
+    [Fact]
     public async Task AssetTag_Execute_EndToEnd()
     {
+      var attachment1Name = $"{GetRandomSchemaName.Substring(0, 10)}.jpg";
+
+      await AttachmentChecker.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
+
+      var posted1 = await AttachmentChecker.Post("aut", attachment1Name,  MimeTypeMap.GetMimeType("jpg"), AssetLoader.Asset2);
+
+      var updatedTags = posted1.Tags.Append("tag-a").Append("tag-b").ToArray();
+      await AssetStories.TagAsset(AttachmentTagHandler, "aut", posted1.Id, updatedTags);
+      var updated1 = await AttachmentChecker.GetByNameOrDefault_NEW("aut", attachment1Name);
+
+      updated1.Should().NotBeNull();
+      updated1.Tags.Should().Contain(updatedTags);
+
+      await AssetStories.DeleteAsset(AttachmentDeleteHandler, "aut", posted1.Id);
+      await AttachmentChecker.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
   }
 }
