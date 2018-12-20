@@ -30,7 +30,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
       try
       {
-        await proxy.DeleteAsset(request.AliasCredentials, request.Id);
+        await proxy.DeleteAsset(request.Application, request.Id);
       }
       catch (Exception e)
       {

@@ -27,7 +27,7 @@ namespace MGNZ.Squidex.Client
       });
     }
 
-    public static async Task<AttachmentContent> UpdateAssetContentByNamePost_NEW(this ISquidexAttachmentClient that, string application, string fileName, string mimeType, Stream stream)
+    public static async Task<AttachmentContent> UpdateAssetContentByName_NEW(this ISquidexAttachmentClient that, string application, string fileName, string mimeType, Stream stream)
     {
       var item = await that.GetByNameOrDefault_NEW(application, fileName);
 
@@ -43,8 +43,6 @@ namespace MGNZ.Squidex.Client
 
     public static async Task<AttachmentContent> GetByNameOrDefault_NEW(this ISquidexAttachmentClient that, string application, string fileName)
     {
-      if (Path.HasExtension(fileName)) fileName = Path.GetFileNameWithoutExtension(fileName);
-
       // todo : pagination
       var data = await that.GetAssets(application, new ListRequest()
       {
@@ -59,7 +57,7 @@ namespace MGNZ.Squidex.Client
       return item;
     }
 
-    public static async Task<bool> AttachmentExistsPost_NEW(this ISquidexAttachmentClient that, string application,
+    public static async Task<bool> AttachmentExists_NEW(this ISquidexAttachmentClient that, string application,
       string fileName = null)
     {
       var item = await that.GetByNameOrDefault_NEW(application, fileName);

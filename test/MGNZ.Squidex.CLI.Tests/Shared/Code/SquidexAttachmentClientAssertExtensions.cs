@@ -14,7 +14,7 @@ namespace MGNZ.Squidex.Tests.Shared.Code
       // because of eventual consistency
       if (delay.HasValue) await Task.Delay(delay.Value);
 
-      var exists = await that.AttachmentExists(application);
+      var exists = await that.AttachmentExists_NEW(application);
       exists.Should().BeFalse();
     }
 
@@ -23,7 +23,7 @@ namespace MGNZ.Squidex.Tests.Shared.Code
       // because of eventual consistency
       if (delay.HasValue) await Task.Delay(delay.Value);
 
-      var exists = await that.AttachmentExists(application, name);
+      var exists = await that.AttachmentExists_NEW(application, name);
       exists.Should().BeTrue();
     }
 
@@ -32,7 +32,7 @@ namespace MGNZ.Squidex.Tests.Shared.Code
       // because of eventual consistency
       if (delay.HasValue) await Task.Delay(delay.Value);
 
-      var exists = await that.AttachmentExists(application, name);
+      var exists = await that.AttachmentExists_NEW(application, name);
       exists.Should().BeFalse();
     }
   }

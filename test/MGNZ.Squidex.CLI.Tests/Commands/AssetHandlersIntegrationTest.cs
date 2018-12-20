@@ -6,6 +6,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   using FluentAssertions;
 
+  using MGNZ.Squidex.Client;
   using MGNZ.Squidex.CLI.Common.Commands;
 
   using MGNZ.Squidex.Tests.Shared.Code;
@@ -25,9 +26,12 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       await AttachmentChecker.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
 
       await AssetStories.ImportAsset(AttachmentImportHandler, "aut", schemaName, MGNZ.Squidex.Tests.Shared.Code.AssetLoader.Asset2Path);
-      await AttachmentChecker.AssertAttachmentMustExist("aut", schemaName, delay: TimeSpan.FromSeconds(0.5));
+      var dto = await AttachmentChecker.GetByNameOrDefault_NEW("aut", schemaName);
 
-      await AssetStories.DeleteAsset(AttachmentDeleteHandler, "aut", schemaName);
+      dto.Should().NotBeNull();
+      dto.IsImage.Should().BeTrue();
+
+      await AssetStories.DeleteAsset(AttachmentDeleteHandler, "aut", dto.Id);
       await AttachmentChecker.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
