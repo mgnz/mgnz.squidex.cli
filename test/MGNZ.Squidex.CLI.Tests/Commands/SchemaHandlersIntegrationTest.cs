@@ -20,13 +20,13 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     {
       var schemaName = GetRandomSchemaName;
 
-      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
 
-      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
-      await SchemaChecker.AssertSchemaMustExist("aut", schemaName, delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaClient.AssertSchemaMustExist("aut", schemaName, delay: TimeSpan.FromSeconds(0.5));
 
-      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
-      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
+      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
     [Fact]
@@ -35,17 +35,17 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       var schemaName = GetRandomSchemaName;
       var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(SchemaExport_Execute_EndToEnd)}-out.json");
 
-      await SchemaChecker.AssertNoSchemasExist("aut");
-      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaClient.AssertNoSchemasExist("aut");
+      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
 
-      await SchemaStories.ExportSchema(SchemaExportHandler, "aut", schemaName, exportPath);
+      await SchemaStories.ExportSchema(SchemaExportSystemUnderTest, "aut", schemaName, exportPath);
       var exportedFileExists = File.Exists(exportPath);
       exportedFileExists.Should().BeTrue($"{nameof(SchemaExportRequest)} failed to export file");
 
       // todo validate export file
 
-      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
-      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
+      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
     [Fact]
@@ -53,13 +53,13 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     {
       var schemaName = GetRandomSchemaName;
 
-      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
-      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
 
-      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
-      await SchemaChecker.AssertSchemaMustNotExist("aut", schemaName, delay: TimeSpan.FromSeconds(5));
+      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
+      await SchemaClient.AssertSchemaMustNotExist("aut", schemaName, delay: TimeSpan.FromSeconds(5));
 
-      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
     [Fact(Skip = "tag not implemented")]

@@ -24,13 +24,13 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     public async Task get_asset_data()
     {
       var schemaName = GetRandomSchemaName;
-      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
-      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
 
-      var post1response = await ContentChecker.Create<dynamic>("aut", schemaName, AssetLoader.Schema1Data1Post.Value);
-      var post2response = await ContentChecker.Create<dynamic>("aut", schemaName, AssetLoader.Schema1Data2Post.Value);
+      var post1response = await ContentClient.Create<dynamic>("aut", schemaName, AssetLoader.Schema1Data1Post.Value);
+      var post2response = await ContentClient.Create<dynamic>("aut", schemaName, AssetLoader.Schema1Data2Post.Value);
 
-      var queryresponse = await ContentChecker.Query<dynamic>("aut", schemaName, new QueryRequest()
+      var queryresponse = await ContentClient.Query<dynamic>("aut", schemaName, new QueryRequest()
       {
         Skip = 0,
         Top = 100
@@ -40,22 +40,22 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       var post2responsestring = JsonConvert.SerializeObject(post2response, Formatting.Indented);
       var queryresponsestring = JsonConvert.SerializeObject(queryresponse, Formatting.Indented);
 
-      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
+      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
     }
 
     [Fact]
     public async Task ContentImport_Execute_EndToEnd()
     {
       var schemaName = GetRandomSchemaName;
-      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
-      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
 
       var expectedFirst = AssetLoader.Schema1DataQueryResponse.Items[0];
       var expectedSecond = AssetLoader.Schema1DataQueryResponse.Items[1];
 
-      await ContentStories.ImportContent(ContentImportHandler, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
+      await ContentStories.ImportContent(ContentImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
 
-      var content = await ContentChecker.Query<dynamic>("aut", schemaName, new QueryRequest()
+      var content = await ContentClient.Query<dynamic>("aut", schemaName, new QueryRequest()
       {
         Skip = 0,
         Top = 100
@@ -69,16 +69,16 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
       // todo : verify
 
-      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
+      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
     }
 
     [Fact]
     public async Task ContentExport_Execute_EndToEnd()
     {
       var schemaName = GetRandomSchemaName;
-      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
-      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
-      await ContentStories.ImportContent(ContentImportHandler, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
+      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
+      await ContentStories.ImportContent(ContentImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
 
       var expectedFirst = AssetLoader.Schema1DataExportResponse.Items[0];
       var expectedSecond = AssetLoader.Schema1DataExportResponse.Items[1];
@@ -87,24 +87,24 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
       // act
 
-      await ContentStories.ExportContent(ContentExportHandler, "aut", schemaName, exportPath, top: "10", skip: "0");
+      await ContentStories.ExportContent(ContentExportSystemUnderTest, "aut", schemaName, exportPath, top: "10", skip: "0");
       var exportedFileExists = File.Exists(exportPath);
       exportedFileExists.Should().BeTrue($"{nameof(SchemaExportRequest)} failed to export file");
 
       // todo : verify export content
 
-      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
+      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
     }
 
     [Fact]
     public async Task ContentDelete_Execute_EndToEnd()
     {
       var schemaName = GetRandomSchemaName;
-      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
-      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
-      await ContentStories.ImportContent(ContentImportHandler, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
+      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
+      await ContentStories.ImportContent(ContentImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
 
-      var content = await ContentChecker.Query<dynamic>("aut", schemaName, new QueryRequest()
+      var content = await ContentClient.Query<dynamic>("aut", schemaName, new QueryRequest()
       {
         Skip = 0,
         Top = 100
@@ -116,34 +116,34 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
       // act
 
-      await ContentStories.DeleteContent(ContentDeleteHandler, "aut", schemaName, actualFirst.Id);
+      await ContentStories.DeleteContent(ContentDeleteSystemUnderTest, "aut", schemaName, actualFirst.Id);
 
       // todo : verify export content
 
-      await ContentChecker.AssertContentMustNotExists("aut", schemaName, actualFirst.Id);
-      await ContentChecker.AssertContentMustExists("aut", schemaName, actualSecond.Id);
+      await ContentClient.AssertContentMustNotExists("aut", schemaName, actualFirst.Id);
+      await ContentClient.AssertContentMustExists("aut", schemaName, actualSecond.Id);
 
       // clean up
 
-      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
+      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
     }
 
     [Fact]
     public async Task ContentPost_Execute_EndToEnd()
     {
       var schemaName = GetRandomSchemaName;
-      await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
-      await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
 
       var expectedFirst = AssetLoader.Schema1DataExportResponse.Items[0];
       var expectedSecond = AssetLoader.Schema1DataExportResponse.Items[1];
 
       // act
 
-      await ContentStories.PostContent(ContentPostHandler, "aut", schemaName, AssetLoader.Schema1Data1PostPath, publish: true);
-      await ContentStories.PostContent(ContentPostHandler, "aut", schemaName, AssetLoader.Schema1Data2PostPath, publish: true);
+      await ContentStories.PostContent(ContentPostSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Data1PostPath, publish: true);
+      await ContentStories.PostContent(ContentPostSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Data2PostPath, publish: true);
 
-      var content = await ContentChecker.Query<dynamic>("aut", schemaName, new QueryRequest()
+      var content = await ContentClient.Query<dynamic>("aut", schemaName, new QueryRequest()
       {
         Skip = 0,
         Top = 100
@@ -155,7 +155,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
       // todo : verify export content
 
-      await SchemaStories.DeleteSchema(SchemaDeleteHandler, "aut", schemaName);
+      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
     }
   }
 }
