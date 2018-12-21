@@ -27,7 +27,7 @@ queue:
   
 trigger:
   branches:
-    include
+    include:
     - feature/*
     - features/*
     - bug/*
