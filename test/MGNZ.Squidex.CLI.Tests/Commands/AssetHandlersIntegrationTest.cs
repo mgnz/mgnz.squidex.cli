@@ -29,7 +29,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       item1.Should().NotBeNull();
       item1.IsImage.Should().BeTrue();
 
-      await AssetStories.DeleteAsset(AttachmentDeleteSystemUnderTest, "aut", item1.Id);
+      await AttachmentClient.DeleteAsset("aut", item1.Id);
       await AttachmentClient.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
@@ -58,10 +58,10 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       var name1 = $"{GetRandomSchemaName.Substring(0, 10)}.jpg";
 
       await AttachmentClient.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
-
       var posted1 = await AttachmentClient.Post("aut", name1,  MimeTypeMap.GetMimeType("jpg"), AssetLoader.Asset2);
 
       await AssetStories.DeleteAsset(AttachmentDeleteSystemUnderTest, "aut", posted1.Id);
+
       await AttachmentClient.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
@@ -80,8 +80,8 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
       // todo : assert expected output to console service
 
-      await AssetStories.DeleteAsset(AttachmentDeleteSystemUnderTest, "aut", posted1.Id);
-      await AssetStories.DeleteAsset(AttachmentDeleteSystemUnderTest, "aut", posted2.Id);
+      await AttachmentClient.DeleteAsset("aut", posted1.Id);
+      await AttachmentClient.DeleteAsset("aut", posted2.Id);
       await AttachmentClient.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
@@ -91,7 +91,6 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       var name1 = $"{GetRandomSchemaName.Substring(0, 10)}.jpg";
 
       await AttachmentClient.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
-
       var posted1 = await AttachmentClient.Post("aut", name1,  MimeTypeMap.GetMimeType("jpg"), AssetLoader.Asset2);
 
       var updatedTags = posted1.Tags.Append("tag-a").Append("tag-b").ToArray();
@@ -101,7 +100,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       updated1.Should().NotBeNull();
       updated1.Tags.Should().Contain(updatedTags);
 
-      await AssetStories.DeleteAsset(AttachmentDeleteSystemUnderTest, "aut", posted1.Id);
+      await AttachmentClient.DeleteAsset("aut", posted1.Id);
       await AttachmentClient.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
@@ -123,7 +122,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       updated1.FileName.Should().BeEquivalentTo(posted1.FileName);
       updated1.FileSize.Should().NotBe(posted1.FileSize);
 
-      await AssetStories.DeleteAsset(AttachmentDeleteSystemUnderTest, "aut", posted1.Id);
+      await AttachmentClient.DeleteAsset("aut", posted1.Id);
       await AttachmentClient.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
   }

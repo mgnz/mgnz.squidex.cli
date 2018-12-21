@@ -18,46 +18,48 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [Fact]
     public async Task SchemaImport_Execute_EndToEnd()
     {
-      var schemaName = GetRandomSchemaName;
+      var name1 = GetRandomSchemaName;
 
       await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
 
-      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
-      await SchemaClient.AssertSchemaMustExist("aut", schemaName, delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", name1, AssetLoader.Schema1Path);
+      await SchemaClient.AssertSchemaMustExist("aut", name1, delay: TimeSpan.FromSeconds(0.5));
 
-      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
+      await SchemaClient.DeleteSchema("aut", name1);
       await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
     [Fact]
     public async Task SchemaExport_Execute_EndToEnd()
     {
-      var schemaName = GetRandomSchemaName;
-      var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(SchemaExport_Execute_EndToEnd)}-out.json");
+      var name1 = GetRandomSchemaName;
+      var exportPath1 = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(SchemaExport_Execute_EndToEnd)}-out.json");
 
       await SchemaClient.AssertNoSchemasExist("aut");
-      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaClient.CreateSchema("aut", AssetLoader.Schema1(name1));
+      await SchemaClient.PublishSchema("aut", name1);
 
-      await SchemaStories.ExportSchema(SchemaExportSystemUnderTest, "aut", schemaName, exportPath);
-      var exportedFileExists = File.Exists(exportPath);
+      await SchemaStories.ExportSchema(SchemaExportSystemUnderTest, "aut", name1, exportPath1);
+      var exportedFileExists = File.Exists(exportPath1);
       exportedFileExists.Should().BeTrue($"{nameof(SchemaExportRequest)} failed to export file");
 
       // todo validate export file
 
-      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
+      await SchemaClient.DeleteSchema("aut", name1);
       await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
     [Fact]
     public async Task SchemaDelete_Execute_EndToEnd()
     {
-      var schemaName = GetRandomSchemaName;
+      var name1 = GetRandomSchemaName;
 
-      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
-      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaClient.AssertNoSchemasExist("aut");
+      await SchemaClient.CreateSchema("aut", AssetLoader.Schema1(name1));
+      await SchemaClient.PublishSchema("aut", name1);
 
-      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
-      await SchemaClient.AssertSchemaMustNotExist("aut", schemaName, delay: TimeSpan.FromSeconds(5));
+      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", name1);
+      await SchemaClient.AssertSchemaMustNotExist("aut", name1, delay: TimeSpan.FromSeconds(5));
 
       await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
