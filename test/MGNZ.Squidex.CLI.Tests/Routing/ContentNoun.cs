@@ -1,4 +1,4 @@
-namespace MGNZ.Squidex.CLI.Tests.Commands
+namespace MGNZ.Squidex.CLI.Tests.Routing
 {
   using System.Collections.Generic;
 

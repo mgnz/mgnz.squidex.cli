@@ -9,9 +9,9 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   public static class SchemaStories
   {
-    public static async Task<Unit> DeleteSchema(SchemaDeleteHandler schemaDeleteHandler, string application, string name, string aliasCredentials = "aut-developer")
+    public static async Task<Unit> DeleteSchema(SchemaDeleteHandler systemUnderTest, string application, string name, string aliasCredentials = "aut-developer")
     {
-      return await schemaDeleteHandler.Handle(new SchemaDeleteRequest()
+      return await systemUnderTest.Handle(new SchemaDeleteRequest()
       {
         AliasCredentials = aliasCredentials,
         Application = application,
@@ -19,9 +19,9 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       }, CancellationToken.None);
     }
 
-    public static async Task<Unit> ExportSchema(SchemaExportHandler schemaExportHandler, string application, string name, string path, string aliasCredentials = "aut-developer")
+    public static async Task<Unit> ExportSchema(SchemaExportHandler systemUnderTest, string application, string name, string path, string aliasCredentials = "aut-developer")
     {
-      return await schemaExportHandler.Handle(new SchemaExportRequest()
+      return await systemUnderTest.Handle(new SchemaExportRequest()
       {
         AliasCredentials = aliasCredentials,
         Application = application,
@@ -30,9 +30,9 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       }, CancellationToken.None);
     }
 
-    public static async Task<Unit> ImportSchema(SchemaImportHandler schemaImportHandler, string application, string name, string path, string aliasCredentials = "aut-developer")
+    public static async Task<Unit> ImportSchema(SchemaImportHandler systemUnderTest, string application, string name, string path, string aliasCredentials = "aut-developer")
     {
-      return await schemaImportHandler.Handle(new SchemaImportRequest()
+      return await systemUnderTest.Handle(new SchemaImportRequest()
       {
         AliasCredentials = aliasCredentials,
         Application = application,

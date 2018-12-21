@@ -7,25 +7,43 @@ namespace MGNZ.Squidex.CLI.Common.Commands
 
   using MediatR;
 
+  using MGNZ.Squidex.Client;
+  using MGNZ.Squidex.Client.Transport;
+  using MGNZ.Squidex.CLI.Common.Platform;
   using MGNZ.Squidex.CLI.Common.Routing;
 
   using Serilog;
 
   public class AssetTagHandler : BaseHandler<AssetTagRequest>
   {
-    public AssetTagHandler(ILogger logger, IClientProxyFactory clientFactory, IContainer container) : base(logger, clientFactory, container) { }
+    private readonly IConsoleWriter _consoleWriter;
+    public AssetTagHandler(ILogger logger, IClientProxyFactory clientFactory, IConsoleWriter consoleWriter, IContainer container)
+      : base(logger, clientFactory, container)
+    {
+      _consoleWriter = consoleWriter;
+    }
 
     /// <inheritdoc />
     public override async Task<Unit> Handle(AssetTagRequest request, CancellationToken cancellationToken)
     {
-      return await base.Handle(request, cancellationToken);
+      var proxy = ClientFactory.GetClientProxy<ISquidexAttachmentClient>(request.AliasCredentials);
+
+      var tagsArray = request.Tags.Split(new char[] {','});
+
+      await proxy.UpdateAssetTags(request.Application, request.Id, new UpdateAssetDto()
+      {
+        Tags = tagsArray
+      });
+
+      return Unit.Value;
     }
   }
 
   [Noun("asset"), Verb("tag")]
   public class AssetTagRequest: BaseRequest
   {
-    [Option("n", "name", required: true, ordanalityOrder: 1)] public string Name { get; set; }
+    [Option("app", "application", required: true, ordanalityOrder: 1)] public string Application { get; set; }
+    [Option("id", "id", required: true, ordanalityOrder: 1)] public string Id { get; set; }
     [Option("t", "tags", required: true, ordanalityOrder: 2)] public string Tags { get; set; }
     [Option("c", "alias-credentials")] public string AliasCredentials { get; set; }
   }
