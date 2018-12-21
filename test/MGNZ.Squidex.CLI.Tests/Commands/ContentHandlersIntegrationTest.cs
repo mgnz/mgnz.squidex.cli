@@ -13,8 +13,6 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using MGNZ.Squidex.CLI.Common.Commands;
   using MGNZ.Squidex.Tests.Shared.Code;
 
-  using Newtonsoft.Json;
-
   using Xunit;
 
   [Collection("Sequential Squidex Integration Tests")]
