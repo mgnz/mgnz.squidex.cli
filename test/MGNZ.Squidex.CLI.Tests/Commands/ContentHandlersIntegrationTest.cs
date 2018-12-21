@@ -50,8 +50,8 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
       await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
 
-      var expectedFirst = AssetLoader.Schema1DataQueryResponse.Value.Items[0];
-      var expectedSecond = AssetLoader.Schema1DataQueryResponse.Value.Items[1];
+      var expectedFirst = AssetLoader.Schema1DataQueryResponse.Items[0];
+      var expectedSecond = AssetLoader.Schema1DataQueryResponse.Items[1];
 
       await ContentStories.ImportContent(ContentImportHandler, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
 
@@ -80,8 +80,8 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
       await ContentStories.ImportContent(ContentImportHandler, "aut", schemaName, AssetLoader.Schema1DataImportPath, publish: true);
 
-      var expectedFirst = AssetLoader.Schema1DataExportResponse.Value.Items[0];
-      var expectedSecond = AssetLoader.Schema1DataExportResponse.Value.Items[1];
+      var expectedFirst = AssetLoader.Schema1DataExportResponse.Items[0];
+      var expectedSecond = AssetLoader.Schema1DataExportResponse.Items[1];
 
       var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(ContentHandlersIntegrationTest)} {nameof(ContentExport_Execute_EndToEnd)}-out.json");
 
@@ -135,8 +135,8 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       await SchemaChecker.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
       await SchemaStories.ImportSchema(SchemaImportHandler, "aut", schemaName, AssetLoader.Schema1Path);
 
-      var expectedFirst = AssetLoader.Schema1DataExportResponse.Value.Items[0];
-      var expectedSecond = AssetLoader.Schema1DataExportResponse.Value.Items[1];
+      var expectedFirst = AssetLoader.Schema1DataExportResponse.Items[0];
+      var expectedSecond = AssetLoader.Schema1DataExportResponse.Items[1];
 
       // act
 
