@@ -21,6 +21,19 @@ queue:
   # ‘mgnz_release_libversion_suffix’
   # ‘MGNZ_CI_PACKAGEVERSION’
   # ‘MGNZ_RELEASE_PACKAGEVERSION’
+
+trigger:
+  branches:
+    include:
+    - master
+
+pr:
+  branches:
+    include:
+    - master
+    - release/*
+    - releases/*
+
 steps:
 - task: DotNetCoreInstaller@0
   displayName: 'Use .NET Core sdk 2.2.100'
