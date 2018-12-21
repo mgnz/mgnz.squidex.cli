@@ -26,10 +26,17 @@ trigger:
   branches:
     include:
     - master
-
+    - release/*
+    - releases/*
+    exclude:
+    - feature/*
+    - features/*
+    - bug/*
+    - bugs/*
+    
 pr:
   branches:
-    include:
+    exclude:
     - master
     - release/*
     - releases/*
