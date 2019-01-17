@@ -28,7 +28,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     {
       var proxy = ClientFactory.GetClientProxy<ISquidexAttachmentClient>(request.AliasCredentials);
 
-      var dto = await proxy.GetAssets(request.Application, new ListRequest()
+      var dto = await proxy.GetAllAssets(request.Application, new ListRequest()
       {
         Skip = 0, Top = 200
       });

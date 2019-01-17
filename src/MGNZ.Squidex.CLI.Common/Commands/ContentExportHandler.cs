@@ -32,7 +32,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     {
       var proxy = ClientFactory.GetClientProxy<ISquidexContentClient>(request.AliasCredentials);
 
-      var outputFileContent = await proxy.Query<dynamic>(request.Application, request.Schema, new QueryRequest()
+      var outputFileContent = await proxy.QueryContent<dynamic>(request.Application, request.Schema, new QueryRequest()
       {
         Search = request.SearchBy,
         Filter = request.FilterBy,

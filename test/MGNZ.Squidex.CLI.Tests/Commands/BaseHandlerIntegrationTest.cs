@@ -13,8 +13,13 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using MGNZ.Squidex.CLI.Tests.Plumbing;
 
   using Microsoft.Extensions.Configuration;
+  using System.Threading.Tasks;
+  using System.Collections.Generic;
+  using MGNZ.Squidex.Client.Model;
+  using System.Linq;
+  using System;
 
-  public class BaseHandlerIntegrationTest
+  public class BaseHandlerIntegrationTest : IDisposable
   {
     protected ISquidexAppSchemaClient SchemaClient { get; set; } = null;
     protected SchemaImportHandler SchemaImportSystemUnderTest { get; set; } = null;
@@ -71,6 +76,38 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       AttachmentListSystemUnderTest = new AssetListHandler(SerilogFixture.UsefullLogger<AssetListHandler>(), clientFactory, consoleWriter, null);
       AttachmentTagSystemUnderTest = new AssetTagHandler(SerilogFixture.UsefullLogger<AssetTagHandler>(), clientFactory, consoleWriter, null);
       AssetUpdateContentSystemUnderTest = new AssetUpdateContentHandler(SerilogFixture.UsefullLogger<AssetUpdateContentHandler>(), clientFactory, consoleWriter, null);
+    }
+
+    public void Dispose()
+    {
+      Task.Run(async () => await PurgeSchema()).Wait();
+      Task.Run(async () => await PurgeAttachments()).Wait();
+    }
+
+    private async Task PurgeSchema()
+    {
+      var data = await SchemaClient.GetAllSchemas("aut");
+      var count = Convert.ToInt32(data.Count);
+
+      if (count == 0) return;
+
+      var allnames = ((IEnumerable<dynamic>) data).Select(d => Convert.ToString(d.name));
+      foreach (var name in allnames)
+        await SchemaClient.DeleteSchema("aut", name);
+    }
+
+    private async Task PurgeAttachments()
+    {
+      var data = await AttachmentClient.GetAllAssets("aut", new ListRequest()
+      {
+        Skip = 0, Top = 200
+      });
+      var count = data.Total;
+
+      if (count == 0) return;
+
+      foreach (var attachment in data.Items)
+        await AttachmentClient.DeleteAsset("aut", attachment.Id);
     }
   }
 }

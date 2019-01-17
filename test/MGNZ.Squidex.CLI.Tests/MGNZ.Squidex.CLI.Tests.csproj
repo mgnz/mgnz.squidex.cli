@@ -43,7 +43,7 @@
     <PackageReference Include="dotnet-reportgenerator-cli" Version="4.0.4" />
     <PackageReference Include="FluentAssertions" Version="5.5.3" />
     <PackageReference Include="FluentAssertions.Analyzers" Version="0.11.4" />
-    <PackageReference Include="MGNZ.Squidex.Client" Version="0.2.6-unstable.1214" />
+    <PackageReference Include="MGNZ.Squidex.Client" Version="0.2.8-unstable.1366" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
