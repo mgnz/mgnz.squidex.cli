@@ -34,7 +34,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
         request.MimeType = MimeTypeMap.GetMimeType(Path.GetExtension(request.Name));
       }
 
-      var response = await proxy.Post(request.Application, request.Name, request.MimeType, fileStream);
+      var response = await proxy.CreateAsset(request.Application, request.Name, request.MimeType, fileStream);
 
       return Unit.Value;
     }

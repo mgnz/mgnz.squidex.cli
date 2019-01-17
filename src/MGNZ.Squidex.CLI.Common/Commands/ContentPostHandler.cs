@@ -16,6 +16,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
   using Newtonsoft.Json;
 
   using Serilog;
+  using System;
 
   public class ContentPostHandler : BaseHandler<ContentPostRequest>
   {
@@ -36,8 +37,9 @@ namespace MGNZ.Squidex.CLI.Common.Commands
       var publish = false;
       bool.TryParse(request.Publish, out publish);
 
-      var createResponse = await proxy.Create<dynamic>(request.Application, request.Schema, inputFileContent);
-      if (publish) await proxy.Publish(request.Application, request.Schema, createResponse.Id);
+      var createResponse = await proxy.CreateContent(request.Application, request.Schema, inputFileContent);
+      string createid = Convert.ToString(createResponse.id);
+      if (publish) await proxy.PublishContent(request.Application, request.Schema, createid);
 
       return Unit.Value;
     }

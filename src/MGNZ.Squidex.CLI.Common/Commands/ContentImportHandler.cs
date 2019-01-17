@@ -41,8 +41,9 @@ namespace MGNZ.Squidex.CLI.Common.Commands
       {
         var data = itemContent.Data;
 
-        var createResponse = await proxy.Create<dynamic>(request.Application, request.Schema, data);
-        if (publish) await proxy.Publish(request.Application, request.Schema, createResponse.Id);
+        var createResponse = await proxy.CreateContent(request.Application, request.Schema, data);
+        string createid = Convert.ToString(createResponse.id);
+        if (publish) await proxy.PublishContent(request.Application, request.Schema, createid);
       }
 
       return Unit.Value;

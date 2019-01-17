@@ -36,7 +36,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
         contentRequest.MimeType = MimeTypeMap.GetMimeType(Path.GetExtension(contentRequest.Id));
       }
 
-      var response = await proxy.UpdateAssetContent(contentRequest.Application, contentRequest.Id, new[]
+      var response = await proxy.UpdateAsset(contentRequest.Application, contentRequest.Id, new[]
       {
         new StreamPart(stream, contentRequest.Id, contentRequest.MimeType)
       });

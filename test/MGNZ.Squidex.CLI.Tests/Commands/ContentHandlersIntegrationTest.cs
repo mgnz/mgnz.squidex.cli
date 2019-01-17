@@ -14,6 +14,8 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using MGNZ.Squidex.Tests.Shared.Code;
 
   using Xunit;
+  using MGNZ.Squidex.Client;
+  using Newtonsoft.Json;
 
   [Collection("Sequential Squidex Integration Tests")]
   [Trait("category", "squidex-cli-integration")]
@@ -26,8 +28,8 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     //  await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     //  await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
 
-    //  var post1response = await ContentClient.Create<dynamic>("aut", schemaName, AssetLoader.Schema1Data1Post.Value);
-    //  var post2response = await ContentClient.Create<dynamic>("aut", schemaName, AssetLoader.Schema1Data2Post.Value);
+    //  var post1response = await ContentClient.CreateContent("aut", schemaName, AssetLoader.Schema1Data1Post.Value);
+    //  var post2response = await ContentClient.CreateContent("aut", schemaName, AssetLoader.Schema1Data2Post.Value);
 
     //  var queryresponse = await ContentClient.Query<dynamic>("aut", schemaName, new QueryRequest()
     //  {
@@ -53,7 +55,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       var expected2 = AssetLoader.Schema1DataQueryResponse.Items[1];
 
       await ContentStories.ImportContent(ContentImportSystemUnderTest, "aut", name1, AssetLoader.Schema1DataImportPath, publish: true);
-      var actuals = await ContentClient.Query<dynamic>("aut", name1, new QueryRequest()
+      var actuals = await ContentClient.QueryContent("aut", name1, new QueryRequest()
       {
         Skip = 0,
         Top = 100
@@ -80,10 +82,12 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       await SchemaClient.CreateSchema("aut", AssetLoader.Schema1(name1));
       await SchemaClient.PublishSchema("aut", name1);
 
-      ItemContent<dynamic> create1 = await ContentClient.Create<dynamic>("aut", name1, AssetLoader.Schema1Data1Post);
-      ItemContent<dynamic> create2 = await ContentClient.Create<dynamic>("aut", name1, AssetLoader.Schema1Data2Post);
-      await ContentClient.Publish("aut", name1, create1.Id);
-      await ContentClient.Publish("aut", name1, create2.Id);
+      dynamic create1response = await ContentClient.CreateContent("aut", name1, AssetLoader.Schema1Data1Post);
+      dynamic create2response = await ContentClient.CreateContent("aut", name1, AssetLoader.Schema1Data2Post);
+      string create1id = Convert.ToString(create1response.id);
+      string create2id = Convert.ToString(create2response.id);
+      await ContentClient.PublishContent("aut", name1, create1id);
+      await ContentClient.PublishContent("aut", name1, create2id);
 
       var expected1 = AssetLoader.Schema1DataExportResponse.Items[0];
       var expected2 = AssetLoader.Schema1DataExportResponse.Items[1];
@@ -107,19 +111,21 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       await SchemaClient.CreateSchema("aut", AssetLoader.Schema1(name1));
       await SchemaClient.PublishSchema("aut", name1);
 
-      ItemContent<dynamic> create1 = await ContentClient.Create<dynamic>("aut", name1, AssetLoader.Schema1Data1Post);
-      ItemContent<dynamic> create2 = await ContentClient.Create<dynamic>("aut", name1, AssetLoader.Schema1Data2Post);
-      await ContentClient.Publish("aut", name1, create1.Id);
-      await ContentClient.Publish("aut", name1, create2.Id);
+      dynamic create1response = await ContentClient.CreateContent("aut", name1, AssetLoader.Schema1Data1Post);
+      dynamic create2response = await ContentClient.CreateContent("aut", name1, AssetLoader.Schema1Data2Post);
+      string create1id = Convert.ToString(create1response.id);
+      string create2id = Convert.ToString(create2response.id);
+      await ContentClient.PublishContent("aut", name1, create1id);
+      await ContentClient.PublishContent("aut", name1, create2id);
 
       // act
 
-      await ContentStories.DeleteContent(ContentDeleteSystemUnderTest, "aut", name1, create1.Id);
+      await ContentStories.DeleteContent(ContentDeleteSystemUnderTest, "aut", name1, create1id);
 
       // todo : verify export content
 
-      await ContentClient.AssertContentMustNotExists("aut", name1, create1.Id);
-      await ContentClient.AssertContentMustExists("aut", name1, create2.Id);
+      await ContentClient.AssertContentMustNotExists("aut", name1, create1id, delay: TimeSpan.FromSeconds(0.5));
+      await ContentClient.AssertContentMustExists("aut", name1, create2id, delay: TimeSpan.FromSeconds(0.5));
 
       // clean up
 
@@ -142,13 +148,14 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       await ContentStories.PostContent(ContentPostSystemUnderTest, "aut", name1, AssetLoader.Schema1Data1PostPath, publish: true);
       await ContentStories.PostContent(ContentPostSystemUnderTest, "aut", name1, AssetLoader.Schema1Data2PostPath, publish: true);
 
-      var content = await ContentClient.Query<dynamic>("aut", name1, new QueryRequest()
+      var content = await ContentClient.QueryContent("aut", name1, new QueryRequest()
       {
         Skip = 0,
         Top = 100
       });
 
-      content.Total.Should().Be(2);
+      int contentTotal = Convert.ToInt32(content.Total);
+      contentTotal.Should().Be(2);
       var actualFirst = content.Items[0];
       var actualSecond = content.Items[1];
 
@@ -157,5 +164,16 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       await SchemaClient.DeleteSchema("aut", name1);
       await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
+  }
+
+    static class foo
+    {
+      public static async Task<QueryResponse<dynamic>> QueryContent(this ISquidexContentClient that, string app, string schema, QueryRequest request)
+      {
+        dynamic raw = await that.QueryContent(app, schema, request.Top, request.Skip, request.OrderBy, request.Search, request.Filter);
+        var deserialized = JsonConvert.DeserializeObject<QueryResponse<dynamic>>(raw.ToString());
+
+        return deserialized;
+      }
   }
 }

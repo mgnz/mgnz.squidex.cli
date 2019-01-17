@@ -28,7 +28,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     {
       var proxy = ClientFactory.GetClientProxy<ISquidexContentClient>(request.AliasCredentials);
 
-      await proxy.Delete(request.Application, request.Schema, request.Id);
+      await proxy.DeleteContent(request.Application, request.Schema, request.Id);
 
       return Unit.Value;
     }
