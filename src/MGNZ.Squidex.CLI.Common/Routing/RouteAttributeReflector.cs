@@ -40,9 +40,9 @@ namespace MGNZ.Squidex.CLI.Common.Routing
       }
     }
 
-    public Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, string nounName = null)
+    public Dictionary<string, ( VerbAttribute VerbAttribute, Type Type )> ReflectVerbs(Assembly assembly, string nounName = null)
     {
-      var results = new Dictionary<string, Tuple<VerbAttribute, Type>>();
+      var results = new Dictionary<string, (VerbAttribute VerbAttribute, Type Type)>();
 
       using (LogContext.PushProperty("method", nameof(ReflectVerbs)))
       using (LogContext.PushProperty("args", assembly))
@@ -65,12 +65,12 @@ namespace MGNZ.Squidex.CLI.Common.Routing
             if ((string.IsNullOrWhiteSpace(nounName) || string.IsNullOrEmpty(nounName)) == false && nounAttribute.IsNamed(nounName))
             {
               var defaultName = verbAttribute.GetDefaultName;
-              results.Add(defaultName, new Tuple<VerbAttribute, Type>(verbAttribute, type));
+              results.Add(defaultName, (verbAttribute, type));
             }
             else if ((string.IsNullOrWhiteSpace(nounName) || string.IsNullOrEmpty(nounName)) == true)
             {
               var defaultName = verbAttribute.GetDefaultName;
-              results.Add(defaultName, new Tuple<VerbAttribute, Type>(verbAttribute, type));
+              results.Add(defaultName, (verbAttribute, type));
             }
           }
         }
@@ -115,7 +115,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
   public interface IReflectRouteAttributes
   {
     Dictionary<string, NounAttribute> ReflectNouns(Assembly assembly);
-    Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, string nounName = null);
+    Dictionary<string, (VerbAttribute VerbAttribute, Type Type)> ReflectVerbs(Assembly assembly, string nounName = null);
     Dictionary<string, (OptionAttribute attribute, PropertyInfo property)> ReflectOptions(Type type);
   }
 }

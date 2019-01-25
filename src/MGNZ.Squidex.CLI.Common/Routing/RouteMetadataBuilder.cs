@@ -61,8 +61,8 @@ namespace MGNZ.Squidex.CLI.Common.Routing
       var verbKvps = _attributeReflector.ReflectVerbs(assembly, nounName);
       foreach (var verbKvp in verbKvps)
       {
-        var currentVerbAttribute = verbKvp.Value.Item1;
-        var currentVerbType = verbKvp.Value.Item2;
+        var currentVerbAttribute = verbKvp.Value.VerbAttribute;
+        var currentVerbType = verbKvp.Value.Type;
 
         var currentVerb = new Verb()
         {
