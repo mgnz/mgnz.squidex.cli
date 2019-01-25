@@ -1,4 +1,4 @@
-namespace MGNZ.Squidex.CLI.Tests.Commands
+namespace MGNZ.Squidex.CLI.Tests.Commands.CommandIntegration
 {
   using System;
   using System.IO;
@@ -13,7 +13,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   [Collection("Sequential Squidex Integration Tests")]
   [Trait("category", "squidex-cli-integration")]
-  public class SchemaHandlersIntegrationTest : BaseHandlerIntegrationTest
+  public class SchemaCommandIntegrationTest : BaseCommandIntegrationTest
   {
     [Fact]
     public async Task SchemaImport_Execute_EndToEnd()
@@ -33,7 +33,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     public async Task SchemaExport_Execute_EndToEnd()
     {
       var name1 = GetRandomSchemaName;
-      var exportPath1 = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(SchemaExport_Execute_EndToEnd)}-out.json");
+      var exportPath1 = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaCommandIntegrationTest)} {nameof(SchemaExport_Execute_EndToEnd)}-out.json");
 
       await SchemaClient.AssertNoSchemasExist("aut");
       await SchemaClient.CreateSchema("aut", AssetLoader.Schema1(name1));

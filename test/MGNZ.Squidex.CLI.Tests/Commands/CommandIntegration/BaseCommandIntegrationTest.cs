@@ -1,4 +1,4 @@
-namespace MGNZ.Squidex.CLI.Tests.Commands
+namespace MGNZ.Squidex.CLI.Tests.Commands.CommandIntegration
 {
   using System.IO;
   using System.Reflection;
@@ -19,7 +19,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using System.Linq;
   using System;
 
-  public class BaseHandlerIntegrationTest : IDisposable
+  public class BaseCommandIntegrationTest : IDisposable
   {
     protected ISquidexAppSchemaClient SchemaClient { get; set; } = null;
     protected SchemaImportHandler SchemaImportSystemUnderTest { get; set; } = null;
@@ -44,7 +44,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
     protected string GetRandomSchemaName =>  new Faker().Random.AlphaNumeric(40).ToLower();
     
-    public BaseHandlerIntegrationTest()
+    public BaseCommandIntegrationTest()
     {
       var _applicationConfiguration = new ApplicationConfiguration();
       var configurationRoot = TestHelper.GetConfigurationRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));

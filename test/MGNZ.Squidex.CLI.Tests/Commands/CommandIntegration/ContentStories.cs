@@ -1,4 +1,4 @@
-namespace MGNZ.Squidex.CLI.Tests.Commands
+namespace MGNZ.Squidex.CLI.Tests.Commands.CommandIntegration
 {
   using System.Threading;
   using System.Threading.Tasks;

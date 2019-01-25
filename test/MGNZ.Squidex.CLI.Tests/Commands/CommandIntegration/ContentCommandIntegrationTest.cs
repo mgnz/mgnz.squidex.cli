@@ -1,5 +1,5 @@
 
-namespace MGNZ.Squidex.CLI.Tests.Commands
+namespace MGNZ.Squidex.CLI.Tests.Commands.CommandIntegration
 {
   using System;
   using System.IO;
@@ -19,7 +19,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   [Collection("Sequential Squidex Integration Tests")]
   [Trait("category", "squidex-cli-integration")]
-  public class ContentHandlersIntegrationTest : BaseHandlerIntegrationTest
+  public class ContentCommandIntegrationTest : BaseCommandIntegrationTest
   {
     //[Fact(Skip = "used to setup data in assets only")]
     //public async Task get_asset_data()
@@ -77,7 +77,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     public async Task ContentExport_Execute_EndToEnd()
     {
       var name1 = GetRandomSchemaName;
-      var export = Path.Combine(AssetLoader.ExportPath, $"{nameof(ContentHandlersIntegrationTest)} {nameof(ContentExport_Execute_EndToEnd)}-out.json");
+      var export = Path.Combine(AssetLoader.ExportPath, $"{nameof(ContentCommandIntegrationTest)} {nameof(ContentExport_Execute_EndToEnd)}-out.json");
 
       await SchemaClient.CreateSchema("aut", AssetLoader.Schema1(name1));
       await SchemaClient.PublishSchema("aut", name1);

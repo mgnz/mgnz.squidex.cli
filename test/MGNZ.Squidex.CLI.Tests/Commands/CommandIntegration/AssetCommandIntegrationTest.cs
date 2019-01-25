@@ -1,4 +1,4 @@
-namespace MGNZ.Squidex.CLI.Tests.Commands
+namespace MGNZ.Squidex.CLI.Tests.Commands.CommandIntegration
 {
   using System;
   using System.Linq;
@@ -15,7 +15,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   [Collection("Sequential Squidex Integration Tests")]
   [Trait("category", "squidex-cli-integration")]
-  public class AssetHandlersIntegrationTest : BaseHandlerIntegrationTest
+  public class AssetCommandIntegrationTest : BaseCommandIntegrationTest
   {
     [Fact]
     public async Task AssetImport_Execute_EndToEnd()
@@ -38,14 +38,14 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     public async Task AssetExport_Execute_EndToEnd()
     {
       var schemaName = GetRandomSchemaName;
-      var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(AssetExport_Execute_EndToEnd)}-out.json");
+      var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaCommandIntegrationTest)} {nameof(AssetExport_Execute_EndToEnd)}-out.json");
 
       await SchemaClient.AssertNoSchemasExist("aut");
       await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
 
       await SchemaStories.ExportSchema(SchemaExportSystemUnderTest, "aut", schemaName, exportPath);
       var exportedFileExists = File.Exists(exportPath);
-      exportedFileExists.Should().BeTrue($"{nameof(AssetHandlersIntegrationTest)} failed to export file");
+      exportedFileExists.Should().BeTrue($"{nameof(AssetCommandIntegrationTest)} failed to export file");
 
       // todo validate export file
 
