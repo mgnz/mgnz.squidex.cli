@@ -28,14 +28,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     {
       var proxy = ClientFactory.GetClientProxy<ISquidexAttachmentClient>(request.AliasCredentials);
 
-      try
-      {
-        await proxy.DeleteAsset(request.Application, request.Id);
-      }
-      catch (Exception e)
-      {
-        // todo : log
-      }
+      await proxy.DeleteAsset(request.Application, request.Id);
 
       return Unit.Value;
     }

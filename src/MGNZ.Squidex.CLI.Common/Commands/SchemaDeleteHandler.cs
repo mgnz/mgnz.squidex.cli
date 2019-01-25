@@ -28,7 +28,7 @@ namespace MGNZ.Squidex.CLI.Common.Commands
     {
       var proxy = ClientFactory.GetClientProxy<ISquidexAppSchemaClient>(request.AliasCredentials);
 
-      if (await SchemaExists(request.Application, request.Name))
+      if (await proxy.SchemaExists(request.Application, request.Name))
       {
         await proxy.DeleteSchema(request.Application, request.Name);
       }

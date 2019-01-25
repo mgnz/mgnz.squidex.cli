@@ -11,6 +11,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using MGNZ.Squidex.Tests.Shared.Code;
 
   using Xunit;
+  using System.IO;
 
   [Collection("Sequential Squidex Integration Tests")]
   [Trait("category", "squidex-cli-integration")]
@@ -36,20 +37,20 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     [Fact]
     public async Task AssetExport_Execute_EndToEnd()
     {
-      //var schemaName = GetRandomSchemaName;
-      //var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(AssetExport_Execute_EndToEnd)}-out.json");
+      var schemaName = GetRandomSchemaName;
+      var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(AssetExport_Execute_EndToEnd)}-out.json");
 
-      //await SchemaClient.AssertNoSchemasExist("aut");
-      //await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
+      await SchemaClient.AssertNoSchemasExist("aut");
+      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", schemaName, AssetLoader.Schema1Path);
 
-      //await SchemaStories.ExportSchema(SchemaExportSystemUnderTest, "aut", schemaName, exportPath);
-      //var exportedFileExists = File.Exists(exportPath);
-      //exportedFileExists.Should().BeTrue($"{nameof(SchemaExportRequest)} failed to export file");
+      await SchemaStories.ExportSchema(SchemaExportSystemUnderTest, "aut", schemaName, exportPath);
+      var exportedFileExists = File.Exists(exportPath);
+      exportedFileExists.Should().BeTrue($"{nameof(AssetHandlersIntegrationTest)} failed to export file");
 
-      //// todo validate export file
+      // todo validate export file
 
-      //await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
-      //await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
+      await SchemaStories.DeleteSchema(SchemaDeleteSystemUnderTest, "aut", schemaName);
+      await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
     [Fact]
