@@ -19,10 +19,10 @@ namespace MGNZ.Squidex.CLI.Tests.Routing
       // Dictionary<string, Tuple<NounAttribute, Type>>
       new object[ ]
       {
-        new Dictionary<string, NounAttribute> ()
+        new Dictionary<string, Tuple<NounAttribute, Type>> ()
         {
-          {"noun1", new NounAttribute("noun1") {}},
-          {"noun2", new NounAttribute("noun2") {}}
+          {"noun1", new Tuple<NounAttribute, Type>(new NounAttribute("noun1") {}, typeof(ReferenceA))},
+          {"noun2", new Tuple<NounAttribute, Type>(new NounAttribute("noun2") {}, typeof(BaseNounReference1))}
         },
         typeof(BaseVerbReference1).Assembly
       }
@@ -30,18 +30,20 @@ namespace MGNZ.Squidex.CLI.Tests.Routing
 
     [Theory]
     [MemberData(nameof(ReflectNouns_HappyPath_Data))]
-    public void ReflectNouns_HappyPath(Dictionary<string, NounAttribute> expectedResponse, Assembly inputAssembly)
+    public void ReflectNouns_HappyPath(Dictionary<string, Tuple<NounAttribute, Type>> expectedResponse, Assembly inputAssembly)
     {
       var sut = new RouteAttributeReflector(SerilogFixture.UsefullLogger<RouteAttributeReflector>());
       var actualResponse = sut.ReflectNouns(inputAssembly);
 
       actualResponse.Keys.Should().Contain(expectedResponse.Keys);
 
-      foreach (var expected in expectedResponse)
+      foreach (var expectedPair in expectedResponse)
       {
-        var actual = actualResponse[expected.Key];
+        var actual = actualResponse[expectedPair.Key];
 
-        actual.Should().BeEquivalentTo(expected.Value);
+        //actual.Should().BeEquivalentTo(expected.Value);
+        actual.Item1.Should().BeEquivalentTo(expectedPair.Value.Item1);
+        actual.Item2.Should().Be(expectedPair.Value.Item2);
       }
     }
 

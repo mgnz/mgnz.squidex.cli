@@ -17,9 +17,9 @@ namespace MGNZ.Squidex.CLI.Common.Routing
       _logger = logger;
     }
 
-    public Dictionary<string, NounAttribute> ReflectNouns(Assembly assembly)
+    public Dictionary<string, (NounAttribute NounAttribute, Type Type)> ReflectNouns(Assembly assembly)
     {
-      var results = new Dictionary<string, NounAttribute>();
+      var results = new Dictionary<string, (NounAttribute NounAttribute, Type Type)>();
 
       using (LogContext.PushProperty("method", nameof(ReflectNouns)))
       using (LogContext.PushProperty("args", assembly))
@@ -32,7 +32,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
           {
             var longName = attribute.GetDefaultName;
             if (!results.ContainsKey(longName))
-              results.Add(longName, attribute);
+              results.Add(longName, (attribute, type));
           }
         }
 
@@ -114,7 +114,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
 
   public interface IReflectRouteAttributes
   {
-    Dictionary<string, NounAttribute> ReflectNouns(Assembly assembly);
+    Dictionary<string, (NounAttribute NounAttribute, Type Type)> ReflectNouns(Assembly assembly);
     Dictionary<string, (VerbAttribute VerbAttribute, Type Type)> ReflectVerbs(Assembly assembly, string nounName = null);
     Dictionary<string, (OptionAttribute attribute, PropertyInfo property)> ReflectOptions(Type type);
   }
