@@ -7,8 +7,6 @@ namespace MGNZ.Squidex.CLI.Tests.Routing
   using FluentAssertions;
 
   using MGNZ.Squidex.CLI.Common.Routing;
-  using MGNZ.Squidex.CLI.Common.Commands;
-  using MGNZ.Squidex.CLI.Tests.Commands;
   using MGNZ.Squidex.CLI.Tests.Platform;
 
   using Xunit;
@@ -16,15 +14,6 @@ namespace MGNZ.Squidex.CLI.Tests.Routing
   [Trait("category", "unit")]
   public class RouteCommandsParserUnitTests
   {
-    private static Dictionary<string, Noun> Nouns =>
-      new Dictionary<string, Noun>()
-      {
-        { "app", new AppNoun() },
-        { "asset", new AssetNoun() },
-        { "content", new ContentNoun() },
-        { "schema", new SchemaNoun() }
-      };
-
     public static List<object[ ]> ParseAndPopulateOperation_HappyPath_Data => new List<object[]>
     {
       // few ways to login

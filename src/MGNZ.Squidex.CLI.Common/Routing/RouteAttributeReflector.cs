@@ -31,7 +31,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
           if (attribute != null)
           {
             var longName = attribute.GetDefaultName;
-            if(! results.ContainsKey(longName))
+            if (!results.ContainsKey(longName))
               results.Add(longName, attribute);
           }
         }
@@ -56,7 +56,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
             var nounAttribute = attributeTypePairs.SingleOrDefault(p => p.attribute is NounAttribute).attribute as NounAttribute;
             var verbAttribute = attributeTypePairs.SingleOrDefault(p => p.attribute is VerbAttribute).attribute as VerbAttribute;
 
-            if(nounAttribute == null || verbAttribute == null) break;
+            if (nounAttribute == null || verbAttribute == null) break;
 
             // given an asspcicatedNounName
             // == then accumulate the verb if the DefaultNounName of the noun matches; else skip it 
@@ -89,11 +89,9 @@ namespace MGNZ.Squidex.CLI.Common.Routing
       }
     }
 
-    public Dictionary<string, Tuple<OptionAttribute, PropertyInfo>> ReflectOptions(Type type)
+    public Dictionary<string, ( OptionAttribute attribute, PropertyInfo property )> ReflectOptions(Type type)
     {
-      // todo : refactor this so that it returns a named tuple so its a little easier
-
-      var results = new Dictionary<string, Tuple<OptionAttribute, PropertyInfo>>();
+      var results = new Dictionary<string, (OptionAttribute attribute, PropertyInfo property)>();
 
       using (LogContext.PushProperty("method", nameof(ReflectOptions)))
       using (LogContext.PushProperty("args", type))
@@ -105,7 +103,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
           if (attribute != null)
           {
             var longName = attribute.LongName;
-            results.Add(longName, new Tuple<OptionAttribute, PropertyInfo>(attribute, property));
+            results.Add(longName, (attribute, property));
           }
         }
 
@@ -118,6 +116,6 @@ namespace MGNZ.Squidex.CLI.Common.Routing
   {
     Dictionary<string, NounAttribute> ReflectNouns(Assembly assembly);
     Dictionary<string, Tuple<VerbAttribute, Type>> ReflectVerbs(Assembly assembly, string nounName = null);
-    Dictionary<string, Tuple<OptionAttribute, PropertyInfo>> ReflectOptions(Type type);
+    Dictionary<string, (OptionAttribute attribute, PropertyInfo property)> ReflectOptions(Type type);
   }
 }

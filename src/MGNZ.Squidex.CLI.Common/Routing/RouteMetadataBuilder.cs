@@ -35,8 +35,8 @@ namespace MGNZ.Squidex.CLI.Common.Routing
       var optionKvps = _attributeReflector.ReflectOptions(containingType);
       foreach (var optionKvp in optionKvps)
       {
-        var currentOptionAttribute = optionKvp.Value.Item1;
-        var currentOptionPropertyInfo = optionKvp.Value.Item2;
+        var currentOptionAttribute = optionKvp.Value.attribute;
+        var currentOptionPropertyInfo = optionKvp.Value.property;
 
         var currentOption = new Option()
         {
