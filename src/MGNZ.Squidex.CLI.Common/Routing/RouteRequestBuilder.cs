@@ -32,7 +32,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
         var instance = (BaseRequest)Activator.CreateInstance(verb.RequestType);
 
         var optionValues = verb.Options;
-        var optionProperties = GetOptions(verb.RequestType);
+        var optionProperties = GetOptionAttributeValues(verb.RequestType);
 
         var updatedOptions = optionValues.Keys.Intersect(optionProperties.Keys);
         foreach (var updatedOption in updatedOptions)
@@ -49,7 +49,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
       }
     }
 
-    private Dictionary<string, Tuple<OptionAttribute, PropertyInfo>> GetOptions(Type type)
+    private Dictionary<string, Tuple<OptionAttribute, PropertyInfo>> GetOptionAttributeValues(Type type)
     {
       var results = new Dictionary<string, Tuple<OptionAttribute, PropertyInfo>>();
 

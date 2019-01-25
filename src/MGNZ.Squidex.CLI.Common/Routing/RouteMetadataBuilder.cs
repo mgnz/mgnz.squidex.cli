@@ -86,6 +86,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
       foreach (var nounKvp in nounKvps)
       {
         var currentNounAttribute = nounKvp.Value.NounAttribute;
+        var currentNounType = nounKvp.Value.Type;
 
         var currentNoun = new Noun()
         {
