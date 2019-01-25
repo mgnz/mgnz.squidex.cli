@@ -1,4 +1,4 @@
-namespace MGNZ.Squidex.CLI.Tests.Commands
+namespace MGNZ.Squidex.CLI.Tests.Commands.CommandRouting
 {
   using System.Collections.Generic;
 
@@ -10,7 +10,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using Xunit;
 
   [Trait("category", "unit")]
-  public class ContentRequestStaticRouterUnitTests : BaseRequestStaticRouterUnitTest
+  public class ContentCommandRoutingUnitTest : BaseCommandRoutingUnitTest
   {
     public static List<object[]> StaticRouter_Verify_ContentImport_Data => BuildSchemaImportData("content", "import");
     public static List<object[ ]> StaticRouter_Verify_ContentExport_Data => BuildSchemaImportData("content", "export");

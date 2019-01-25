@@ -1,4 +1,4 @@
-namespace MGNZ.Squidex.CLI.Tests.Commands
+namespace MGNZ.Squidex.CLI.Tests.Commands.CommandRouting
 {
   using System;
   using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
   using MGNZ.Squidex.CLI.Common.Routing;
   using MGNZ.Squidex.CLI.Tests.Platform;
 
-  public class BaseRequestStaticRouterUnitTest
+  public class BaseCommandRoutingUnitTest
   {
     public static Lazy<Dictionary<string, Noun>> RoutingMetadata => new Lazy<Dictionary<string, Noun>>(LoadRoutingMetadata);
     private static Dictionary<string, Noun> LoadRoutingMetadata()
