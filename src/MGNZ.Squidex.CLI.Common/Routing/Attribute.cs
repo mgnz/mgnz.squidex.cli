@@ -113,7 +113,7 @@ namespace MGNZ.Squidex.CLI.Common.Routing
     public int? OrdanalityOrder { get; }
     public string HelpText { get; }
 
-    public OptionAttribute(string shortName, string longName, bool required = false, int ordanalityOrder = 0, string helpText = "")
+    public OptionAttribute(string shortName, string longName = "", bool required = false, int ordanalityOrder = 0, string helpText = "")
     {
       ShortName = shortName;
       LongName = longName;
@@ -139,6 +139,15 @@ namespace MGNZ.Squidex.CLI.Common.Routing
 
       if (ordanalityOrder == 0)
         OrdanalityOrder = null;
+
+      // must have a shortName or a longName both is ok.
+
+      if(string.IsNullOrEmpty(shortName) || string.IsNullOrWhiteSpace(shortName)
+        && string.IsNullOrEmpty(longName) || string.IsNullOrWhiteSpace(longName))
+      {
+        var argumentOutOfRange = new ArgumentOutOfRangeException($"An Option must have either a shortName or a longName; both is preferred.");
+        throw argumentOutOfRange;
+      }
     }
   }
 
