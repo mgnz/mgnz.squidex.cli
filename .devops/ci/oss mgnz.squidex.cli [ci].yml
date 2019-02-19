@@ -146,7 +146,7 @@ steps:
     projects: '**/*Tests.csproj'
     arguments: '--configuration debug --filter "category=unit" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include="[MGNZ.*]*" /p:UseSourceLink=true /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
 
-- script: 'reportgenerator -reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports -tag:$(mgnz_ci_libverssion) -reportTypes:HTMLInline;HTMLChart;Badges -historydir:"C:\Archive\oss MGNZ.Squidex.Cli [ci]\Coverage"'
+- script: 'reportgenerator -reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports -tag:$(mgnz_ci_libverssion) -reportTypes:HtmlInline_AzurePipelines_Dark;HTMLChart;Badges;PngChart -historydir:"C:\Archive\oss MGNZ.Squidex.Cli [ci]\Coverage"'
   displayName: 'reportgenerator '
 
 - task: PublishCodeCoverageResults@1
