@@ -42,7 +42,6 @@ steps:
   inputs:
     version: 2.2.100
 
-
 - task: gittools.gitversion.gitversion-task.GitVersion@3
   displayName: GitVersion
 
@@ -96,7 +95,6 @@ steps:
    set-content $fileName $out
 
    write-output "##vso[task.addattachment type=Distributedtask.Core.Summary;name=Environment Variables;]$fileName"
-
   displayName: 'Save Variables'
 
 - task: DotNetCoreCLI@2
@@ -104,12 +102,10 @@ steps:
   inputs:
     command: restore
 
-
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
     arguments: '--configuration $(Build.Configuration) /p:version=$(mgnz_libversion) --version-suffix $(mgnz_libversion_suffix)'
-
 
 - powershell: |
    $config = "
@@ -139,34 +135,25 @@ steps:
   displayName: 'dotnet test and collect coverage (unit)'
   inputs:
     command: test
-
     projects: '**/*Tests.csproj'
+    arguments: '--configuration debug --filter "unit|category=squidex-cli-integration" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include="[MGNZ.*]*" /p:UseSourceLink=true /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
 
-    arguments: '--configuration $(Build.Configuration) --filter category=unit|category=squidex-cli-integration /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
-
-
-- script: 'reportgenerator -reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports -tag:$(mgnz_ci_libverssion) -reportTypes:HTMLInline;HTMLChart;Badges -historydir:"C:\Archive\oss MGNZ.Squidex.Cli [integration]\Coverage"'
+- script: 'reportgenerator -reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports -tag:$(mgnz_ci_libverssion) -reportTypes:HtmlInline_AzurePipelines_Dark;HTMLChart;Badges;PngChart -historydir:"C:\Archive\oss MGNZ.Squidex.Cli [integration]\Coverage"'
   displayName: 'reportgenerator '
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage'
   inputs:
     codeCoverageTool: Cobertura
-
     summaryFileLocation: '$(Build.SourcesDirectory)\TestResults\Coverage\**\coverage.cobertura.xml'
-
     reportDirectory: '$(Build.SourcesDirectory)\TestResults\Coverage\Reports'
-
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish (unstable)'
   inputs:
     command: publish
-
     publishWebProjects: false
-
     projects: '**/MGNZ.Squidex.Cli.csproj'
-
     arguments: '--configuration $(Build.Configuration) --no-build --output $(Build.ArtifactStagingDirectory)\publish\unstable /p:Version=$(mgnz_ci_libverssion) --version-suffix $(mgnz_ci_libverssion_suffix)'
 
 
@@ -174,13 +161,9 @@ steps:
   displayName: 'dotnet publish (release)'
   inputs:
     command: publish
-
     publishWebProjects: false
-
     projects: '**/MGNZ.Squidex.Cli.csproj'
-
     arguments: '--configuration $(Build.Configuration) --no-build --output $(Build.ArtifactStagingDirectory)\publish\stable /p:Version=$(mgnz_release_libversion) --version-suffix $(mgnz_release_libversion_suffix)'
-
 
 - script: 'dotnet pack  src\MGNZ.Squidex.Cli\MGNZ.Squidex.Cli.csproj --configuration $(Build.Configuration) --include-symbols -p:SymbolPackageFormat=snupkg --output $(Build.ArtifactStagingDirectory)\packages\unstable /p:PackageVersion=$(MGNZ_CI_PACKAGEVERSION)'
   displayName: 'dotnet pack (unstable)'
@@ -192,32 +175,22 @@ steps:
   displayName: 'Save Build Variables GITVERSION,BUILD,AGENT,SYSTEM,MGNZ'
   inputs:
     prefixes: 'GITVERSION,BUILD,AGENT,SYSTEM,MGNZ'
-
     outpath: '$(Build.ArtifactStagingDirectory)\variables'
-
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: packages'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)\packages'
-
     ArtifactName: packages
-
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: publish'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)\publish'
-
     ArtifactName: publish
-
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: variables'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)\variables'
-
     ArtifactName: variables
-
-
-
