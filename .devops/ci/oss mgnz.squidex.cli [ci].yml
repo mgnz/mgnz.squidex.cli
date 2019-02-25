@@ -54,11 +54,9 @@ steps:
 - task: gittools.gitversion.gitversion-task.GitVersion@3
   displayName: GitVersion
 
-- task: DotNetCoreCLI@2
+- powershell: |
+    dotnet tool update dotnet-reportgenerator-globaltool -g
   displayName: 'update reportgenerator globaltool'
-  inputs:
-    command: custom
-    custom: 'tool update dotnet-reportgenerator-globaltool -g'
 
 
 - powershell: |
