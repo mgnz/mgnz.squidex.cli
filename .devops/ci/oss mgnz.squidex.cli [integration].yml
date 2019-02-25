@@ -45,6 +45,11 @@ steps:
 - task: gittools.gitversion.gitversion-task.GitVersion@3
   displayName: GitVersion
 
+- task: DotNetCoreCLI@2
+  displayName: 'update reportgenerator globaltool'
+  inputs:
+    command: tool
+    arguments: 'update dotnet-reportgenerator-globaltool -g'
 
 - powershell: |
    $UtcDateTime = (Get-Date).ToUniversalTime()
@@ -140,6 +145,7 @@ steps:
 
 - script: 'reportgenerator -reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports -tag:$(mgnz_ci_libverssion) -reportTypes:HtmlInline_AzurePipelines_Dark;HTMLChart;Badges;PngChart -historydir:"C:\Archive\oss MGNZ.Squidex.Cli [integration]\Coverage"'
   displayName: 'reportgenerator '
+  enabled: false
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage'
@@ -147,6 +153,7 @@ steps:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(Build.SourcesDirectory)\TestResults\Coverage\**\coverage.cobertura.xml'
     reportDirectory: '$(Build.SourcesDirectory)\TestResults\Coverage\Reports'
+  enabled: false
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish (unstable)'
