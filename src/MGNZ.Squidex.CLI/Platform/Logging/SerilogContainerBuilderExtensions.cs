@@ -26,7 +26,7 @@ namespace MGNZ.Squidex.CLI.Platform.Logging
     public static IModuleRegistrar RegisterLogger(this ContainerBuilder builder, ILogger logger = null,
       bool autowireProperties = false, bool dispose = false)
     {
-      if (builder == null) throw new ArgumentNullException("builder");
+      if (builder == null) throw new ArgumentNullException(nameof(builder));
       return builder.RegisterModule(new ContextualLoggingModule(logger, autowireProperties, dispose));
     }
   }

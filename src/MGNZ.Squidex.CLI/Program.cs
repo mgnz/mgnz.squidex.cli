@@ -89,7 +89,8 @@ namespace MGNZ.Squidex.CLI
 
     public AcceptsLogViaCtor(ILogger log, ApplicationConfiguration options)
     {
-      if (log == null) throw new ArgumentNullException("log");
+      if (log == null) throw new ArgumentNullException(nameof(log));
+
       _log = log;
       this._options = options;
     }
@@ -107,7 +108,7 @@ namespace MGNZ.Squidex.CLI
 
     public AcceptsLogViaCtorITypeSafeOldLogger(Microsoft.Extensions.Logging.ILogger<AcceptsLogViaCtorITypeSafeOldLogger> log, ApplicationConfiguration options)
     {
-      if (log == null) throw new ArgumentNullException("log");
+      if (log == null) throw new ArgumentNullException(nameof(log));
       _log = log;
       this._options = options;
     }
