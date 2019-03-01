@@ -25,7 +25,7 @@ queue:
   # ‘mgnz_release_libversion_suffix’
   # ‘MGNZ_CI_PACKAGEVERSION’
   # ‘MGNZ_RELEASE_PACKAGEVERSION’
-  
+
 trigger:
   branches:
     include:
@@ -37,7 +37,7 @@ trigger:
     - master
     - release/*
     - releases/*
-    
+
 pr:
   branches:
     exclude:
@@ -51,9 +51,12 @@ steps:
   inputs:
     version: 2.2.100
 
-
 - task: gittools.gitversion.gitversion-task.GitVersion@3
   displayName: GitVersion
+
+- powershell: |
+    dotnet tool update dotnet-reportgenerator-globaltool -g
+  displayName: 'update reportgenerator globaltool'
 
 
 - powershell: |
@@ -105,20 +108,18 @@ steps:
    set-content $fileName $out
 
    write-output "##vso[task.addattachment type=Distributedtask.Core.Summary;name=Environment Variables;]$fileName"
-
   displayName: 'Save Variables'
+  enabled: false
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet restore'
   inputs:
     command: restore
 
-
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
     arguments: '--configuration $(Build.Configuration) /p:version=$(mgnz_libversion) --version-suffix $(mgnz_libversion_suffix)'
-
 
 - powershell: |
    $config = "
@@ -139,7 +140,6 @@ steps:
        }
      }
    "
-
    write-host $config
    set-content -value $config -path "$(Build.SourcesDirectory)/test/MGNZ.Squidex.Cli.Tests/bin/$(Build.Configuration)/netcoreapp2.1/testsettings.aut.json"
   displayName: 'generate testsettings for integration testing'
@@ -148,49 +148,35 @@ steps:
   displayName: 'dotnet test and collect coverage (unit)'
   inputs:
     command: test
-
     projects: '**/*Tests.csproj'
+    arguments: '--configuration debug --filter "category=unit" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include="[MGNZ.*]*" /p:UseSourceLink=true /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
 
-    arguments: '--configuration $(Build.Configuration) --filter category=unit /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
-
-
-- script: 'reportgenerator -reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports -tag:$(mgnz_ci_libverssion) -reportTypes:HTMLInline;HTMLChart;Badges -historydir:"C:\Archive\oss MGNZ.Squidex.Cli [ci]\Coverage"'
+- script: 'reportgenerator -reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports -tag:$(mgnz_ci_libverssion) -reportTypes:HtmlInline_AzurePipelines_Dark;HTMLChart;Badges;PngChart -historydir:"C:\Archive\oss MGNZ.Squidex.Cli [ci]\Coverage"'
   displayName: 'reportgenerator '
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage'
   inputs:
     codeCoverageTool: Cobertura
-
     summaryFileLocation: '$(Build.SourcesDirectory)\TestResults\Coverage\**\coverage.cobertura.xml'
-
     reportDirectory: '$(Build.SourcesDirectory)\TestResults\Coverage\Reports'
-
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish (unstable)'
   inputs:
     command: publish
-
     publishWebProjects: false
-
     projects: '**/MGNZ.Squidex.Cli.csproj'
-
     arguments: '--configuration $(Build.Configuration) --no-build --output $(Build.ArtifactStagingDirectory)\publish\unstable /p:Version=$(mgnz_ci_libverssion) --version-suffix $(mgnz_ci_libverssion_suffix)'
-
   enabled: false
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish (release)'
   inputs:
     command: publish
-
     publishWebProjects: false
-
     projects: '**/MGNZ.Squidex.Cli.csproj'
-
     arguments: '--configuration $(Build.Configuration) --no-build --output $(Build.ArtifactStagingDirectory)\publish\stable /p:Version=$(mgnz_release_libversion) --version-suffix $(mgnz_release_libversion_suffix)'
-
   enabled: false
 
 - script: 'dotnet pack  src\MGNZ.Squidex.Cli\MGNZ.Squidex.Cli.csproj --configuration $(Build.Configuration) --include-symbols --output $(Build.ArtifactStagingDirectory)\packages\unstable /p:PackageVersion=$(MGNZ_CI_PACKAGEVERSION)'
@@ -205,36 +191,26 @@ steps:
   displayName: 'Save Build Variables GITVERSION,BUILD,AGENT,SYSTEM,MGNZ'
   inputs:
     prefixes: 'GITVERSION,BUILD,AGENT,SYSTEM,MGNZ'
-
     outpath: '$(Build.ArtifactStagingDirectory)\variables'
-
   enabled: false
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: packages'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)\packages'
-
     ArtifactName: packages
-
   enabled: false
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: publish'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)\publish'
-
     ArtifactName: publish
-
   enabled: false
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: variables'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)\variables'
-
     ArtifactName: variables
-
   enabled: false
-
-

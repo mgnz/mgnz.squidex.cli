@@ -709,18 +709,14 @@ namespace MGNZ.Squidex.CLI.Common.Platform
 
     public static string GetMimeType(string extension)
     {
-      if (extension == null)
-      {
-        throw new ArgumentNullException("extension");
-      }
+      if (extension == null) throw new ArgumentNullException(nameof(extension));
 
       if (!extension.StartsWith("."))
       {
         extension = "." + extension;
       }
 
-      string mime;
-
+      var mime = default(string);
       return _mappings.Value.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
     }
 
@@ -731,17 +727,10 @@ namespace MGNZ.Squidex.CLI.Common.Platform
 
     public static string GetExtension(string mimeType, bool throwErrorIfNotFound)
     {
-      if (mimeType == null)
-      {
-        throw new ArgumentNullException("mimeType");
-      }
+      if (mimeType == null) throw new ArgumentNullException(nameof(mimeType));
+      if (mimeType.StartsWith(".")) throw new ArgumentException($"Requested mime type is not valid: {nameof(mimeType)}");
 
-      if (mimeType.StartsWith("."))
-      {
-        throw new ArgumentException("Requested mime type is not valid: " + mimeType);
-      }
-
-      string extension;
+      var extension = default(string);
 
       if (_mappings.Value.TryGetValue(mimeType, out extension))
       {

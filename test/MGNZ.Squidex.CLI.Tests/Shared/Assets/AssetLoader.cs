@@ -1,8 +1,9 @@
 namespace MGNZ.Squidex.Tests.Shared.Code
 {
+  using System;
   using System.IO;
   using System.Reflection;
-
+  using System.Threading.Tasks;
   using Newtonsoft.Json;
 
   public class AssetLoader
@@ -70,10 +71,17 @@ namespace MGNZ.Squidex.Tests.Shared.Code
     private static Stream GetManifestResourceStream(string fullyQualifiedNamespace) => GetManifestResourceStream(typeof(AssetLoader).GetTypeInfo().Assembly, fullyQualifiedNamespace);
     private static Stream GetManifestResourceStream(Assembly assembly, string fullyQualifiedNamespace) => assembly.GetManifestResourceStream(fullyQualifiedNamespace);
 
+    [Obsolete("use StreamToStringAsync")]
     protected static string StreamToString(Stream inputStream)
     {
       using (var reader = new StreamReader(inputStream))
         return reader.ReadToEnd();
+    }
+
+    protected static async Task<string> StreamToStringAsync(Stream inputStream)
+    {
+      using (var reader = new StreamReader(inputStream))
+        return await reader.ReadToEndAsync();
     }
   }
 }
