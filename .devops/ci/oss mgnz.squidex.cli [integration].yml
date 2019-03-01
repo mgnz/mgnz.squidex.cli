@@ -99,7 +99,8 @@ steps:
 
    write-output "##vso[task.addattachment type=Distributedtask.Core.Summary;name=Environment Variables;]$fileName"
   displayName: 'Save Variables'
-
+  enabled: false
+  
 - task: DotNetCoreCLI@2
   displayName: 'dotnet restore'
   inputs:
