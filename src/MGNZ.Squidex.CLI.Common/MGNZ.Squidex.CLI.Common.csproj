@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.9.1" />
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.2" />
-    <PackageReference Include="MediatR" Version="6.0.0" />
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.4" />
+    <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="MGNZ.Squidex.Client" Version="0.2.8-unstable.1366" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Serilog" Version="2.8.0" />
