@@ -1,0 +1,37 @@
+<Project>
+  <Import Project="../Directory.Build.props" />
+
+  <PropertyGroup>
+    <!-- Optional: Include PDB in the built .nupkg -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
+    <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
+    <!-- This is useful if you generate files during the build
+         - disabling because of secret files
+    -->
+    <EmbedUntrackedSources>false</EmbedUntrackedSources>
+
+      
+    <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- disable sourcelink on mono, to workaround https://github.com/dotnet/sourcelink/issues/155 -->
+    <EnableSourceLink Condition=" '$(OS)' != 'Windows_NT' AND '$(MSBuildRuntimeType)' != 'Core' ">false</EnableSourceLink>
+    <EnableSourceControlManagerQueries>$(EnableSourceLink)</EnableSourceControlManagerQueries>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Required -->
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-*" PrivateAssets="All"/>
+
+    <!-- Required if your repository is on VSTS -->
+    <!--<PackageReference Include="Microsoft.SourceLink.Vsts.Git" Version="1.0.0-*" PrivateAssets="All"/>-->
+
+    <!-- Required if your repository is on GitLab -->
+    <!--<PackageReference Include="Microsoft.SourceLink.GitLab" Version="1.0.0-*" PrivateAssets="All"/>-->
+  </ItemGroup>
+</Project>

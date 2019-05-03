@@ -9,10 +9,6 @@
   <OutputType>Exe</OutputType>
 </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-
   <ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>
