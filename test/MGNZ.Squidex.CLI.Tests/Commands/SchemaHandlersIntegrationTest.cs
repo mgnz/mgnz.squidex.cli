@@ -65,13 +65,15 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
     }
 
     [Fact(Skip = "tag not implemented")]
-    public async Task SchemaListt_Execute_EndToEnd()
+    public Task SchemaListt_Execute_EndToEnd()
     {
+      throw new NotImplementedException();
     }
 
     [Fact(Skip = "tag not implemented")]
-    public async Task SchemaTag_Execute_EndToEnd()
+    public Task SchemaTag_Execute_EndToEnd()
     {
+      throw new NotImplementedException();
     }
   }
 }

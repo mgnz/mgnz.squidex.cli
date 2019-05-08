@@ -71,7 +71,7 @@ namespace MGNZ.Squidex.Tests.Shared.Code
     private static Stream GetManifestResourceStream(string fullyQualifiedNamespace) => GetManifestResourceStream(typeof(AssetLoader).GetTypeInfo().Assembly, fullyQualifiedNamespace);
     private static Stream GetManifestResourceStream(Assembly assembly, string fullyQualifiedNamespace) => assembly.GetManifestResourceStream(fullyQualifiedNamespace);
 
-    [Obsolete("use StreamToStringAsync")]
+    //[Obsolete("use StreamToStringAsync")]
     protected static string StreamToString(Stream inputStream)
     {
       using (var reader = new StreamReader(inputStream))

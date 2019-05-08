@@ -33,9 +33,11 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
       await AttachmentClient.AssertNoAttachmentsExist("aut", delay: TimeSpan.FromSeconds(0.5));
     }
 
-    [Fact]
-    public async Task AssetExport_Execute_EndToEnd()
+    [Fact(Skip = "in progress")]
+    public Task AssetExport_Execute_EndToEnd()
     {
+      throw new NotImplementedException();
+
       //var schemaName = GetRandomSchemaName;
       //var exportPath = Path.Combine(AssetLoader.ExportPath, $"{nameof(SchemaHandlersIntegrationTest)} {nameof(AssetExport_Execute_EndToEnd)}-out.json");
 

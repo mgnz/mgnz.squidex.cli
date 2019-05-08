@@ -92,6 +92,7 @@ namespace MGNZ.Squidex.CLI.Tests.Routing
     [MemberData(nameof(GetOne_HappyPath_Data))]
     public void GetOne_HappyPath(BaseRequest expected, string inCommandLine)
     {
+      var y = expected;
       var cachedNouns = new RouteMetadataBuilderFixture().Build().GetMetadata(typeof(RouteCommandsParser).Assembly);
       var sut = new StaticCommandLineRouterFixture().Build();
 

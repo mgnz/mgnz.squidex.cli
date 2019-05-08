@@ -7,7 +7,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   using MGNZ.Squidex.CLI.Common.Commands;
 
-  public class ContentStories
+  public static class ContentStories
   {
     public static async Task<Unit> ImportContent(ContentImportHandler systemUnderTest, string application, string schema, string path, bool publish = false, string aliasCredentials = "aut-developer")
     {
