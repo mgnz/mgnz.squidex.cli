@@ -2,13 +2,17 @@
   <PropertyGroup>
     <Copyright>Copyright (c) MGNZ</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://www.nuget.org/packages/MGNZ.Squidex.Client/</PackageProjectUrl>
+    <!-- <PackageProjectUrl>https://www.nuget.org/packages/MGNZ.Squidex.Client/</PackageProjectUrl> -->
     <RepositoryUrl>https://github.com/mgnz/mgnz.squidex.cli</RepositoryUrl>
     <PackageReleaseNotes>https://github.com/mgnz/mgnz.squidex.cli/releases</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <Owners>mgnz;shiggan</Owners>
     <PackageTags>squidex;magic</PackageTags>
-    <DebugType>Embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup>    
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
