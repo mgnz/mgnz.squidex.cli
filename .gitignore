@@ -207,6 +207,5 @@ project.lock.json
 /.cr/Settings.xml
 
 
-coverage.xml
-coverage.json
-/test/MGNZ.Squidex.CLI.Tests/testsettings.aut.json
+# ignores changes to testsettings (poor-secrets)
+/testsettings.aut.json
