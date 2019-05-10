@@ -1,4 +1,4 @@
-namespace MGNZ.Squidex.Tests.Shared.Code
+namespace MGNZ.Squidex.CLI.Tests.Shared.Assets
 {
   using System;
   using System.IO;
@@ -6,25 +6,24 @@ namespace MGNZ.Squidex.Tests.Shared.Code
   using System.Threading.Tasks;
   using Newtonsoft.Json;
 
-  public class AssetLoader
+  public partial class AssetLoader
   {
     //C:\Users\steve\Source\Repos\mgnz.squidex.cli\test\MGNZ.Squidex.CLI.Tests\Shared\Assets\app1.asset1.7z.post.response.json
 
     public static string ExecutingPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     public static string AssetPath => Path.Combine(ExecutingPath, "Shared", "Assets");
-    private static string ns => "MGNZ.Squidex.CLI.Tests.Shared.Assets";
 
     public static Stream Asset1 => LoadBinaryAsset($"{ns}.app1.asset1.7z");
-    public static dynamic Asset1PostResponse => LoadAsset($"{ns}.app1.asset1.7z.post.response.json");
-    public static dynamic Asset1TagResponse => LoadAsset($"{ns}.app1.asset1.7z.tag.response.json");
+    public static dynamic Asset1PostResponse => LoadAssetDeserialize<dynamic>($"{ns}.app1.asset1.7z.post.response.json");
+    public static dynamic Asset1TagResponse => LoadAssetDeserialize<dynamic>($"{ns}.app1.asset1.7z.tag.response.json");
     public static Stream Asset2 => LoadBinaryAsset($"{ns}.app1.asset2.jpg");
-    public static dynamic Asset2PostResponse => LoadAsset($"{ns}.app1.asset2.jpg.post.response.json");
-    public static dynamic Asset2TagResponse => LoadAsset($"{ns}.app1.asset2.jpg.tag.response.json");
+    public static dynamic Asset2PostResponse => LoadAssetDeserialize<dynamic>($"{ns}.app1.asset2.jpg.post.response.json");
+    public static dynamic Asset2TagResponse => LoadAssetDeserialize<dynamic>($"{ns}.app1.asset2.jpg.tag.response.json");
     public static Stream Asset3 => LoadBinaryAsset($"{ns}.app1.asset3.jpg");
-    public static dynamic Asset3PostResponse => LoadAsset($"{ns}.app1.asset3.jpg.post.response.json");
-    public static dynamic Asset3TagResponse => LoadAsset($"{ns}.app1.asset3.jpg.tag.response.json");
+    public static dynamic Asset3PostResponse => LoadAssetDeserialize<dynamic>($"{ns}.app1.asset3.jpg.post.response.json");
+    public static dynamic Asset3TagResponse => LoadAssetDeserialize<dynamic>($"{ns}.app1.asset3.jpg.tag.response.json");
 
-    public static dynamic Schema1() => LoadAsset($"{ns}.schema1.json");
+    public static dynamic Schema1() => LoadAssetDeserialize<dynamic>($"{ns}.schema1.json");
     public static dynamic Schema1(string name)
     {
       // note : because my asset data does not store a reference to a name we add it on the fly.
@@ -34,15 +33,23 @@ namespace MGNZ.Squidex.Tests.Shared.Code
       return schema;
     }
 
-    public static dynamic Schema1Data1Post => LoadAsset($"{ns}.schema1.data.1.post.json");
-    public static dynamic Schema1Data1PostResponse => LoadAsset($"{ns}.schema1.data.1.post.response.json");
-    public static dynamic Schema1Data2Post => LoadAsset($"{ns}.schema1.data.2.post.json");
-    public static dynamic Schema1Data2PostResponse => LoadAsset($"{ns}.schema1.data.2.post.response.json");
-    public static dynamic Schema1DataImport => LoadAsset($"{ns}.schema1.data.import.json");
-    public static dynamic Schema1DataImportResponse => LoadAsset($"{ns}.schema1.data.import.response.json");
-    public static dynamic Schema1DataQueryResponse => LoadAsset($"{ns}.schema1.data.query.response.json");
-    public static dynamic Schema1DataExportResponse => LoadAsset($"{ns}.schema1.data.export.response.json");
+    public static dynamic Schema1Data1Post => LoadAssetDeserialize<dynamic>($"{ns}.schema1.data.1.post.json");
+    public static dynamic Schema1Data1PostResponse => LoadAssetDeserialize<dynamic>($"{ns}.schema1.data.1.post.response.json");
+    public static dynamic Schema1Data2Post => LoadAssetDeserialize<dynamic>($"{ns}.schema1.data.2.post.json");
+    public static dynamic Schema1Data2PostResponse => LoadAssetDeserialize<dynamic>($"{ns}.schema1.data.2.post.response.json");
+    public static dynamic Schema1DataImport => LoadAssetDeserialize<dynamic>($"{ns}.schema1.data.import.json");
+    public static dynamic Schema1DataImportResponse => LoadAssetDeserialize<dynamic>($"{ns}.schema1.data.import.response.json");
+    public static dynamic Schema1DataQueryResponse => LoadAssetDeserialize<dynamic>($"{ns}.schema1.data.query.response.json");
+    public static dynamic Schema1DataExportResponse => LoadAssetDeserialize<dynamic>($"{ns}.schema1.data.export.response.json");
 
+    public static object Schema1Data1PostDeserialized => LoadAssetDeserialize<object>($"{ns}.schema1.data.1.post.json");
+    public static object Schema1Data1PostResponseDeserialized => LoadAssetDeserialize<object>($"{ns}.schema1.data.1.post.response.json");
+    public static object Schema1Data2PostDeserialized => LoadAssetDeserialize<object>($"{ns}.schema1.data.2.post.json");
+    public static object Schema1Data2PostResponseDeserialized => LoadAssetDeserialize<object>($"{ns}.schema1.data.2.post.response.json");
+    public static object Schema1DataImportDeserialized => LoadAssetDeserialize<object>($"{ns}.schema1.data.import.json");
+    public static object Schema1DataImportResponseDeserialized => LoadAssetDeserialize<object>($"{ns}.schema1.data.import.response.json");
+    public static object Schema1DataQueryResponseDeserialized => LoadAssetDeserialize<object>($"{ns}.schema1.data.query.response.json");
+    public static object Schema1DataExportResponseDeserialized => LoadAssetDeserialize<object>($"{ns}.schema1.data.export.response.json");
 
     public static string Asset1Path => Path.Combine(AssetPath, "app1.asset1.7z");
     public static string Asset1PostResponsePath => Path.Combine(AssetPath, "app1.asset1.7z.post.response.json");
@@ -65,23 +72,17 @@ namespace MGNZ.Squidex.Tests.Shared.Code
 
     public static string ExportPath => Path.Combine(ExecutingPath, "Exports");
 
-    public static dynamic LoadAsset(string path) => JsonConvert.DeserializeObject<dynamic>(StreamToString(GetManifestResourceStream(path)));
+    public static T LoadAssetDeserialize<T>(string path) => JsonConvert.DeserializeObject<T>(StreamToString(GetManifestResourceStream(path)));
+
     public static dynamic LoadBinaryAsset(string path) => GetManifestResourceStream(path);
 
     private static Stream GetManifestResourceStream(string fullyQualifiedNamespace) => GetManifestResourceStream(typeof(AssetLoader).GetTypeInfo().Assembly, fullyQualifiedNamespace);
     private static Stream GetManifestResourceStream(Assembly assembly, string fullyQualifiedNamespace) => assembly.GetManifestResourceStream(fullyQualifiedNamespace);
 
-    //[Obsolete("use StreamToStringAsync")]
     protected static string StreamToString(Stream inputStream)
     {
       using (var reader = new StreamReader(inputStream))
         return reader.ReadToEnd();
-    }
-
-    protected static async Task<string> StreamToStringAsync(Stream inputStream)
-    {
-      using (var reader = new StreamReader(inputStream))
-        return await reader.ReadToEndAsync();
     }
   }
 }
