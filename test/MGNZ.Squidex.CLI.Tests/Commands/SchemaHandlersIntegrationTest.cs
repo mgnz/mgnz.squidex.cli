@@ -22,7 +22,7 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
       await SchemaClient.AssertNoSchemasExist("aut", delay: TimeSpan.FromSeconds(0.5));
 
-      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", name1, AssetLoader.Schema1Path);
+      await SchemaStories.ImportSchema(SchemaImportSystemUnderTest, "aut", name1, AssetLoader.AsPath(AssetLoader.Schema1Name));
       await SchemaClient.AssertSchemaMustExist("aut", name1, delay: TimeSpan.FromSeconds(0.5));
 
       await SchemaClient.DeleteSchema("aut", name1);
