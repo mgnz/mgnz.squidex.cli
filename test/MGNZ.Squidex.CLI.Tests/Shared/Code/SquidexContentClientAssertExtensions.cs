@@ -1,9 +1,10 @@
-namespace MGNZ.Squidex.Client.Tests.Shared.Code
+namespace MGNZ.Squidex.Tests.Shared
 {
   using System;
   using System.Threading.Tasks;
 
   using FluentAssertions;
+  using MGNZ.Squidex.Client;
 
   internal static class SquidexContentClientAssertBlocks
   {

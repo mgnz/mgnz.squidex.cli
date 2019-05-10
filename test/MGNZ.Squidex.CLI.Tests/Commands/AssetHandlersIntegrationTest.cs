@@ -8,9 +8,10 @@ namespace MGNZ.Squidex.CLI.Tests.Commands
 
   using MGNZ.Squidex.Client;
   using MGNZ.Squidex.CLI.Common.Platform;
-  using MGNZ.Squidex.Tests.Shared.Code;
 
   using Xunit;
+  using MGNZ.Squidex.Tests.Shared;
+  using MGNZ.Squidex.Tests.Shared.Assets;
 
   [Collection("Sequential Squidex Integration Tests")]
   [Trait("category", "squidex-cli-integration")]
