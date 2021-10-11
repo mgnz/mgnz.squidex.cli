@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="Autofac" Version="6.3.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="3.0.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MGNZ.Squidex.Client" Version="0.2.8-unstable.1366" />
